@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Board setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+        :root {
+            --bg-main-dark: #464646;
+            --bg-main-light: #d1d1d1;
+            --bg-color-dark: #ffffff;
+            --bg-color-light: #060606;
+            --label-dark: #efc745;
+            --label-light: #2231d7;
+            --play-light: #ffffff;
+            --play-dark: #000000;
+            --border-color: #efc745;
+        }
+        body {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-main-light);
+            justify-content: center;
+            align-items: center;
+        }
+        .game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: row;
+            height: 18rem;
+            width: 18rem;
+            background-color: var(--bg-main-dark);
+            /* box-shadow: 0 .05rem 1rem 0 rgba(190, 190, 190, 0.402), 0 4px 20px 0 rgba(176, 176, 176, 0.47); */
+        }
+        .btn-box {
+            width: 2rem;
+            height: 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: rgb(255, 255, 255);
+            cursor: pointer;
+            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
+        }
+
+        .btn-box-dark {
+            width: 2rem;
+            height: 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.87);
+            cursor: pointer;
+            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
+        }
+        
+        .box {
+            display: flex;
+            height: 2rem;
+            width: 2rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            /* border: .3rem solid #efc745 #efc745; */
+        }
+
+        .num-btndiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            height: 3rem;
+            width: 27rem;
+            background-color: var(--bg-main-dark);
+            /* box-shadow: 0 .05rem 1rem 0 rgba(190, 190, 190, 0.402), 0 4px 20px 0 rgba(176, 176, 176, 0.47); */
+        }
+
+        .btn-level {
+            width: auto;
+            height: 3rem;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: .5rem;
+            margin: .5rem;
+            background-color: rgb(255, 255, 255);
+            cursor: pointer;
+            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
+        }
+
+        .btn-control {
+            width: auto;
+            height: 3rem;
+            font-size: 1rem;
+            padding: .5rem;
+            margin: .5rem;
+            font-weight: bold;
+            background-color: rgb(255, 255, 255);
+            cursor: pointer;
+            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
+        }
+    </style>
+</head>
+<body>
+    <h1>Sudoku</h1>
+    <div class="num-btndiv">
+        <div class="box-level"><button id="num1" class="btn-level">Bigner</button></div>
+        <div class="box-level"><button id="num2" class="btn-level">Easy</button></div>
+        <div class="box-level"><button id="num3" class="btn-level">Medium</button></div>
+        <div class="box-level"><button id="num4" class="btn-level">Hard</button></div>
+        <div class="box-level"><button id="num5" class="btn-level">Expert</button></div>
+    </div>
+    <div id="gameConrainer" class="game-container">
+        <div class="box"><button id="btn1" class="btn-box"></button></div>
+        <div class="box"><button id="btn2" class="btn-box"></button></div>
+        <div class="box"><button id="btn3" class="btn-box"></button></div>
+        <div class="box"><button id="btn4" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn5" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn6" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn7" class="btn-box"></button></div>
+        <div class="box"><button id="btn8" class="btn-box"></button></div>
+        <div class="box"><button id="btn9" class="btn-box"></button></div>
+        <div class="box"><button id="btn11" class="btn-box"></button></div>
+        <div class="box"><button id="btn12" class="btn-box"></button></div>
+        <div class="box"><button id="btn13" class="btn-box"></button></div>
+        <div class="box"><button id="btn14" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn15" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn16" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn17" class="btn-box"></button></div>
+        <div class="box"><button id="btn18" class="btn-box"></button></div>
+        <div class="box"><button id="btn19" class="btn-box"></button></div>
+        <div class="box"><button id="btn21" class="btn-box"></button></div>
+        <div class="box"><button id="btn22" class="btn-box"></button></div>
+        <div class="box"><button id="btn23" class="btn-box"></button></div>
+        <div class="box"><button id="btn24" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn25" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn26" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn27" class="btn-box"></button></div>
+        <div class="box"><button id="btn28" class="btn-box"></button></div>
+        <div class="box"><button id="btn29" class="btn-box"></button></div>
+        <div class="box"><button id="btn31" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn32" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn33" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn34" class="btn-box"></button></div>
+        <div class="box"><button id="btn35" class="btn-box"></button></div>
+        <div class="box"><button id="btn36" class="btn-box"></button></div>
+        <div class="box"><button id="btn37" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn38" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn39" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn41" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn42" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn43" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn44" class="btn-box"></button></div>
+        <div class="box"><button id="btn45" class="btn-box"></button></div>
+        <div class="box"><button id="btn46" class="btn-box"></button></div>
+        <div class="box"><button id="btn47" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn48" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn49" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn51" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn52" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn53" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn54" class="btn-box"></button></div>
+        <div class="box"><button id="btn55" class="btn-box"></button></div>
+        <div class="box"><button id="btn56" class="btn-box"></button></div>
+        <div class="box"><button id="btn57" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn58" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn59" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn61" class="btn-box"></button></div>
+        <div class="box"><button id="btn62" class="btn-box"></button></div>
+        <div class="box"><button id="btn63" class="btn-box"></button></div>
+        <div class="box"><button id="btn64" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn65" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn66" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn67" class="btn-box"></button></div>
+        <div class="box"><button id="btn68" class="btn-box"></button></div>
+        <div class="box"><button id="btn69" class="btn-box"></button></div>
+        <div class="box"><button id="btn71" class="btn-box"></button></div>
+        <div class="box"><button id="btn72" class="btn-box"></button></div>
+        <div class="box"><button id="btn73" class="btn-box"></button></div>
+        <div class="box"><button id="btn74" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn75" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn76" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn77" class="btn-box"></button></div>
+        <div class="box"><button id="btn78" class="btn-box"></button></div>
+        <div class="box"><button id="btn79" class="btn-box"></button></div>
+        <div class="box"><button id="btn81" class="btn-box"></button></div>
+        <div class="box"><button id="btn82" class="btn-box"></button></div>
+        <div class="box"><button id="btn83" class="btn-box"></button></div>
+        <div class="box"><button id="btn84" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn85" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn86" class="btn-box-dark"></button></div>
+        <div class="box"><button id="btn87" class="btn-box"></button></div>
+        <div class="box"><button id="btn88" class="btn-box"></button></div>
+        <div class="box"><button id="btn89" class="btn-box"></button></div>
+    </div>
+    <div class="num-btndiv">
+        <div class="box"><button id="num1" class="btn-box"></button></div>
+        <div class="box"><button id="num2" class="btn-box"></button></div>
+        <div class="box"><button id="num3" class="btn-box"></button></div>
+        <div class="box"><button id="num4" class="btn-box"></button></div>
+        <div class="box"><button id="num5" class="btn-box"></button></div>
+        <div class="box"><button id="num6" class="btn-box"></button></div>
+        <div class="box"><button id="num7" class="btn-box"></button></div>
+        <div class="box"><button id="num8" class="btn-box"></button></div>
+        <div class="box"><button id="num9" class="btn-box"></button></div>
+    </div>
+    <div class="num-btndiv">
+        <div class="box-Control"><button id="num1" class="btn-control">Start</button></div>
+        <div class="box-Control"><button id="num2" class="btn-control">Reset</button></div>
+        <div class="box-Control"><button id="num3" class="btn-control">Solve</button></div>
+        <div class="box-Control"><button id="num4" class="btn-control">Pause</button></div>
+        <div class="box-Control"><button id="num5" class="btn-control">Erase</button></div>
+    </div>
+</body>
+</html>
