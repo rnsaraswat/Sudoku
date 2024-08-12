@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the duplicate elements in array with different method</title>
+</head>
+<body>
+    <h1>Find the duplicate elements in array with different method</h1>
+    <h2>Using the indexOf() method</h2>
+    <pre>        const array = [1, 2, 3, 2, 4, 5, 4, 5];
+        const duplicates = array.filter((item, index) => array.indexOf(item) !== index);
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo1"></p>
+    <h2>Using Set() object and has() Method</h2>
+    <pre>const array = [1, 2, 3, 2, 4, 5, 4, 5];
+        const uniqueElements = new Set();
+        const duplicates = [];
+        array.forEach(item => {
+          if (uniqueElements.has(item)) {
+            duplicates.push(item);
+          } else {
+            uniqueElements.add(item);
+          }
+        });
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo2"></p>
+    <h2>Using an object</h2>
+    <pre>
+        const elementTracker = {};
+        duplicates = [];
+        array.forEach(item => {
+          if (elementTracker[item]) {
+            duplicates.push(item);
+          } else {
+            elementTracker[item] = true;
+          }
+        });
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo3"></p>
+    <h2>Using some function</h2>
+    <pre>const duplicates = array.filter((item, index) => array.some((elem, idx) => elem === item && idx !== index));
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo4"></p>
+    <h2>Using iteration</h2>
+    <pre>duplicates = [];
+        for (let i = 0; i < array.length; i++) {
+            for (let j = i + 1; j < array.length; j++) {
+                if (array[i] === array[j]) {
+                    // Check if the found duplicate is already in the duplicates array
+        
+                    if (!duplicates.includes(array[i])) {
+                        duplicates.push(array[i]);
+                    }
+                }
+            }
+        }
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo5"></p>
+    <h2>Using the filter() and indexOf() Methods</h2>
+    <pre>const duplicates = array.filter((item, index) => array.indexOf(item) !== index);
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo6"></p>
+    <h2>Using Nested For In Loop</h2>
+    <pre>duplicates = [];
+        for (let i in array) {
+            for (let j in array) {
+                if (array[i] === array[j] && i !== j) {
+                    // Check if the found duplicate is already in the duplicates array
+        
+                    if (!duplicates.includes(array[i])) {
+                        duplicates.push(array[i]);
+                        break; // To avoid adding the same duplicate multiple times
+                    }
+                }
+            }
+        }
+        console.log(duplicates); // Output: [2, 4, 5]</pre>
+    <p id="demo7"></p>
+    <script>
+        const array = [1, 2, 3, 2, 4, 5, 4, 5];
+
+        let duplicates = array.filter((item, index) => array.indexOf(item) !== index);
+
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo1").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+
+        const uniqueElements = new Set();
+        duplicates = [];
+        array.forEach(item => {
+          if (uniqueElements.has(item)) {
+            duplicates.push(item);
+          } else {
+            uniqueElements.add(item);
+          }
+        });
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo2").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+
+        const elementTracker = {};
+        duplicates = [];
+        array.forEach(item => {
+          if (elementTracker[item]) {
+            duplicates.push(item);
+          } else {
+            elementTracker[item] = true;
+          }
+        });
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo3").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+
+        duplicates = array.filter((item, index) => array.some((elem, idx) => elem === item && idx !== index));
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo4").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+        duplicates = [];
+        for (let i = 0; i < array.length; i++) {
+            for (let j = i + 1; j < array.length; j++) {
+                if (array[i] === array[j]) {
+                    // Check if the found duplicate is already in the duplicates array
+        
+                    if (!duplicates.includes(array[i])) {
+                        duplicates.push(array[i]);
+                    }
+                }
+            }
+        }
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo5").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+
+        duplicates = array.filter((item, index) => array.indexOf(item) !== index);
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo6").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+
+        duplicates = [];
+        for (let i in array) {
+            for (let j in array) {
+                if (array[i] === array[j] && i !== j) {
+                    // Check if the found duplicate is already in the duplicates array
+        
+                    if (!duplicates.includes(array[i])) {
+                        duplicates.push(array[i]);
+                        break; // To avoid adding the same duplicate multiple times
+                    }
+                }
+            }
+        }
+        console.log(duplicates); // Output: [2, 4, 5]
+        document.getElementById("demo7").innerHTML = "Array = " + array + "<br> duplicates = " + duplicates;
+
+    </script>
+</body>
+</html>

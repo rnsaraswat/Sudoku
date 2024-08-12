@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Array</title>
+    <!-- <style>
+        * {
+            font-family: Arial
+        }
+
+        h2 {
+            text-align: center;
+            padding: .5%;
+            margin: 0%;
+        }
+
+        p {
+            padding: .5%;
+            margin: 0%;
+        }
+
+        button {
+            color: #fff;
+            background-color: #009688;
+            font-family: Arial, Helvetica, sans-serif;
+            cursor: pointer;
+            padding: 1%;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        button:hover {
+            background-color: #024d45;
+            color: #fff;
+        }
+
+        button:focus {
+            outline: 0;
+            background-color: #024d45;
+        }
+
+        .max-550 {
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .board {
+            position: relative;
+            /* margin-top: 5%; */
+            text-align: center;
+            width: 100%;
+            margin: 1%;
+            padding-top: 1%;
+            border: 1% solid initial;
+        }
+
+        .row {
+            text-align: center;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            display: inline-block;
+            width: 9.5%;
+            text-align: center;
+            padding: .5%;
+        }
+
+        .fixed {
+            background-color: #80cbc4;
+            cursor: context-menu;
+            border-radius: 25%;
+            padding: 30%;
+        }
+
+        .border-right {
+            border-right: 2px solid;
+        }
+
+        .border-bottom {
+            border-bottom: 2px solid;
+        }
+    </style> -->
+</head>
+
+<body>
+    <body onload="generateBoard(2)">
+        <h2>Sudoku Puzzle Generator</h2>
+        <div class=" max-550">
+            <p>Random SUDOKU Puzzle board generator based on difficulty Level</p>
+            <div style="display: inline;" id="difficultyButton">
+                <button onclick="generateBoard(0)"> Beginner </button>
+                <button onclick="generateBoard(1)"> Easy </button>
+                <button onclick="generateBoard(2)"> Normal </button>
+                <button onclick="generateBoard(3)"> Hard </button>
+                <button onclick="generateBoard(4)"> Master </button>
+            </div>
+            <!-- <div class="board">
+                <div class="row">
+                    <div class="box">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>9</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>7</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>8</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>2</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>9</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>8</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>6</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box border-bottom">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>6</div>
+                        </div>
+                    </div>
+                    <div class="box border-right border-bottom ">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>2</div>
+                        </div>
+                    </div>
+                    <div class="box border-right border-bottom ">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>7</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>7</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>8</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>2</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>6</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>9</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box border-right border-bottom ">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>9</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                    <div class="box border-right border-bottom ">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div class="fixed">
+                            <div>8</div>
+                        </div>
+                    </div>
+                    <div class="box border-bottom">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box">
+                        <div class="fixed">
+                            <div>6</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>2</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>8</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>5</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>8</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>2</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>7</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>3</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div class="fixed">
+                            <div>9</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>6</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>7</div>
+                        </div>
+                    </div>
+                    <div class="box  border-right">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>4</div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="fixed">
+                            <div>1</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <p id="demo1"></p>
+            <p id="demo2"></p>
+            <p id="demo3"></p>
+            <p id="demo4"></p>
+            <p id="demo5"></p>
+            <p id="demo6"></p>
+            <p id="demo7"></p>
+            <p id="demo8"></p>
+            <p id="demo9"></p>
+            <p id="demo10"></p>
+            <p id="demo11"></p>
+            <p id="demo12"></p>
+            <p id="demo13"></p>
+            <p id="demo14"></p>
+            <p id="demo15"></p>
+            <p id="demo16"></p>
+            <p id="demo17"></p>
+            <p id="demo18"></p>
+
+        </div>
+    </body>
+
+    <script>
+        /*
+     * Sudoku board Generator
+     * Ramon Morcillo @reymon359
+     */
+        function generateBoard(difficulty) {
+            console.log("difficulty",difficulty);
+            // one solved board to create new puzzle
+
+            
+            let board = [
+                [2, 8, 6, 7, 5, 4, 9, 3, 1],
+                [9, 3, 1, 2, 8, 6, 7, 5, 4],
+                [7, 5, 4, 9, 1, 3, 8, 6, 2],
+                [8, 9, 2, 6, 7, 5, 4, 1, 3],
+                [6, 7, 5, 4, 3, 1, 2, 9, 8],
+                [4, 1, 3, 8, 9, 2, 6, 7, 5],
+                [5, 6, 9, 3, 4, 8, 1, 2, 7],
+                [3, 4, 7, 1, 2, 9, 5, 8, 6],
+                [1, 2, 8, 5, 6, 7, 3, 4, 9]
+            ];
+            
+            let newboard = board;
+
+            console.log("board",board);
+            console.log("newboard",newboard);
+            // generate random Number from which use to change board to new puzzle
+            let random10 = Math.floor((Math.random() * 10) + 1);
+            console.log("random10 ", random10);
+
+            // loop to generate new puzzle board
+            // r is used to how many times each number is added 1 in it
+            for (let r = 0; r < random10; r++) {
+                // these 2 loops to select each element of array (board) and add 1 to each element
+                for (let i = 0; i < 9; i++) {
+                    for (let j = 0; j < 9; j++) {
+                        console.log("borad[i][j] ", board[i][j], "newboard[i][j]", newboard[i][j]);
+                        newboard[i][j] = board[i][j] + 1;
+                        if (newboard[i][j] == 10) {
+                            newboard[i][j] = 1;
+                        }
+                        console.log("borad[i][j] ", board[i][j], "newboard[i][j]", newboard[i][j]);
+                    }
+                }
+            }
+            console.log("board after random change",board);
+            console.log("newboard after random change",newboard);
+
+            let min = difficulty;
+            let max = min + 2;
+            console.log("min/difficulty ", min, "max ", max);
+            let text = "";
+
+            board.forEach((row) => {
+            console.log("row ", row);
+                let toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+                text = "row before " + row;
+                if(row[0] == 0){ document.getElementById("demo1").innerHTML = text; };
+                if(row[0]  == 1){ document.getElementById("demo3").innerHTML = text; };
+                if(row[0]  == 2){ document.getElementById("demo5").innerHTML = text; };
+                if(row[0]  == 3){ document.getElementById("demo7").innerHTML = text; };
+                if(row[0]  == 4){ document.getElementById("demo9").innerHTML = text; };
+                if(row[0]  == 5){ document.getElementById("demo11").innerHTML = text; };
+                if(row[0]  == 6){ document.getElementById("demo13").innerHTML = text; };
+                if(row[0]  == 7){ document.getElementById("demo15").innerHTML = text; };
+                if(row[0]  == 8){ document.getElementById("demo17").innerHTML = text; };
+            console.log("toReplace before", toReplace);
+                let rnd = Math.floor(Math.random() * (max - min + 1) + min);
+                for (let i = 0; i < rnd; i++) {
+
+            console.log("i ", i, " rnd ", + rnd + " row[toReplace[i]]", row[toReplace[i]]);
+
+                    row[toReplace[i]] = '';
+                }
+                text = "row before " + row;
+                if(row[0]  == 0){ document.getElementById("demo2").innerHTML = text; };
+                if(row[0]  == 1){ document.getElementById("demo4").innerHTML = text; };
+                if(row[0]  == 2){ document.getElementById("demo6").innerHTML = text; };
+                if(row[0]  == 3){ document.getElementById("demo8").innerHTML = text; };
+                if(row[0]  == 4){ document.getElementById("demo10").innerHTML = text; };
+                if(row[0]  == 5){ document.getElementById("demo12").innerHTML = text; };
+                if(row[0]  == 6){ document.getElementById("demo14").innerHTML = text; };
+                if(row[0]  == 7){ document.getElementById("demo16").innerHTML = text; };
+                if(row[0]  == 8){ document.getElementById("demo18").innerHTML = text; };
+            console.log("row ", row);
+            console.log("toReplace after", toReplace);
+            });
+            // renderBoard(board);
+
+
+        }
+
+        function renderBoard(boardToRender) {
+            let board = boardToRender;
+            let html = '';
+            for (let i = 0; i < 9; i++) {
+                html += "<div class='row' >";
+                for (let j = 0; j < 9; j++) {
+
+                    // if (i == 2 && j == 2) {
+                    //     html += "            <div class='box border-right border-bottom '  >";
+                    // } else if (j == 2 || j == 5) {
+                    //     html += "            <div class='box border-right'  >";
+
+                    if ((i == 2 && j == 2) || (i == 2 && j == 5) || (i == 5 && j == 2) || (i == 5 && j == 5)) {
+                        html += "            <div class='box border-right border-bottom '  >";
+                    } else if (i == 2 || i == 5) {
+                        html += "            <div class='box border-bottom'  >";
+                    } else if (j == 2 || j == 5) {
+                        html += "            <div class='box  border-right'  >";
+                    } else {
+                        html += "            <div class='box'  >";
+                    }
+
+                    if (board[i][j] == '') {
+                        html += "                <div >"
+                    } else {
+                        html += "                <div class='fixed'  >"
+                    }
+
+
+                    html += "                    <div>" + board[i][j] + "</div>"
+                    html += "                </div>"
+                    html += "            </div>"
+                }
+                html += "        </div>"
+
+            }
+            document.getElementsByClassName('board')[0].innerHTML = html;
+
+        }
+        // -------SHUFFLE ARRAY------------
+        function shuffleArray(array) {
+            // console.log("array ", array, "array.length",array.length);
+            
+            let currentIndex = array.length,
+            temporaryValue, randomIndex;
+            // console.log("temporaryValue ", temporaryValue, "randomIndex", randomIndex);
+            // While there remain elements to shuffle inside the array
+            while (0 !== currentIndex) {
+
+                // console.log("currentIndex ", currentIndex, "randomIndex", randomIndex);
+
+                // Pick a remaining element from the array
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                // console.log("currentIndex ", currentIndex, "randomIndex", randomIndex);
+
+                // randomIndex is a random number between 0 and the array position
+                currentIndex -= 1;
+                // console.log("currentIndex ", currentIndex, "randomIndex", randomIndex);
+
+                // We get a new currentIndex and swap it with the current element.
+                temporaryValue = array[currentIndex];
+                // We save the currentIndex value in temporaryValue
+                array[currentIndex] = array[randomIndex];
+                // Now we fill the new currentIndex position with the value from the randomIndex
+                array[randomIndex] = temporaryValue;
+                // Lastly in the randomIndex position we put the temporaryValue we saved before
+                // console.log("currentIndex ", currentIndex, "randomIndex", randomIndex);
+                // console.log("temporaryValue ", temporaryValue, "array[currentIndex] ", array[currentIndex], "array[randomIndex] ", array[randomIndex]);
+            }
+            return array;
+        }
+    </script>
+</body>
+
+</html>
