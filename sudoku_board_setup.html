@@ -80,18 +80,19 @@
             padding-top: 1rem;
             padding-bottom: 1rem;
             height: 3rem;
-            width: 27rem;
-            background-color: var(--bg-main-dark);
+            width: 18rem;
+            background-color: var(--bg-main-light);
             /* box-shadow: 0 .05rem 1rem 0 rgba(190, 190, 190, 0.402), 0 4px 20px 0 rgba(176, 176, 176, 0.47); */
         }
 
         .btn-level {
             width: auto;
-            height: 3rem;
+            height: 2rem;
             font-size: 1rem;
             font-weight: bold;
-            padding: .5rem;
-            margin: .5rem;
+            padding: .3rem;
+            margin: .1rem;
+            border-radius: .5rem;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
             /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
@@ -99,11 +100,12 @@
 
         .btn-control {
             width: auto;
-            height: 3rem;
+            height: 2rem;
             font-size: 1rem;
-            padding: .5rem;
-            margin: .5rem;
+            padding: .3rem;
+            margin: .1rem;
             font-weight: bold;
+            border-radius: .51rem;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
             /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
@@ -203,22 +205,91 @@
         <div class="box"><button id="btn89" class="btn-box"></button></div>
     </div>
     <div class="num-btndiv">
-        <div class="box"><button id="num1" class="btn-box"></button></div>
-        <div class="box"><button id="num2" class="btn-box"></button></div>
-        <div class="box"><button id="num3" class="btn-box"></button></div>
-        <div class="box"><button id="num4" class="btn-box"></button></div>
-        <div class="box"><button id="num5" class="btn-box"></button></div>
-        <div class="box"><button id="num6" class="btn-box"></button></div>
-        <div class="box"><button id="num7" class="btn-box"></button></div>
-        <div class="box"><button id="num8" class="btn-box"></button></div>
-        <div class="box"><button id="num9" class="btn-box"></button></div>
+        <div class="box"><button id="num1" class="btn-box">1</button></div>
+        <div class="box"><button id="num2" class="btn-box">2</button></div>
+        <div class="box"><button id="num3" class="btn-box">3</button></div>
+        <div class="box"><button id="num4" class="btn-box">4</button></div>
+        <div class="box"><button id="num5" class="btn-box">5</button></div>
+        <div class="box"><button id="num6" class="btn-box">6</button></div>
+        <div class="box"><button id="num7" class="btn-box">7</button></div>
+        <div class="box"><button id="num8" class="btn-box">8</button></div>
+        <div class="box"><button id="num9" class="btn-box">9</button></div>
     </div>
     <div class="num-btndiv">
-        <div class="box-Control"><button id="num1" class="btn-control">Start</button></div>
+        <div class="box-Control"><button id="num1" class="btn-control" onclick="start()">Start</button></div>
         <div class="box-Control"><button id="num2" class="btn-control">Reset</button></div>
         <div class="box-Control"><button id="num3" class="btn-control">Solve</button></div>
-        <div class="box-Control"><button id="num4" class="btn-control">Pause</button></div>
+        <div class="box-Control"><button id="num4" class="btn-control" onclick="pause()">Pause</button></div>
         <div class="box-Control"><button id="num5" class="btn-control">Erase</button></div>
     </div>
+    <div>
+        <span id="Time">Time</span>
+        <span id="displayTime">00:00:00</span>
+    </div>
+
+    <script>
+        let timer = false;
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let hrdsec = 0;
+
+        
+
+        function start(){
+            timer = true;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            hrdsec = 0;
+            updateTimer();
+        }
+
+        function pause(){
+            if (timer){
+                timer = false;
+                document.getElementById("num2").innerText = "Resume";
+            } else {
+                timer = true;
+                document.getElementById("num2").innerText = "Pause";
+                updateTimer();
+            }
+        }
+
+
+        // display upadted time of game play
+        function displayTime() {
+            var displayTime = document.getElementById('displayTime');
+            displayTime.innerHTML = ((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
+        }
+
+        // update of time para
+        function updateTimer() {
+            if (timer) {
+
+                d = new Date(); //object of date()
+                hrdsec = parseInt(d.getMilliseconds() / 10); 
+                console.log("d.getMilliseconds() ", d.getMilliseconds(), " d.getMilliseconds() / 10 ", (d.getMilliseconds() / 10), " seconds ", seconds, " minutes ", minutes, " hours ", hours);
+                console.log("d ", d, " hrdsec ", hrdsec, " seconds ", seconds, " minutes ", minutes, " hours ", hours);
+
+                // hrdsec++;
+                if (hrdsec >= 99){
+                console.log("hrdsec ", hrdsec, " seconds ", seconds, " minutes ", minutes, " hours ", hours);
+                    hrdsec= 0;
+                    seconds++;
+                    if (seconds >= 60) {
+                        seconds = 0;
+                        minutes++;
+                        if (minutes >= 60) {
+                            minutes = 0;
+                            hours++;
+                        }
+                    }
+                }
+                displayTime()
+                setTimeout("updateTimer()", 10);
+            }
+        }
+    </script>
 </body>
 </html>
