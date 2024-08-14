@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Copy Method in JavaScript</title>
+</head>
+<body>
+    <h1>Array Copy Method in JavaScript</h1>
+    <h1>Using Spread Operator</h1>
+    <p id="Arr"></p>
+    <p id="Arr1"></p>
+    <p id="Arr2"></p>
+    <h1>Using Array.from() Method</h1>
+    <p id="Arr3"></p>
+    <p id="Arr4"></p>
+    <p id="Arr5"></p>
+    <pre>
+
+    </pre>
+    <script>
+        const originalArr = [
+            [2, 8, 6, 7, 5, 4, 9, 3, 1],
+            [9, 3, 1, 2, 8, 6, 7, 5, 4],
+            [7, 5, 4, 9, 1, 3, 8, 6, 2],
+            [8, 9, 2, 6, 7, 5, 4, 1, 3],
+            [6, 7, 5, 4, 3, 1, 2, 9, 8],
+            [4, 1, 3, 8, 9, 2, 6, 7, 5],
+            [5, 6, 9, 3, 4, 8, 1, 2, 7],
+            [3, 4, 7, 1, 2, 9, 5, 8, 6],
+            [1, 2, 8, 5, 6, 7, 3, 4, 9]
+        ];;
+        console.log("1", originalArr);
+        let text = "";
+        text = printArray(originalArr);
+        document.getElementById("Arr").innerHTML = text + "<br>";
+        const clonedArr = originalArr.map(row => [...row]);
+        console.log("1", clonedArr);
+        text = "";
+        text = printArray(clonedArr);
+        document.getElementById("Arr1").innerHTML = text + "<br>";
+        generatePuzzle(clonedArr);
+        console.log("1", originalArr);
+        console.log("1", clonedArr);
+        text = "";
+        text = printArray(clonedArr);
+        document.getElementById("Arr2").innerHTML = text + "<br>";
+
+
+        function generatePuzzle(boardSolve) {
+            let min = 4;
+            let max = min + 2;
+            boardSolve.forEach((row) => {
+            let toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+                for (let i = 0; i < Math.floor(Math.random() * (max - min + 1) + min); i++) {
+                    row[toReplace[i]] = '';
+                }
+            });
+            // return boardSolve;
+        }
+
+        function printArray(Array) {
+            text = "";
+            for (i=0;i<9;i++){
+                for (j=0;j<9;j++){
+                    text += Array[i][j] + ", ";
+                }
+                text += "<br>";
+            }
+            return text;
+        }
+
+        function shuffleArray(array) {
+            let currentIndex = array.length,
+            temporaryValue, randomIndex;
+            // While there remain elements to shuffle inside the array
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element from the array
+                randomIndex = Math.floor(Math.random() * currentIndex);
+
+                // randomIndex is a random number between 0 and the array position
+                currentIndex -= 1;
+
+                // We get a new currentIndex and swap it with the current element.
+                temporaryValue = array[currentIndex];
+                // We save the currentIndex value in temporaryValue
+                array[currentIndex] = array[randomIndex];
+                // Now we fill the new currentIndex position with the value from the randomIndex
+                array[randomIndex] = temporaryValue;
+                // Lastly in the randomIndex position we put the temporaryValue we saved before
+            }
+            return array;
+        }
+    </script>
+</body>
+</html>

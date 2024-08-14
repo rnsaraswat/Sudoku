@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Comparison</title>
+    <style>
+        /* Add some basic styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .array-container {
+            display: grid;
+            grid-template-columns: repeat(9, 50px);
+            grid-gap: 5px;
+        }
+        .array-item {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            font-size: 20px;
+        }
+        .difference {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Original Array</h1>
+        <div id="originalArray" class="array-container"></div>
+
+        <h1>Modified Array</h1>
+        <div id="modifiedArray" class="array-container"></div>
+
+        <h1>Differences</h1>
+        <div id="differenceArray" class="array-container"></div>
+    </div>
+
+    <pre>
+        आपके इस प्रोजेक्ट के लिए, हम HTML, CSS और JavaScript का उपयोग करके एक 9x9 की संख्या वाली array से 20 नंबर्स को हटाकर उनकी जगह स्पेस भरने का और फिर दोनों array की तुलना करके अंतर दिखाने का कोड लिखेंगे।
+        Step 3: Final Output
+        यह कोड आपको तीन arrays दिखाएगा:
+
+        Original Array: जो शुरू में 1 से 81 तक की संख्या वाला होता है।
+        Modified Array: जिसमें 20 रैंडम नंबर्स की जगह space (' ') भरी होती है।
+        Differences: जो दोनों arrays के बीच के अंतर को दिखाता है। जहां-जहां अंतर होगा, वहां ' ' दिखाया जाएगा।
+        Working:
+        createOriginalArray() एक 9x9 की array बनाता है, जिसमें 1 से 81 तक के नंबर होते हैं।
+        createModifiedArray(originalArray) इस array में से 20 रैंडम नंबर्स को हटाकर उनकी जगह ' ' भरता है।
+        findDifferences(originalArray, modifiedArray) इन दोनों array को तुलना करता है और अंतर को दिखाता है।
+        renderArray(array, containerId) HTML में array को प्रदर्शित करता है।
+    </pre>
+    <script>
+        // Function to create a 9x9 array filled with numbers 1 to 81
+        function createOriginalArray() {
+            const arr = [];
+            for (let i = 1; i <= 81; i++) {
+                arr.push(i);
+            }
+            console.log("Original Array",arr)
+            return arr;
+        }
+
+        // Function to modify the array by removing 20 random elements and replacing them with a space
+        function createModifiedArray(originalArray) {
+            const modifiedArray = [...originalArray];
+            let removedCount = 0;
+
+            while (removedCount < 20) {
+                const randomIndex = Math.floor(Math.random() * modifiedArray.length);
+                if (modifiedArray[randomIndex] !== ' ') {
+                    modifiedArray[randomIndex] = ' ';
+                    removedCount++;
+                }
+            }
+            console.log("modified Array",modifiedArray)
+
+            return modifiedArray;
+        }
+
+        // Function to compare the original and modified arrays and find the differences
+        function findDifferences(originalArray, modifiedArray) {
+            const differenceArray = originalArray.map((item, index) => {
+                console.log("item", item);
+                console.log("index", index);
+                console.log("modifiedArray[index]", modifiedArray[index]);
+                return item === modifiedArray[index] ? modifiedArray[index] : '';
+            });
+            console.log("difference Array",differenceArray)
+            return differenceArray;
+        }
+
+        // Function to render the array in the HTML
+        function renderArray(array, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear any existing content
+
+            array.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                div.textContent = item;
+                if (item === ' ') {
+                    div.classList.add('difference');
+                }
+                container.appendChild(div);
+            });
+        }
+
+        // Main execution
+        const originalArray = createOriginalArray();
+        const modifiedArray = createModifiedArray(originalArray);
+        const differenceArray = findDifferences(originalArray, modifiedArray);
+
+        renderArray(originalArray, 'originalArray');
+        renderArray(modifiedArray, 'modifiedArray');
+        renderArray(differenceArray, 'differenceArray');
+
+    </script>
+</body>
+</html>

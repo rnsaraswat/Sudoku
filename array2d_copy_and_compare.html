@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Array Comparison</title>
+    <style>
+        /* Basic styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .array-container {
+            display: grid;
+            grid-template-columns: repeat(9, 50px);
+            grid-gap: 5px;
+            margin-bottom: 20px;
+        }
+        .array-item {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            font-size: 20px;
+        }
+        .difference {
+            background-color: #ffcccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Original Array</h1>
+        <div id="originalArray" class="array-container"></div>
+
+        <h1>Modified Array</h1>
+        <div id="modifiedArray" class="array-container"></div>
+
+        <h1>Differences</h1>
+        <div id="differenceArray" class="array-container"></div>
+    </div>
+
+    <pre>
+        आपके दिए गए निर्देशों के अनुसार, हम इस कोड को 9x9 की दो आयामी (2D) array के साथ बनाएंगे। हम HTML, CSS, और JavaScript का उपयोग करके इस समस्या को हल करेंगे।
+
+        Step 3: Final Output
+        यह कोड आपको 9x9 की दो आयामी array दिखाएगा:
+
+        Original Array: जिसमें 1 से 81 तक की संख्या होगी।
+        Modified Array: जिसमें 20 रैंडम नंबर्स की जगह ' ' भरी होगी।
+        Differences: जहां-जहां अंतर होगा, वहां ' ' या खाली स्थान दिखाया जाएगा।
+        Working:
+        createOriginal2DArray() एक 9x9 की 2D array बनाता है, जिसमें 1 से 81 तक के नंबर होते हैं।
+        createModified2DArray(originalArray) इस 2D array में से 20 रैंडम नंबर्स को हटाकर उनकी जगह ' ' भरता है।
+        findDifferences2D(originalArray, modifiedArray) इन दोनों array को तुलना करता है और अंतर को दिखाता है।
+        render2DArray(array, containerId) HTML में 2D array को प्रदर्शित करता है।
+        इस तरह आप 2D arrays के साथ काम कर सकते हैं और उन्हें HTML में विज़ुअलाइज़ कर सकते हैं।
+    </pre>
+    <script>
+        // Function to create a 9x9 2D array filled with numbers 1 to 81
+        function createOriginal2DArray() {
+            const arr = [];
+            let num = 1;
+            for (let i = 0; i < 9; i++) {
+                const row = [];
+                for (let j = 0; j < 9; j++) {
+                    row.push(num++);
+                }
+                arr.push(row);
+            }
+            return arr;
+        }
+
+        // Function to modify the 2D array by removing 20 random elements and replacing them with a space
+        function createModified2DArray(originalArray) {
+            const modifiedArray = originalArray.map(row => [...row]);
+            let removedCount = 0;
+
+            while (removedCount < 20) {
+                const randomRow = Math.floor(Math.random() * 9);
+                const randomCol = Math.floor(Math.random() * 9);
+                if (modifiedArray[randomRow][randomCol] !== ' ') {
+                    modifiedArray[randomRow][randomCol] = ' ';
+                    removedCount++;
+                }
+            }
+
+            return modifiedArray;
+        }
+
+        // Function to compare the original and modified 2D arrays and find the differences
+        function findDifferences2D(originalArray, modifiedArray) {
+            const differenceArray = originalArray.map((row, rowIndex) => {
+                return row.map((item, colIndex) => {
+                    return item === modifiedArray[rowIndex][colIndex] ? modifiedArray[rowIndex][colIndex] : '';
+                });
+            });
+            return differenceArray;
+        }
+
+        // Function to render the 2D array in the HTML
+        function render2DArray(array, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear any existing content
+
+            array.forEach(row => {
+                row.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'array-item';
+                    div.textContent = item;
+                    if (item === ' ') {
+                        div.classList.add('difference');
+                    }
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        // Main execution
+        const originalArray = createOriginal2DArray();
+        const modifiedArray = createModified2DArray(originalArray);
+        const differenceArray = findDifferences2D(originalArray, modifiedArray);
+
+        render2DArray(originalArray, 'originalArray');
+        render2DArray(modifiedArray, 'modifiedArray');
+        render2DArray(differenceArray, 'differenceArray');
+
+    </script>
+</body>
+</html>
