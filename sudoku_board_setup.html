@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Board setup</title>
+    <title>Sudoku Game</title>
     <style>
         * {
             margin: 0;
@@ -37,64 +37,57 @@
             align-items: center;
             flex-wrap: wrap;
             flex-direction: row;
-            height: 18rem;
-            width: 18rem;
+            height: 22.5rem;
+            width: 22.5rem;
             background-color: var(--bg-main-dark);
-            /* box-shadow: 0 .05rem 1rem 0 rgba(190, 190, 190, 0.402), 0 4px 20px 0 rgba(176, 176, 176, 0.47); */
         }
 
         .btn-num {
-            width: 2rem;
-            height: 2rem;
-            font-size: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
             /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
         }
 
-
         .btn-box {
-            width: 2rem;
-            height: 2rem;
-            font-size: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
-            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
         }
 
         .btn-box-dark {
-            width: 2rem;
-            height: 2rem;
-            font-size: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             background-color: rgba(255, 255, 255, 0.87);
             cursor: pointer;
-            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
         }
         
         .box {
             display: flex;
-            height: 2rem;
-            width: 2rem;
+            height: 2.5rem;
+            width: 2.5rem;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
             flex-direction: column;
-            /* border: .3rem solid #efc745 #efc745; */
         }
 
         .num-btndiv {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
             height: 3rem;
             width: 18rem;
-            /* background-color: var(--bg-main-light); */
-            /* box-shadow: 0 .05rem 1rem 0 rgba(190, 190, 190, 0.402), 0 4px 20px 0 rgba(176, 176, 176, 0.47); */
         }
 
         .btn-level {
@@ -102,25 +95,27 @@
             height: 2rem;
             font-size: 1rem;
             font-weight: bold;
-            padding: .3rem;
+            padding: .2rem;
             margin: .1rem;
             border-radius: .5rem;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
-            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
         }
 
         .btn-control {
             width: auto;
             height: 2rem;
             font-size: 1rem;
-            padding: .3rem;
+            padding: .2rem;
             margin: .1rem;
             font-weight: bold;
             border-radius: .51rem;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
-            /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
+        }
+
+        #Time, #displayTime, #msg {
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -249,6 +244,7 @@
     <p id="Err2"></p>
 
     <script>
+        // init variables
         let timer = false;
         let hours = 0;
         let minutes = 0;
@@ -258,6 +254,7 @@
         let markNumber = 0;
         let erase = false;
         let boardsolve = [];
+        let boardinit = [];
 
         // one solved board to create new puzzle
         let board = [
@@ -272,6 +269,7 @@
             [1, 2, 8, 5, 6, 7, 3, 4, 9]
         ];
 
+        boardinit = board.map(row => [...row]);
         let leveldif1 = document.getElementById("dif1");
         let leveldif2 = document.getElementById("dif2");
         let leveldif3 = document.getElementById("dif3");
@@ -294,6 +292,7 @@
         let marknum8 = document.getElementById("num8");
         let marknum9 = document.getElementById("num9");
 
+        // enable difficulty button and disable other
         btn1.disabled = true;
         btn2.disabled = true;
         btn3.disabled = true;
@@ -310,33 +309,34 @@
         marknum8.disabled = true;
         marknum9.disabled = true;
 
-        
-        console.log("difficulty", difficulty);
+        // disable all number button cell
         let btnBox = document.querySelectorAll(".btn-box");
-        console.log("btnBox", btnBox);
         for (i=0;i<9;i++){
             for (j=0;j<9;j++){
                 btnid = "btn" + (i+1) + (j+1);
                 document.getElementById(btnid).disabled = true;
             }
         }
-        // document.getElementById("msg").innerText = "Please click (1-9) button for mark";
 
+        // button press listener
         btnBox.forEach((btn) => {
             btn.addEventListener("click", () => {
                 if(erase) {
                     btn.innerText = "";
                 } else {
-                    btn.innerText = markNumber;
-                    btn.style.color = "blue";
-                    btn.disabled = true;
-                    playBeep();
+                    if (markNumber > 0 && markNumber <10) {
+                        btn.innerText = markNumber;
+                        btn.style.color = "blue";
+                        btn.disabled = true;
+                        playBeep();
+                    } else {
+                        document.getElementById("msg").innerText = "Please click (1-9) to Start Mark number ";
+                    }
                 }
             })
-            document.getElementById("msg").innerText = "Please click empty space for mark " + markNumber;
         });
 
-
+        // function for press start button
         function funcstart(){
             timer = true;
             hours = 0;
@@ -344,7 +344,9 @@
             seconds = 0;
             hrdsec = 0;
             updateTimer();
+            board = boardinit.map(row => [...row]);
             generateBoard();
+            boardsolve = [];
             boardsolve = board.map(row => [...row]);
             generatePuzzle(difficulty); 
             displayGeneratedPuzzle(board);
@@ -357,14 +359,30 @@
             marknum7.disabled = false;
             marknum8.disabled = false;
             marknum9.disabled = false;
+            marknum1.style.color = "black";
+            marknum2.style.color = "black";
+            marknum3.style.color = "black";
+            marknum4.style.color = "black";
+            marknum4.style.color = "black";
+            marknum5.style.color = "black";
+            marknum6.style.color = "black";
+            marknum7.style.color = "black";
+            marknum8.style.color = "black";
+            marknum9.style.color = "black";
             btn1.disabled = true;
             btn2.disabled = false;
             btn3.disabled = false;
             btn4.disabled = false;
             btn5.disabled = false;
-            document.getElementById("msg").innerText = "Please click resume ";
+            btn2.style.color = "black";
+            btn3.style.color = "black";
+            btn4.style.color = "black";
+            btn4.style.color = "black";
+            btn5.style.color = "black";
+            document.getElementById("msg").innerText = "Please click (1-9) to Start Mark number";
         }
 
+        // function for press pause button
         function funcpause(){
             if (timer){
                 timer = false;
@@ -409,6 +427,11 @@
                 btn3.disabled = false;
                 btn4.disabled = false;
                 btn5.disabled = false;
+                btn2.style.color = "black";
+                btn3.style.color = "black";
+                btn4.style.color = "black";
+                btn4.style.color = "black";
+                btn5.style.color = "black";
                 marknum1.disabled = false;
                 marknum2.disabled = false;
                 marknum3.disabled = false;
@@ -449,6 +472,7 @@
             }
         }
 
+        // function to press reset button
         function funcreset(){
             timer = false;
             hours = 0;
@@ -475,31 +499,78 @@
             marknum7.style.color = "black";
             marknum8.style.color = "black";
             marknum9.style.color = "black";
-
         }
 
+        // function to press solve button
         function funcsolve(){
             timer = false;
+            document.getElementById("msg").innerText = "Please click Start to play game";
+            btn2.style.color = "rgba(0, 0, 0, 0.3)"
+            btn3.style.color = "rgba(0, 0, 0, 0.3)"
+            btn4.style.color = "rgba(0, 0, 0, 0.3)"
+            btn5.style.color = "rgba(0, 0, 0, 0.3)"
+            btn1.disabled = false;
+            btn2.disabled = true;
+            btn3.disabled = true;
+            btn4.disabled = true;
+            btn5.disabled = true;
+            marknum1.disabled = true;
+            marknum2.disabled = true;
+            marknum3.disabled = true;
+            marknum4.disabled = true;
+            marknum5.disabled = true;
+            marknum6.disabled = true;
+            marknum7.disabled = true;
+            marknum8.disabled = true;
+            marknum9.disabled = true;
+            marknum1.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum2.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum3.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum4.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum5.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum6.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum7.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum8.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum9.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum1.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum2.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum3.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum4.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum5.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum6.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum7.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum8.style.backgroundColor = "rgb(255, 255, 255)";
+            marknum9.style.backgroundColor = "rgb(255, 255, 255)";
             document.getElementById(btnid).disabled = false;
+            let count = 0;
             for (i=0;i<9;i++){
                 for (j=0;j<9;j++){
                     btnid = "btn" + (i+1) + (j+1);
+                    document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).style.fontSize = "2.2rem";
                     if (board[i][j] == ""){
                         if(document.getElementById(btnid).innerText == boardsolve[i][j]){
                             document.getElementById(btnid).style.color = "green";
                         } else if(document.getElementById(btnid).innerText == ""){
                             document.getElementById(btnid).innerText = boardsolve[i][j];
                             document.getElementById(btnid).style.color = "red";
+                            count++
                         } else if(document.getElementById(btnid).innerText != boardsolve[i][j]){
-                            document.getElementById(btnid).innerText = boardsolve[i][j];
-                            document.getElementById(btnid).style.color = "red";
+                            document.getElementById(btnid).style.fontSize = "1.2rem";
+                            document.getElementById(btnid).innerHTML = "<span style=\"color:red;\">" + document.getElementById(btnid).innerText + "<span><span style=\"color:green;\">(" + boardsolve[i][j] + ")<span>";
+                            count++;
                         }
                     }
                 }
             }
-
+            if (count > 0) {
+                document.getElementById("msg").innerText = "Looser (" + count + " Mistake) Cilck Start";
+            } else {
+                document.getElementById("msg").innerText = "Winner click Start to play";
+            }
         }
 
+        // function for press erase button
         function funcerase() {
             console.log("erase", erase);
             if (!erase) {
@@ -507,6 +578,7 @@
                 btn5.style.backgroundColor = "blue";
                 btn5.style.color = "yellow";
                 btn5.disabled = true;
+                document.getElementById("msg").innerText = "Please click filled cell to erase";
                 marknum1.style.backgroundColor = "rgb(255, 255, 255)";
                 marknum2.style.backgroundColor = "rgb(255, 255, 255)";
                 marknum3.style.backgroundColor = "rgb(255, 255, 255)";
@@ -538,6 +610,7 @@
             }              
         }
 
+        // function to display Sudoku puzzle
         function displayGeneratedPuzzle(board){
             const gameConrainer = document.getElementById("gameConrainer");
             let btnid = "";
@@ -546,19 +619,21 @@
                 for (j=0;j<9;j++){
                     btnid = "btn" + (i+1) + (j+1);
                     document.getElementById(btnid).innerText = board[i][j];
+                    document.getElementById(btnid).style.fontSize = "2.2rem";
                     if (board[i][j] == "") {
                         document.getElementById(btnid).disabled = false;
                         document.getElementById(btnid).style.borderColor = "rgba(0, 0, 0, 0.3)";
                     } else {
                         document.getElementById(btnid).style.color = "black";
-                        document.getElementById(btnid).style.fontSize = "bold";
-                        document.getElementById(btnid).style.fontWeight = "2rem";
+                        document.getElementById(btnid).style.fontSize = "2.2rem";
+                        document.getElementById(btnid).style.fontWeight = "bold";
                         document.getElementById(btnid).disabled = true;
                     }
                 }
             }
         }
 
+        // function to press  (1-9) number button
         function setNumber(num) {
             markNumber = num;
             console.log("markNumber",markNumber);
@@ -608,7 +683,7 @@
             } else if (markNumber == 6) {
                 marknum6.style.backgroundColor = "blue";
                 marknum6.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark" + markNumber;
+                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
             } else if (markNumber == 7) {
                 marknum7.style.backgroundColor = "blue";
                 marknum7.style.color = "yellow";
@@ -640,8 +715,10 @@
             }
         }
 
+        // function to set difficult (press any diffculty button)
         function setDifficulty(diff){
             difficulty = diff;
+            document.getElementById("msg").innerText = "Please click Start to play game";
             console.log("difficulty",difficulty);
             btn1.disabled = false;
             btn2.disabled = true;
@@ -696,6 +773,7 @@
             }
         }
 
+        // function to to generate new puzzle array as per diffculty level
         function generatePuzzle(difficulty) {
             let min = difficulty;
             let max = min + 2;
@@ -707,6 +785,7 @@
             });
         }
 
+        // function to shuffle array to make game puzzle
         function shuffleArray(array) {
             let currentIndex = array.length,
             temporaryValue, randomIndex;
@@ -730,6 +809,7 @@
             return array;
         }
 
+        // function to check generated puzzle is ok or not
         function generateBoard() {
             let seqIndexArray = [
                 [[0,0], [0,1], [0,2], [1,0], [1,1], [1,2], [2,0], [2,1], [2,2]],
