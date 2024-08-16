@@ -62,12 +62,7 @@
         }
 
         .btn-box-dark {
-            width: 2.5rem;
-            height: 2.5rem;
-            font-size: 2.2rem;
-            font-weight: bold;
             background-color: rgba(255, 255, 255, 0.87);
-            cursor: pointer;
         }
         
         .box {
@@ -122,94 +117,101 @@
 <body>
     <h1>Sudoku</h1>
     <div class="num-btndiv">
-        <div class="box-level"><button id="dif1" class="btn-level" onclick="setDifficulty(0)">Bigner</button></div>
-        <div class="box-level"><button id="dif2" class="btn-level" onclick="setDifficulty(1)">Easy</button></div>
-        <div class="box-level"><button id="dif3" class="btn-level" onclick="setDifficulty(2)">Medium</button></div>
-        <div class="box-level"><button id="dif4" class="btn-level" onclick="setDifficulty(3)">Hard</button></div>
-        <div class="box-level"><button id="dif5" class="btn-level" onclick="setDifficulty(4)">Expert</button></div>
+        <div class="box-level"><button id="dif1" class="btn-level" onclick="setDifficulty(1)">Learner</button></div>
+        <div class="box-level"><button id="dif2" class="btn-level" onclick="setDifficulty(2)">Easy</button></div>
+        <div class="box-level"><button id="dif3" class="btn-level" onclick="setDifficulty(3)">Medium</button></div>
+        <div class="box-level"><button id="dif4" class="btn-level" onclick="setDifficulty(4)">Hard</button></div>
+        <div class="box-level"><button id="dif5" class="btn-level" onclick="setDifficulty(5)">Expert</button></div>
     </div>
     <div id="gameConrainer" class="game-container">
         <div class="box"><button id="btn11" class="btn-box"></button></div>
         <div class="box"><button id="btn12" class="btn-box"></button></div>
         <div class="box"><button id="btn13" class="btn-box"></button></div>
-        <div class="box"><button id="btn14" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn15" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn16" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn14" class="btn-box"></button></div>
+        <div class="box"><button id="btn15" class="btn-box"></button></div>
+        <div class="box"><button id="btn16" class="btn-box"></button></div>
         <div class="box"><button id="btn17" class="btn-box"></button></div>
         <div class="box"><button id="btn18" class="btn-box"></button></div>
         <div class="box"><button id="btn19" class="btn-box"></button></div>
         <div class="box"><button id="btn21" class="btn-box"></button></div>
         <div class="box"><button id="btn22" class="btn-box"></button></div>
         <div class="box"><button id="btn23" class="btn-box"></button></div>
-        <div class="box"><button id="btn24" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn25" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn26" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn24" class="btn-box"></button></div>
+        <div class="box"><button id="btn25" class="btn-box"></button></div>
+        <div class="box"><button id="btn26" class="btn-box"></button></div>
         <div class="box"><button id="btn27" class="btn-box"></button></div>
         <div class="box"><button id="btn28" class="btn-box"></button></div>
         <div class="box"><button id="btn29" class="btn-box"></button></div>
         <div class="box"><button id="btn31" class="btn-box"></button></div>
         <div class="box"><button id="btn32" class="btn-box"></button></div>
         <div class="box"><button id="btn33" class="btn-box"></button></div>
-        <div class="box"><button id="btn34" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn35" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn36" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn34" class="btn-box"></button></div>
+        <div class="box"><button id="btn35" class="btn-box"></button></div>
+        <div class="box"><button id="btn36" class="btn-box"></button></div>
         <div class="box"><button id="btn37" class="btn-box"></button></div>
         <div class="box"><button id="btn38" class="btn-box"></button></div>
         <div class="box"><button id="btn39" class="btn-box"></button></div>
-        <div class="box"><button id="btn41" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn42" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn43" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn41" class="btn-box"></button></div>
+        <div class="box"><button id="btn42" class="btn-box"></button></div>
+        <div class="box"><button id="btn43" class="btn-box"></button></div>
         <div class="box"><button id="btn44" class="btn-box"></button></div>
         <div class="box"><button id="btn45" class="btn-box"></button></div>
         <div class="box"><button id="btn46" class="btn-box"></button></div>
-        <div class="box"><button id="btn47" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn48" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn49" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn51" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn52" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn53" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn47" class="btn-box"></button></div>
+        <div class="box"><button id="btn48" class="btn-box"></button></div>
+        <div class="box"><button id="btn49" class="btn-box"></button></div>
+        <div class="box"><button id="btn51" class="btn-box"></button></div>
+        <div class="box"><button id="btn52" class="btn-box"></button></div>
+        <div class="box"><button id="btn53" class="btn-box"></button></div>
         <div class="box"><button id="btn54" class="btn-box"></button></div>
         <div class="box"><button id="btn55" class="btn-box"></button></div>
         <div class="box"><button id="btn56" class="btn-box"></button></div>
-        <div class="box"><button id="btn57" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn58" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn59" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn61" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn62" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn63" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn57" class="btn-box"></button></div>
+        <div class="box"><button id="btn58" class="btn-box"></button></div>
+        <div class="box"><button id="btn59" class="btn-box"></button></div>
+        <div class="box"><button id="btn61" class="btn-box"></button></div>
+        <div class="box"><button id="btn62" class="btn-box"></button></div>
+        <div class="box"><button id="btn63" class="btn-box"></button></div>
         <div class="box"><button id="btn64" class="btn-box"></button></div>
         <div class="box"><button id="btn65" class="btn-box"></button></div>
         <div class="box"><button id="btn66" class="btn-box"></button></div>
-        <div class="box"><button id="btn67" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn68" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn69" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn67" class="btn-box"></button></div>
+        <div class="box"><button id="btn68" class="btn-box"></button></div>
+        <div class="box"><button id="btn69" class="btn-box"></button></div>
         <div class="box"><button id="btn71" class="btn-box"></button></div>
         <div class="box"><button id="btn72" class="btn-box"></button></div>
         <div class="box"><button id="btn73" class="btn-box"></button></div>
-        <div class="box"><button id="btn74" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn75" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn76" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn74" class="btn-box"></button></div>
+        <div class="box"><button id="btn75" class="btn-box"></button></div>
+        <div class="box"><button id="btn76" class="btn-box"></button></div>
         <div class="box"><button id="btn77" class="btn-box"></button></div>
         <div class="box"><button id="btn78" class="btn-box"></button></div>
         <div class="box"><button id="btn79" class="btn-box"></button></div>
         <div class="box"><button id="btn81" class="btn-box"></button></div>
         <div class="box"><button id="btn82" class="btn-box"></button></div>
         <div class="box"><button id="btn83" class="btn-box"></button></div>
-        <div class="box"><button id="btn84" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn85" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn86" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn84" class="btn-box"></button></div>
+        <div class="box"><button id="btn85" class="btn-box"></button></div>
+        <div class="box"><button id="btn86" class="btn-box"></button></div>
         <div class="box"><button id="btn87" class="btn-box"></button></div>
         <div class="box"><button id="btn88" class="btn-box"></button></div>
         <div class="box"><button id="btn89" class="btn-box"></button></div>
         <div class="box"><button id="btn91" class="btn-box"></button></div>
         <div class="box"><button id="btn92" class="btn-box"></button></div>
         <div class="box"><button id="btn93" class="btn-box"></button></div>
-        <div class="box"><button id="btn94" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn95" class="btn-box btn-box-dark"></button></div>
-        <div class="box"><button id="btn96" class="btn-box btn-box-dark"></button></div>
+        <div class="box"><button id="btn94" class="btn-box"></button></div>
+        <div class="box"><button id="btn95" class="btn-box"></button></div>
+        <div class="box"><button id="btn96" class="btn-box"></button></div>
         <div class="box"><button id="btn97" class="btn-box"></button></div>
         <div class="box"><button id="btn98" class="btn-box"></button></div>
         <div class="box"><button id="btn99" class="btn-box"></button></div>
+    </div>
+    <div>
+        <span id="Time">Time</span>
+        <span id="displayTime">00:00:00</span>
+    </div>
+    <div>
+        <span id="msg">Please Select Difficulty Level</span>
     </div>
     <div class="num-btndiv">
         <div class="box"><button id="num1" class="btn-num" onclick="setNumber(1)">1</button></div>
@@ -229,13 +231,6 @@
         <div class="box-Control"><button id="btn4" class="btn-control" onclick="funcpause()">Pause</button></div>
         <div class="box-Control"><button id="btn5" class="btn-control" onclick="funcerase()">Erase</button></div>
     </div>
-    <div>
-        <span id="Time">Time</span>
-        <span id="displayTime">00:00:00</span>
-    </div>
-    <div>
-        <span id="msg">Please Select Difficulty Level</span>
-    </div>
     <p id="Arr"></p>
     <p id="Arr1"></p>
     <p id="Arr2"></p>
@@ -250,11 +245,13 @@
         let minutes = 0;
         let seconds = 0;
         let hrdsec = 0;
-        let difficulty = 0;
+        let difficulty = 1;
         let markNumber = 0;
         let erase = false;
         let boardsolve = [];
         let boardinit = [];
+        let btnidcheck = 0;
+        let btnid = 0;
 
         // one solved board to create new puzzle
         let board = [
@@ -267,6 +264,21 @@
             [5, 6, 9, 3, 4, 8, 1, 2, 7],
             [3, 4, 7, 1, 2, 9, 5, 8, 6],
             [1, 2, 8, 5, 6, 7, 3, 4, 9]
+        ];
+
+        let backgroundColorArray = [
+            ["L", "L", "L", "D", "D", "D", "L", "L", "L"],
+            ["L", "L", "L", "D", "D", "D", "L", "L", "L"],
+            ["L", "L", "L", "D", "D", "D", "L", "L", "L"],
+            ["D", "D", "D", "L", "L", "L", "D", "D", "D"],
+            ["D", "D", "D", "L", "L", "L", "D", "D", "D"],
+            ["D", "D", "D", "L", "L", "L", "D", "D", "D"],
+            ["L", "L", "L", "D", "D", "D", "L", "L", "L"],
+            ["L", "L", "L", "D", "D", "D", "L", "L", "L"],
+            ["L", "L", "L", "D", "D", "D", "L", "L", "L"],
+            ["D", "D", "D", "L", "L", "L", "D", "D", "D"],
+            ["D", "D", "D", "L", "L", "L", "D", "D", "D"],
+            ["D", "D", "D", "L", "L", "L", "D", "D", "D"],
         ];
 
         boardinit = board.map(row => [...row]);
@@ -309,14 +321,16 @@
         marknum8.disabled = true;
         marknum9.disabled = true;
 
-        // disable all number button cell
+        // disable all number button bin
         let btnBox = document.querySelectorAll(".btn-box");
         for (i=0;i<9;i++){
             for (j=0;j<9;j++){
                 btnid = "btn" + (i+1) + (j+1);
                 document.getElementById(btnid).disabled = true;
+                document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
             }
         }
+
 
         // button press listener
         btnBox.forEach((btn) => {
@@ -380,6 +394,13 @@
             btn4.style.color = "black";
             btn5.style.color = "black";
             document.getElementById("msg").innerText = "Please click (1-9) to Start Mark number";
+            for (i=0;i<9;i++){
+                for (j=0;j<9;j++){
+                    btnid = "btn" + (i+1) + (j+1);
+                    document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
+                }
+            }
         }
 
         // function for press pause button
@@ -564,9 +585,11 @@
                 }
             }
             if (count > 0) {
-                document.getElementById("msg").innerText = "Looser (" + count + " Mistake) Cilck Start";
+                document.getElementById("msg").innerText = "Loser (" + count + " Mistake) Cilck Start";
+                textToSpeechEng("Looser (" + count + " Mistake)");
             } else {
                 document.getElementById("msg").innerText = "Winner click Start to play";
+                textToSpeechEng("Winner");
             }
         }
 
@@ -578,7 +601,7 @@
                 btn5.style.backgroundColor = "blue";
                 btn5.style.color = "yellow";
                 btn5.disabled = true;
-                document.getElementById("msg").innerText = "Please click filled cell to erase";
+                document.getElementById("msg").innerText = "Please click empty bin to erase";
                 marknum1.style.backgroundColor = "rgb(255, 255, 255)";
                 marknum2.style.backgroundColor = "rgb(255, 255, 255)";
                 marknum3.style.backgroundColor = "rgb(255, 255, 255)";
@@ -663,39 +686,39 @@
             if (markNumber == 1) {
                 marknum1.style.backgroundColor = "blue";
                 marknum1.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 2) {
                 marknum2.style.backgroundColor = "blue";
                 marknum2.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 3) {
                 marknum3.style.backgroundColor = "blue";
                 marknum3.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 4) {
                 marknum4.style.backgroundColor = "blue";
                 marknum4.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 5) {
                 marknum5.style.backgroundColor = "blue";
                 marknum5.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 6) {
                 marknum6.style.backgroundColor = "blue";
                 marknum6.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 7) {
                 marknum7.style.backgroundColor = "blue";
                 marknum7.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 8) {
                 marknum8.style.backgroundColor = "blue";
                 marknum8.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 9) {
                 marknum9.style.backgroundColor = "blue";
                 marknum9.style.color = "yellow";
-                document.getElementById("msg").innerText = "Please click empty Cell to mark " + markNumber;
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             }
             
             for (i=0;i<9;i++){
@@ -708,14 +731,20 @@
                             document.getElementById(btnid).disabled = true;
                             document.getElementById(btnid).style.color = "blue";
                         }
+                    } else if (board[i][j] == markNumber) { 
+                        document.getElementById(btnid).disabled = true;
+                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.backgroundColor = "blue";
                     } else {
                         document.getElementById(btnid).disabled = true;
+                        document.getElementById(btnid).style.color = "black";
+                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
                     }
                 }
             }
         }
 
-        // function to set difficult (press any diffculty button)
+        // function to set difficulty (press any difficulty button)
         function setDifficulty(diff){
             difficulty = diff;
             document.getElementById("msg").innerText = "Please click Start to play game";
@@ -725,7 +754,7 @@
             btn3.disabled = true;
             btn4.disabled = true;
             btn5.disabled = true;
-            if (difficulty == 0) {
+            if (difficulty == 1) {
                 leveldif1.disabled = true;
                 leveldif1.style.cursor = "none";
                 leveldif1.style.opacity = "1";
@@ -734,7 +763,7 @@
                 leveldif3.disabled = true;
                 leveldif4.disabled = true;
                 leveldif5.disabled = true;
-            } else if (difficulty == 1){
+            } else if (difficulty == 2){
                 leveldif1.disabled = true;
                 leveldif2.disabled = true;
                 leveldif2.style.cursor = "none";
@@ -743,7 +772,7 @@
                 leveldif3.disabled = true;
                 leveldif4.disabled = true;
                 leveldif5.disabled = true;
-            } else if (difficulty == 2){
+            } else if (difficulty == 3){
                 leveldif1.disabled = true;
                 leveldif2.disabled = true;
                 leveldif3.disabled = true;
@@ -752,7 +781,7 @@
                 leveldif3.style.color = "black";
                 leveldif4.disabled = true;
                 leveldif5.disabled = true;
-            } else if (difficulty == 3){
+            } else if (difficulty == 4){
                 leveldif1.disabled = true;
                 leveldif2.disabled = true;
                 leveldif3.disabled = true;
@@ -761,7 +790,7 @@
                 leveldif4.style.opacity = "1";
                 leveldif4.style.color = "black";
                 leveldif5.disabled = true;
-            } else if (difficulty == 4){
+            } else if (difficulty == 5){
                 leveldif1.disabled = true;
                 leveldif2.disabled = true;
                 leveldif3.disabled = true;
@@ -773,7 +802,7 @@
             }
         }
 
-        // function to to generate new puzzle array as per diffculty level
+        // function to to generate new puzzle array as per difficulty level
         function generatePuzzle(difficulty) {
             let min = difficulty;
             let max = min + 2;
@@ -968,6 +997,16 @@
                 displayTime()
                 setTimeout("updateTimer()", 10);
             }
+        }
+
+        // para to speeach in english
+        function textToSpeechEng(text){
+            let speechSynthesis = window.speechSynthesis;
+            let utterance = new SpeechSynthesisUtterance();
+            utterance.lang = "en-US";
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang === 'en-US');
+            utterance.text = text;
+            speechSynthesis.speak(utterance); 
         }
 
         // para to play beep sound when player/computer is play his turn
