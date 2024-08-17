@@ -43,12 +43,15 @@
         }
 
         .btn-num {
-            width: 2.5rem;
-            height: 2.5rem;
-            font-size: 2.2rem;
+            width: 2.2rem;
+            height: 2.15rem;
+            margin: -0.8rem 0rem 0rem 0rem;
+            padding: 0rem 0rem 0rem 0rem;
+            font-size: 2rem;
             font-weight: bold;
-            background-color: rgb(255, 255, 255);
+            /* background-color: rgb(255, 255, 255); */
             cursor: pointer;
+            border: none;
             /* text-shadow: 1px 1px 2px black, 0 0 25px rgb(255, 255, 118), 0 0 5px rgb(140, 124, 2); */
         }
 
@@ -57,14 +60,10 @@
             height: 2.5rem;
             font-size: 2.2rem;
             font-weight: bold;
-            background-color: rgb(255, 255, 255);
+            /* background-color: rgb(255, 255, 255); */
             cursor: pointer;
         }
 
-        .btn-box-dark {
-            background-color: rgba(255, 255, 255, 0.87);
-        }
-        
         .box {
             display: flex;
             height: 2.5rem;
@@ -73,6 +72,20 @@
             align-items: center;
             flex-wrap: wrap;
             flex-direction: column;
+            /* border: .1rem solid black; */
+            /* background-color: rgb(255, 255, 255); */
+        }
+
+        .box-num {
+            display: flex;
+            height: 2.5rem;
+            width: 2.5rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            border: .1rem solid black;
+            /* background-color: rgb(255, 255, 255); */
         }
 
         .num-btndiv {
@@ -82,7 +95,7 @@
             padding-top: 0.8rem;
             padding-bottom: 0.8rem;
             height: 3rem;
-            width: 18rem;
+            width: 22.4rem;
         }
 
         .btn-level {
@@ -111,6 +124,14 @@
 
         #Time, #displayTime, #msg {
             font-size: 1.2rem;
+        }
+
+        .spansmall {
+            margin: -1rem 0rem 0rem 0rem;
+            padding: 0rem 0rem 0rem 1.5rem;
+            height: .1rem;
+            font-size: 0.8rem;
+            cursor: none;
         }
     </style>
 </head>
@@ -214,15 +235,15 @@
         <span id="msg">Please Select Difficulty Level</span>
     </div>
     <div class="num-btndiv">
-        <div class="box"><button id="num1" class="btn-num" onclick="setNumber(1)">1</button></div>
-        <div class="box"><button id="num2" class="btn-num" onclick="setNumber(2)">2</button></div>
-        <div class="box"><button id="num3" class="btn-num" onclick="setNumber(3)">3</button></div>
-        <div class="box"><button id="num4" class="btn-num" onclick="setNumber(4)">4</button></div>
-        <div class="box"><button id="num5" class="btn-num" onclick="setNumber(5)">5</button></div>
-        <div class="box"><button id="num6" class="btn-num" onclick="setNumber(6)">6</button></div>
-        <div class="box"><button id="num7" class="btn-num" onclick="setNumber(7)">7</button></div>
-        <div class="box"><button id="num8" class="btn-num" onclick="setNumber(8)">8</button></div>
-        <div class="box"><button id="num9" class="btn-num" onclick="setNumber(9)">9</button></div>
+        <div class="box-num"><button id="num1" class="btn-num" onclick="setNumber(1)">1</button><span id="sp1" class="spansmall">1</span></div>
+        <div class="box-num"><button id="num2" class="btn-num" onclick="setNumber(2)">2</button><span id="sp2" class="spansmall">2</span></div>
+        <div class="box-num"><button id="num3" class="btn-num" onclick="setNumber(3)">3</button><span id="sp3" class="spansmall">3</span></div>
+        <div class="box-num"><button id="num4" class="btn-num" onclick="setNumber(4)">4</button><span id="sp4" class="spansmall">4</span></div>
+        <div class="box-num"><button id="num5" class="btn-num" onclick="setNumber(5)">5</button><span id="sp5" class="spansmall">5</span></div>
+        <div class="box-num"><button id="num6" class="btn-num" onclick="setNumber(6)">6</button><span id="sp6" class="spansmall">6</span></div>
+        <div class="box-num"><button id="num7" class="btn-num" onclick="setNumber(7)">7</button><span id="sp7" class="spansmall">7</span></div>
+        <div class="box-num"><button id="num8" class="btn-num" onclick="setNumber(8)">8</button><span id="sp8" class="spansmall">8</span></div>
+        <div class="box-num"><button id="num9" class="btn-num" onclick="setNumber(9)">9</button><span id="sp9" class="spansmall">9</span></div>
     </div>
     <div class="num-btndiv">
         <div class="box-Control"><button id="btn1" class="btn-control" onclick="funcstart()">Start</button></div>
@@ -252,6 +273,7 @@
         let boardinit = [];
         let btnidcheck = 0;
         let btnid = 0;
+        let countNum = [];
 
         // one solved board to create new puzzle
         let board = [
@@ -304,6 +326,16 @@
         let marknum8 = document.getElementById("num8");
         let marknum9 = document.getElementById("num9");
 
+        let spnum1 = document.getElementById("sp1");
+        let spnum2 = document.getElementById("sp2");
+        let spnum3 = document.getElementById("sp3");
+        let spnum4 = document.getElementById("sp4");
+        let spnum5 = document.getElementById("sp5");
+        let spnum6 = document.getElementById("sp6");
+        let spnum7 = document.getElementById("sp7");
+        let spnum8 = document.getElementById("sp8");
+        let spnum9 = document.getElementById("sp9");
+
         // enable difficulty button and disable other
         btn1.disabled = true;
         btn2.disabled = true;
@@ -335,10 +367,56 @@
         // button press listener
         btnBox.forEach((btn) => {
             btn.addEventListener("click", () => {
+                console.log("btn",btn);
                 if(erase) {
+                    console.log("btn",btn);
+                    console.log("btn.innerText",Number(btn.innerText));
+                    console.log("btn.innerText",typeof(Number(btn.innerText)));
+                    console.log("countNum[btn.innerText]",countNum[Number(btn.innerText)]);
+                    countNum[Number(btn.innerText)]--;
+                    console.log("countNum[btn.innerText]",countNum[Number(btn.innerText)]);
+                    if (Number(btn.innerText) == 1) {
+                        sp1.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 2) {
+                        sp2.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 3) {
+                        sp3.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 4) {
+                        sp4.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 5) {
+                        sp5.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 6) {
+                        sp6.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 7) {
+                        sp7.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 8) {
+                        sp8.innerText = 9 - countNum[Number(btn.innerText)];
+                    } else if (Number(btn.innerText) == 9) {
+                        sp9.innerText = 9 - countNum[Number(btn.innerText)];
+                    }
                     btn.innerText = "";
-                } else {
+                    } else {
                     if (markNumber > 0 && markNumber <10) {
+                        countNum[markNumber]++;
+                        if (markNumber == 1) {
+                            sp1.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 2) {
+                            sp2.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 3) {
+                            sp3.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 4) {
+                            sp4.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 5) {
+                            sp5.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 6) {
+                            sp6.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 7) {
+                            sp7.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 8) {
+                            sp8.innerText = 9 - countNum[markNumber];
+                        } else if (markNumber == 9) {
+                            sp9.innerText = 9 - countNum[markNumber];
+                        }
                         btn.innerText = markNumber;
                         btn.style.color = "blue";
                         btn.disabled = true;
@@ -383,6 +461,16 @@
             marknum7.style.color = "black";
             marknum8.style.color = "black";
             marknum9.style.color = "black";
+            spnum1.style.color = "black";
+            spnum2.style.color = "black";
+            spnum3.style.color = "black";
+            spnum4.style.color = "black";
+            spnum4.style.color = "black";
+            spnum5.style.color = "black";
+            spnum6.style.color = "black";
+            spnum7.style.color = "black";
+            spnum8.style.color = "black";
+            spnum9.style.color = "black";
             btn1.disabled = true;
             btn2.disabled = false;
             btn3.disabled = false;
@@ -394,13 +482,34 @@
             btn4.style.color = "black";
             btn5.style.color = "black";
             document.getElementById("msg").innerText = "Please click (1-9) to Start Mark number";
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,];
             for (i=0;i<9;i++){
                 for (j=0;j<9;j++){
                     btnid = "btn" + (i+1) + (j+1);
                     document.getElementById(btnid).disabled = true;
-                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
+                    if (backgroundColorArray[i][j] == "L"){
+                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
+                    } else {
+                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.87)";
+                    }
+                    // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
+                    if(board[i][j] != "") {
+                        countNum[board[i][j]]++;
+                    } else {                    
+                        countNum[0]++;
+                    }
+                    console.log("countNum",countNum);
                 }
             }
+                sp1.innerText = 9 - countNum[1];
+                sp2.innerText = 9 - countNum[2];
+                sp3.innerText = 9 - countNum[3];
+                sp4.innerText = 9 - countNum[4];
+                sp5.innerText = 9 - countNum[5];
+                sp6.innerText = 9 - countNum[6];
+                sp7.innerText = 9 - countNum[7];
+                sp8.innerText = 9 - countNum[8];
+                sp9.innerText = 9 - countNum[9];
         }
 
         // function for press pause button
@@ -432,6 +541,16 @@
                 marknum7.style.color = "rgba(0, 0, 0, 0.3)";
                 marknum8.style.color = "rgba(0, 0, 0, 0.3)";
                 marknum9.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum1.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum2.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum3.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum4.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum4.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum5.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum6.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum7.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum8.style.color = "rgba(0, 0, 0, 0.3)";
+                spnum9.style.color = "rgba(0, 0, 0, 0.3)";
 
                 document.getElementById("msg").innerText = "Please click pause";
                 for (i=0;i<9;i++){
@@ -472,6 +591,16 @@
                 marknum7.style.color = "black";
                 marknum8.style.color = "black";
                 marknum9.style.color = "black";
+                spnum1.style.color = "black";
+                spnum2.style.color = "black";
+                spnum3.style.color = "black";
+                spnum4.style.color = "black";
+                spnum4.style.color = "black";
+                spnum5.style.color = "black";
+                spnum6.style.color = "black";
+                spnum7.style.color = "black";
+                spnum8.style.color = "black";
+                spnum9.style.color = "black";
                 for (i=0;i<9;i++){
                     for (j=0;j<9;j++){
                         btnid = "btn" + (i+1) + (j+1);
@@ -500,6 +629,19 @@
             minutes = 0;
             seconds = 0;
             hrdsec = 0;
+            countNum = [];
+            for (i=0;i<9;i++){
+                for (j=0;j<9;j++){
+                    btnid = "btn" + (i+1) + (j+1);
+                    // document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
+                    // if(btnid[i][j] == "") {
+                    //     countNum[0] = countNum[0]++;
+                    // } else {
+                    //     countNum[i+1] = countNum[i+1]++;
+                    // }
+                }
+            }
             updateTimer();
             displayGeneratedPuzzle(board);
             marknum1.style.backgroundColor = "rgb(255, 255, 255)";
@@ -520,6 +662,23 @@
             marknum7.style.color = "black";
             marknum8.style.color = "black";
             marknum9.style.color = "black";
+            spnum1.style.color = "black";
+            spnum2.style.color = "black";
+            spnum3.style.color = "black";
+            spnum4.style.color = "black";
+            spnum5.style.color = "black";
+            spnum6.style.color = "black";
+            spnum7.style.color = "black";
+            spnum8.style.color = "black";
+            spnum9.style.color = "black";
+
+            for (i=0;i<9;i++){
+                for (j=0;j<9;j++){
+                    btnid = "btn" + (i+1) + (j+1);
+                    document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
+                }
+            }
         }
 
         // function to press solve button
@@ -544,15 +703,24 @@
             marknum7.disabled = true;
             marknum8.disabled = true;
             marknum9.disabled = true;
-            marknum1.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum2.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum3.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum4.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum5.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum6.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum7.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum8.style.color = "rgba(0, 0, 0, 0.3)"
-            marknum9.style.color = "rgba(0, 0, 0, 0.3)"
+            marknum1.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum2.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum3.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum4.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum5.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum6.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum7.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum8.style.color = "rgba(0, 0, 0, 0.3)";
+            marknum9.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum1.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum2.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum3.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum4.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum5.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum6.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum7.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum8.style.color = "rgba(0, 0, 0, 0.3)";
+            spnum9.style.color = "rgba(0, 0, 0, 0.3)";
             marknum1.style.backgroundColor = "rgb(255, 255, 255)";
             marknum2.style.backgroundColor = "rgb(255, 255, 255)";
             marknum3.style.backgroundColor = "rgb(255, 255, 255)";
@@ -568,6 +736,8 @@
                 for (j=0;j<9;j++){
                     btnid = "btn" + (i+1) + (j+1);
                     document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).style.color = "black";
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
                     document.getElementById(btnid).style.fontSize = "2.2rem";
                     if (board[i][j] == ""){
                         if(document.getElementById(btnid).innerText == boardsolve[i][j]){
@@ -579,11 +749,14 @@
                         } else if(document.getElementById(btnid).innerText != boardsolve[i][j]){
                             document.getElementById(btnid).style.fontSize = "1.2rem";
                             document.getElementById(btnid).innerHTML = "<span style=\"color:red;\">" + document.getElementById(btnid).innerText + "<span><span style=\"color:green;\">(" + boardsolve[i][j] + ")<span>";
-                            count++;
+                                count++;
+                            }
                         }
                     }
                 }
-            }
+                
+
+
             if (count > 0) {
                 document.getElementById("msg").innerText = "Loser (" + count + " Mistake) Cilck Start";
                 textToSpeechEng("Looser (" + count + " Mistake)");
@@ -601,7 +774,7 @@
                 btn5.style.backgroundColor = "blue";
                 btn5.style.color = "yellow";
                 btn5.disabled = true;
-                document.getElementById("msg").innerText = "Please click empty bin to erase";
+                document.getElementById("msg").innerText = "Please click marked bin to erase";
                 marknum1.style.backgroundColor = "rgb(255, 255, 255)";
                 marknum2.style.backgroundColor = "rgb(255, 255, 255)";
                 marknum3.style.backgroundColor = "rgb(255, 255, 255)";
@@ -620,13 +793,25 @@
                 marknum7.style.color = "black";
                 marknum8.style.color = "black";
                 marknum9.style.color = "black";
+                spnum1.style.color = "black";
+                spnum2.style.color = "black";
+                spnum3.style.color = "black";
+                spnum4.style.color = "black";
+                spnum5.style.color = "black";
+                spnum6.style.color = "black";
+                spnum7.style.color = "black";
+                spnum8.style.color = "black";
+                spnum9.style.color = "black";
                 for (i=0;i<9;i++){
                     for (j=0;j<9;j++){
                         btnid = "btn" + (i+1) + (j+1);
+                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.87)";
                         if (board[i][j] == "") {
                             document.getElementById(btnid).disabled = false;
+                            document.getElementById(btnid).style.color = "blue";
                         } else {
                             document.getElementById(btnid).disabled = true;
+                            document.getElementById(btnid).style.color = "black";
                         }
                     }
                 }
@@ -681,44 +866,62 @@
                 marknum7.style.color = "black";
                 marknum8.style.color = "black";
                 marknum9.style.color = "black";
+                spnum1.style.color = "black";
+                spnum2.style.color = "black";
+                spnum3.style.color = "black";
+                spnum4.style.color = "black";
+                spnum5.style.color = "black";
+                spnum6.style.color = "black";
+                spnum7.style.color = "black";
+                spnum8.style.color = "black";
+                spnum9.style.color = "black";
                 erase = false;
 
             if (markNumber == 1) {
                 marknum1.style.backgroundColor = "blue";
                 marknum1.style.color = "yellow";
+                document.getElementById("sp1").style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
             } else if (markNumber == 2) {
                 marknum2.style.backgroundColor = "blue";
                 marknum2.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp2").style.color = "yellow";
             } else if (markNumber == 3) {
                 marknum3.style.backgroundColor = "blue";
                 marknum3.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp3").style.color = "yellow";
             } else if (markNumber == 4) {
                 marknum4.style.backgroundColor = "blue";
                 marknum4.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp4").style.color = "yellow";
             } else if (markNumber == 5) {
                 marknum5.style.backgroundColor = "blue";
                 marknum5.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp5").style.color = "yellow";
             } else if (markNumber == 6) {
                 marknum6.style.backgroundColor = "blue";
                 marknum6.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp6").style.color = "yellow";
             } else if (markNumber == 7) {
                 marknum7.style.backgroundColor = "blue";
                 marknum7.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp7").style.color = "yellow";
             } else if (markNumber == 8) {
                 marknum8.style.backgroundColor = "blue";
                 marknum8.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp8").style.color = "yellow";
             } else if (markNumber == 9) {
                 marknum9.style.backgroundColor = "blue";
                 marknum9.style.color = "yellow";
                 document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
+                document.getElementById("sp9").style.color = "yellow";
             }
             
             for (i=0;i<9;i++){
