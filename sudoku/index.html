@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>SUDOKU</h1>
+    <div class="num-btndiv">
+        <div class="box-level"><button id="dif1" class="btn-level" onclick="setDifficulty(1)">Learner</button></div>
+        <div class="box-level"><button id="dif2" class="btn-level" onclick="setDifficulty(2)">Easy</button></div>
+        <div class="box-level"><button id="dif3" class="btn-level" onclick="setDifficulty(3)">Medium</button></div>
+        <div class="box-level"><button id="dif4" class="btn-level" onclick="setDifficulty(4)">Hard</button></div>
+        <div class="box-level"><button id="dif5" class="btn-level" onclick="setDifficulty(5)">Expert</button></div>
+    </div>
+    <div id="gameConrainer" class="game-container">
+        <div class="box"><button id="btn11" class="btn-box"></button></div>
+        <div class="box"><button id="btn12" class="btn-box"></button></div>
+        <div class="box"><button id="btn13" class="btn-box"></button></div>
+        <div class="box"><button id="btn14" class="btn-box"></button></div>
+        <div class="box"><button id="btn15" class="btn-box"></button></div>
+        <div class="box"><button id="btn16" class="btn-box"></button></div>
+        <div class="box"><button id="btn17" class="btn-box"></button></div>
+        <div class="box"><button id="btn18" class="btn-box"></button></div>
+        <div class="box"><button id="btn19" class="btn-box"></button></div>
+        <div class="box"><button id="btn21" class="btn-box"></button></div>
+        <div class="box"><button id="btn22" class="btn-box"></button></div>
+        <div class="box"><button id="btn23" class="btn-box"></button></div>
+        <div class="box"><button id="btn24" class="btn-box"></button></div>
+        <div class="box"><button id="btn25" class="btn-box"></button></div>
+        <div class="box"><button id="btn26" class="btn-box"></button></div>
+        <div class="box"><button id="btn27" class="btn-box"></button></div>
+        <div class="box"><button id="btn28" class="btn-box"></button></div>
+        <div class="box"><button id="btn29" class="btn-box"></button></div>
+        <div class="box"><button id="btn31" class="btn-box"></button></div>
+        <div class="box"><button id="btn32" class="btn-box"></button></div>
+        <div class="box"><button id="btn33" class="btn-box"></button></div>
+        <div class="box"><button id="btn34" class="btn-box"></button></div>
+        <div class="box"><button id="btn35" class="btn-box"></button></div>
+        <div class="box"><button id="btn36" class="btn-box"></button></div>
+        <div class="box"><button id="btn37" class="btn-box"></button></div>
+        <div class="box"><button id="btn38" class="btn-box"></button></div>
+        <div class="box"><button id="btn39" class="btn-box"></button></div>
+        <div class="box"><button id="btn41" class="btn-box"></button></div>
+        <div class="box"><button id="btn42" class="btn-box"></button></div>
+        <div class="box"><button id="btn43" class="btn-box"></button></div>
+        <div class="box"><button id="btn44" class="btn-box"></button></div>
+        <div class="box"><button id="btn45" class="btn-box"></button></div>
+        <div class="box"><button id="btn46" class="btn-box"></button></div>
+        <div class="box"><button id="btn47" class="btn-box"></button></div>
+        <div class="box"><button id="btn48" class="btn-box"></button></div>
+        <div class="box"><button id="btn49" class="btn-box"></button></div>
+        <div class="box"><button id="btn51" class="btn-box"></button></div>
+        <div class="box"><button id="btn52" class="btn-box"></button></div>
+        <div class="box"><button id="btn53" class="btn-box"></button></div>
+        <div class="box"><button id="btn54" class="btn-box"></button></div>
+        <div class="box"><button id="btn55" class="btn-box"></button></div>
+        <div class="box"><button id="btn56" class="btn-box"></button></div>
+        <div class="box"><button id="btn57" class="btn-box"></button></div>
+        <div class="box"><button id="btn58" class="btn-box"></button></div>
+        <div class="box"><button id="btn59" class="btn-box"></button></div>
+        <div class="box"><button id="btn61" class="btn-box"></button></div>
+        <div class="box"><button id="btn62" class="btn-box"></button></div>
+        <div class="box"><button id="btn63" class="btn-box"></button></div>
+        <div class="box"><button id="btn64" class="btn-box"></button></div>
+        <div class="box"><button id="btn65" class="btn-box"></button></div>
+        <div class="box"><button id="btn66" class="btn-box"></button></div>
+        <div class="box"><button id="btn67" class="btn-box"></button></div>
+        <div class="box"><button id="btn68" class="btn-box"></button></div>
+        <div class="box"><button id="btn69" class="btn-box"></button></div>
+        <div class="box"><button id="btn71" class="btn-box"></button></div>
+        <div class="box"><button id="btn72" class="btn-box"></button></div>
+        <div class="box"><button id="btn73" class="btn-box"></button></div>
+        <div class="box"><button id="btn74" class="btn-box"></button></div>
+        <div class="box"><button id="btn75" class="btn-box"></button></div>
+        <div class="box"><button id="btn76" class="btn-box"></button></div>
+        <div class="box"><button id="btn77" class="btn-box"></button></div>
+        <div class="box"><button id="btn78" class="btn-box"></button></div>
+        <div class="box"><button id="btn79" class="btn-box"></button></div>
+        <div class="box"><button id="btn81" class="btn-box"></button></div>
+        <div class="box"><button id="btn82" class="btn-box"></button></div>
+        <div class="box"><button id="btn83" class="btn-box"></button></div>
+        <div class="box"><button id="btn84" class="btn-box"></button></div>
+        <div class="box"><button id="btn85" class="btn-box"></button></div>
+        <div class="box"><button id="btn86" class="btn-box"></button></div>
+        <div class="box"><button id="btn87" class="btn-box"></button></div>
+        <div class="box"><button id="btn88" class="btn-box"></button></div>
+        <div class="box"><button id="btn89" class="btn-box"></button></div>
+        <div class="box"><button id="btn91" class="btn-box"></button></div>
+        <div class="box"><button id="btn92" class="btn-box"></button></div>
+        <div class="box"><button id="btn93" class="btn-box"></button></div>
+        <div class="box"><button id="btn94" class="btn-box"></button></div>
+        <div class="box"><button id="btn95" class="btn-box"></button></div>
+        <div class="box"><button id="btn96" class="btn-box"></button></div>
+        <div class="box"><button id="btn97" class="btn-box"></button></div>
+        <div class="box"><button id="btn98" class="btn-box"></button></div>
+        <div class="box"><button id="btn99" class="btn-box"></button></div>
+    </div>
+    <div>
+        <span id="Time">Time</span>
+        <span id="displayTime">00:00:00</span>
+    </div>
+    <div>
+        <span id="msg">Please Select Difficulty Level</span>
+    </div>
+    <div class="num-btndiv">
+        <div class="box-num"><button id="num1" class="btn-num" onclick="setNumber(1)">1</button><span id="sp1" class="spansmall">1</span></div>
+        <div class="box-num"><button id="num2" class="btn-num" onclick="setNumber(2)">2</button><span id="sp2" class="spansmall">2</span></div>
+        <div class="box-num"><button id="num3" class="btn-num" onclick="setNumber(3)">3</button><span id="sp3" class="spansmall">3</span></div>
+        <div class="box-num"><button id="num4" class="btn-num" onclick="setNumber(4)">4</button><span id="sp4" class="spansmall">4</span></div>
+        <div class="box-num"><button id="num5" class="btn-num" onclick="setNumber(5)">5</button><span id="sp5" class="spansmall">5</span></div>
+        <div class="box-num"><button id="num6" class="btn-num" onclick="setNumber(6)">6</button><span id="sp6" class="spansmall">6</span></div>
+        <div class="box-num"><button id="num7" class="btn-num" onclick="setNumber(7)">7</button><span id="sp7" class="spansmall">7</span></div>
+        <div class="box-num"><button id="num8" class="btn-num" onclick="setNumber(8)">8</button><span id="sp8" class="spansmall">8</span></div>
+        <div class="box-num"><button id="num9" class="btn-num" onclick="setNumber(9)">9</button><span id="sp9" class="spansmall">9</span></div>
+    </div>
+    <div class="num-btndiv">
+        <div class="box-Control"><button id="btn1" class="btn-control" onclick="funcstart()">Start</button></div>
+        <div class="box-Control"><button id="btn2" class="btn-control" onclick="funcreset()">Reset</button></div>
+        <div class="box-Control"><button id="btn3" class="btn-control" onclick="funcsolve()">Solve</button></div>
+        <div class="box-Control"><button id="btn4" class="btn-control" onclick="funcpause()">Pause</button></div>
+        <div class="box-Control"><button id="btn5" class="btn-control" onclick="funcerase()">Erase</button></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
