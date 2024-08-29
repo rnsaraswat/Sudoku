@@ -1,0 +1,85 @@
+<!--highscore.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" 
+          content="width=device-width,
+                   initial-scale=1.0" />
+    <link rel="stylesheet"
+          href="./style.css" />
+       <!-- <script src="./highScore.js"></script> -->
+    <script>
+        // highScore.js
+
+        let scoresBtn = document.querySelector(
+            "#view-high-scores"
+        );
+
+        // Rank previous scores in order by
+        // Retrieving scores from localStorage
+
+        function printHighscores() {
+            let highscores =
+                JSON.parse(
+                    window.localStorage.getItem(
+                        "highscores"
+                    )
+                ) || [];
+            highscores.sort(function (a, b) {
+                return b.score - a.score;
+            });
+            highscores.forEach(function (
+                score
+            ) {
+                let liTag =
+                    document.createElement(
+                        "li"
+                    );
+                liTag.textContent =
+                    score.name +
+                    " - " +
+                    score.score;
+                let olEl =
+                    document.getElementById(
+                        "highscores"
+                    );
+                olEl.appendChild(liTag);
+            });
+        }
+
+        // Clear previous scores when users click clear
+        function clearHighscores() {
+            window.localStorage.removeItem(
+                "highscores"
+            );
+            window.location.reload();
+        }
+        document.getElementById(
+            "clear"
+        ).onclick = clearHighscores;
+
+        printHighscores();
+
+    </script>
+    <title>Code Quiz - High Scores</title>
+</head>
+
+<body>
+    <div class="scores">
+        <h1>Highscores</h1>
+        <ol id="highscores"></ol>
+        <a href="index.html">
+            <button>
+                Re-Start
+            </button>
+        </a>
+        <button id="clear">
+            Clear Highscores
+        </button>
+    </div>
+</body>
+
+</html>
