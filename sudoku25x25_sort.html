@@ -16,8 +16,6 @@
         :root {
             --bg-light: #464646;
             --cl-light: #d1d1d1;
-            /* document.querySelector(':root').style.setProperty('--bg-light', '#d1d1d1');
-                document.querySelector(':root').style.setProperty('--cl-light', '#464646'); */
         }
 
         body {
@@ -30,13 +28,31 @@
             align-items: center;
         }
 
-        h1 {
+        .shadowDark {
             font-size: 4rem;
+            color: white;
             text-shadow: 0 1px 0 #ccc,
                 0 2px 0 #c9c9c9,
                 0 3px 0 #bbb,
                 0 4px 0 #b9b9b9,
                 0 5px 0 #aaa,
+                0 6px 1px rgba(0, 0, 0, .1),
+                0 0 5px rgba(0, 0, 0, .1),
+                0 1px 3px rgba(0, 0, 0, .3),
+                0 3px 5px rgba(0, 0, 0, .2),
+                0 5px 10px rgba(0, 0, 0, .25),
+                0 10px 10px rgba(0, 0, 0, .2),
+                0 20px 20px rgba(0, 0, 0, .15);
+        }
+
+        .shadowLight {
+            font-size: 4rem;
+            color: black;
+            text-shadow: 0 1px 0 #ccc,
+                0 2px 0 #c9c9c9d2,
+                0 3px 0 #bbbbbbd0,
+                0 4px 0 #b9b9b9c8,
+                0 5px 0 #aaaaaac2,
                 0 6px 1px rgba(0, 0, 0, .1),
                 0 0 5px rgba(0, 0, 0, .1),
                 0 1px 3px rgba(0, 0, 0, .3),
@@ -60,8 +76,6 @@
         .btn-num {
             width: 3rem;
             height: 1.95rem;
-            /* margin: -2rem -1rem 0rem 0rem; */
-            /* padding: 0rem 0rem 0rem 0rem; */
             font-size: 2rem;
             font-weight: bold;
             cursor: pointer;
@@ -76,7 +90,6 @@
             font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
-            /* border: 2px solid red; */
         }
 
         .btn-box:hover {
@@ -103,8 +116,6 @@
             flex-direction: column;
             border: .1rem solid black;
             vertical-align: middle;            
-            /* background-color: var(--bg-light); */
-            /* color: var(--cl-light); */
         }
 
         .box-num:hover {
@@ -116,6 +127,7 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            margin: 0.5rem;
             flex-direction: row;
             width: 30rem;
             background-color: var(--bg-light);
@@ -129,7 +141,6 @@
             align-items: center;
             padding: 0rem 1rem 0rem 1rem;
             margin: 0rem 1rem 0rem 1rem;
-            /* background-color: var(--bg-light); */
             width: 23rem;
             border: none;
         }
@@ -144,6 +155,13 @@
             border-radius: .5rem;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
+        }
+
+        .shadow-btn-dark {
+            box-shadow: 5px 5px 5px #cbcbcb;
+        }
+        .shadow-btn-light {
+            box-shadow: 5px 5px 5px #5c5c5c;
         }
 
         .hover-btn-level:hover {
@@ -175,8 +193,7 @@
 
         .spansmall {
             display: inline;
-            /* margin: 0rem 1rem 0rem 0rem; */
-            /* padding: 0rem 3rem 0rem 0rem; */
+            padding: 1rem 1rem 0rem 0rem;
             height: 2rem;
             width: 1rem;
             font-size: 0.8rem;
@@ -184,7 +201,7 @@
             color: var(--cl-light);
             cursor: pointer;
             border: none;
-            /* border: 1px solid blue; */
+            vertical-align: text-top;
         }
 
         .msgloser {
@@ -245,7 +262,7 @@
             </div>
         </div>
         <div class='child'>
-            <h1>SUDOKU</h1>
+            <h1 class="shadowDark">SUDOKU</h1>
             <div class="btn-btndiv">
                 <div class="box-level"><button id="dif1" class="btn-level hover-btn-level" onclick="setDifficulty(1)">Learner</button>
                 </div>
@@ -456,36 +473,22 @@
         btn4.disabled = true;
         btn5.disabled = true;
 
-        marknumdesabled(true);
-
         // disable all number button bin
+        marknumdesabled(true);
+        marknumbkcolor("rgb(255, 255, 255)");
+        marknumcolor("rgb(0, 0, 0)");
         let btnBox = document.querySelectorAll(".btn-box");
-        // console.log("btnBox", btnBox);
         for (i = 1; i < 26; i++) {
             for (j = 1; j < 26; j++) {
                 btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                 document.getElementById(btnid).disabled = true;
                 document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
-                // if(bgBorderArray[i-1][j-1].substr(1,1) == "T") {
-                //     document.getElementById(btnid).style.borderTop = "2px solid black";
-                // } else if (bgBorderArray[i-1][j-1].substr(1,1) == "B"){
-                //     document.getElementById(btnid).style.borderBottom = "2px solid black";
-                // } 
-                // if(bgBorderArray[i-1][j-1].substr(0,1) == "L") {
-                //     document.getElementById(btnid).style.borderLeft= "2px solid black";
-                // } else if (bgBorderArray[i-1][j-1].substr(0,1) == "R"){
-                //     document.getElementById(btnid).style.borderRight = "2px solid black";
-                // } 
             }
         }
 
-        // let text = "";
-        // text = printArray(board);
-        // document.getElementById("Arr1").innerHTML = text;
-
+        // Puzzle board setup para
         function gameBoardSetup(){
             const gameContainer = document.getElementById("gameContainer");
-            // console.log("gameContainer",gameContainer);
             for (i = 1; i < 26; i++) {
                 for (j = 1; j < 26; j++) {
                     const boxDiv = document.createElement("div");
@@ -500,18 +503,13 @@
             }
         }
 
+        // Mark Number board setup para
         function gameNumberSetup(){
-
-            // <div class="parent">
-            //         <div class="box-num"><span id="sp1" class="spansmall">1</span><button id="num1" class="btn-num"
-            //                 onclick="setNumber(1)">1</button></div>
-
             const btnContainer = document.getElementById("btnContainer");
             const btnParentDiv = document.createElement("div");
             btnParentDiv.classList.add("numberDiv");
             btnContainer.appendChild(btnParentDiv);
             
-            // console.log("btnContainer",btnContainer);
             for (i = 1; i < 26; i++) {
                 const boxNumDiv = document.createElement("div");
                 boxNumDiv.classList.add("box-num");
@@ -532,14 +530,15 @@
             }
         }
 
+        // Numbers/Alphabet Change para
         function funcNumbers(){
+            let str = document.getElementById("msg").innerText;
             if (!NumberAlpha){
+                document.getElementById("msg").innerText = "Please click empty bin to mark " + NumAlphArr[1][Number(str.charAt(str.length - 2) + str.charAt(str.length - 1))-1];
                 NumberAlpha = true;
                 document.getElementById("btn6").innerText = "Numbers";
-                console.log("NumberAlpha",NumberAlpha);
                 for (i = 1; i < 26; i++) {
                     for (j = 1; j < 26; j++) {
-                        // btnid = "btn" + (i + 1) + (j + 1);
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                         if (document.getElementById(btnid).innerText != "") {
                             document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][document.getElementById(btnid).innerText-1] : NumAlphArr[0][document.getElementById(btnid).innerText-1];
@@ -550,21 +549,15 @@
                 }
             } else {
                 NumberAlpha = false;
-                console.log("NumberAlpha",NumberAlpha);
                 document.getElementById("btn6").innerText = "Alphabets";
                 for (i = 1; i < 26; i++) {
                     for (j = 1; j < 26; j++) {
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        // console.log("document.getElementById(btnid).innerText",document.getElementById(btnid).innerText);
                         if (document.getElementById(btnid).innerText == "") {
-                            console.log("document.getElementById(btnid).innerText",document.getElementById(btnid).innerText)
                         } else {
                             for (k=0;k<26;k++){
                                 if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
                                     document.getElementById(btnid).innerText = k+1;
-                                    // console.log("document.getElementById(btnid).innerText",document.getElementById(btnid).innerText);
-                                    // console.log("boardcheck[i-1][j-1]",boardcheck[i-1][j-1]);
-                                    // console.log("k",k);
                                     break;
                                 }
                             }
@@ -572,28 +565,78 @@
                     }
                     numid = "num" + i;
                     document.getElementById(numid).innerText = NumberAlpha ? NumAlphArr[1][i-1] : NumAlphArr[0][i-1];
+                    if(str.charAt(str.length - 1) == NumAlphArr[1][i]){
+                        document.getElementById("msg").innerText = "Please click empty bin to mark " + (i+1);
+                    }
                 }
             }
         }
 
+        // theme (dark/light) change para
         function funcTheme(){
+            let h1 = document.getElementsByTagName("h1");
             if(document.getElementById("btn7").innerText == "Light") {
                 document.getElementById("btn7").innerText = "Dark";
+                h1[0].classList.remove('shadowDark');
+                h1[0].classList.add('shadowLight');
                 document.querySelector(':root').style.setProperty('--bg-light', '#d1d1d1');
                 document.querySelector(':root').style.setProperty('--cl-light', '#464646');
-                // marknumbkcolor("rgb(255, 255, 255)");
-                // marknumcolor("rgb(0, 0, 0)");
+                document.getElementById("dif1").classList.add("shadow-btn-light");
+                document.getElementById("dif2").classList.add("shadow-btn-light");
+                document.getElementById("dif3").classList.add("shadow-btn-light");
+                document.getElementById("dif4").classList.add("shadow-btn-light");
+                document.getElementById("dif5").classList.add("shadow-btn-light");
+                document.getElementById("dif1").classList.remove("shadow-btn-dark");
+                document.getElementById("dif2").classList.remove("shadow-btn-dark");
+                document.getElementById("dif3").classList.remove("shadow-btn-dark");
+                document.getElementById("dif4").classList.remove("shadow-btn-dark");
+                document.getElementById("dif5").classList.remove("shadow-btn-dark");
+                document.getElementById("btn1").classList.add("shadow-btn-light");
+                document.getElementById("btn2").classList.add("shadow-btn-light");
+                document.getElementById("btn3").classList.add("shadow-btn-light");
+                document.getElementById("btn4").classList.add("shadow-btn-light");
+                document.getElementById("btn5").classList.add("shadow-btn-light");
+                document.getElementById("btn6").classList.add("shadow-btn-light");
+                document.getElementById("btn7").classList.add("shadow-btn-light");
+                document.getElementById("btn1").classList.remove("shadow-btn-dark");
+                document.getElementById("btn2").classList.remove("shadow-btn-dark");
+                document.getElementById("btn3").classList.remove("shadow-btn-dark");
+                document.getElementById("btn4").classList.remove("shadow-btn-dark");
+                document.getElementById("btn5").classList.remove("shadow-btn-dark");
+                document.getElementById("btn6").classList.remove("shadow-btn-dark");
+                document.getElementById("btn7").classList.remove("shadow-btn-dark");
             } else {
                 document.getElementById("btn7").innerText = "Light";
+                h1[0].classList.remove('shadowLight');
+                h1[0].classList.add('shadowDark');
                 document.querySelector(':root').style.setProperty('--bg-light', '#464646');
                 document.querySelector(':root').style.setProperty('--cl-light', '#d1d1d1');
-                // marknumcolor("rgb(255, 255, 255)");
-                // marknumbkcolor("rgb(0, 0, 0)");
+                document.getElementById("dif1").classList.add("shadow-btn-dark");
+                document.getElementById("dif2").classList.add("shadow-btn-dark");
+                document.getElementById("dif3").classList.add("shadow-btn-dark");
+                document.getElementById("dif4").classList.add("shadow-btn-dark");
+                document.getElementById("dif5").classList.add("shadow-btn-dark");
+                document.getElementById("dif1").classList.remove("shadow-btn-light");
+                document.getElementById("dif2").classList.remove("shadow-btn-light");
+                document.getElementById("dif3").classList.remove("shadow-btn-light");
+                document.getElementById("dif4").classList.remove("shadow-btn-light");
+                document.getElementById("dif5").classList.remove("shadow-btn-light");
+                document.getElementById("btn1").classList.add("shadow-btn-dark");
+                document.getElementById("btn2").classList.add("shadow-btn-dark");
+                document.getElementById("btn3").classList.add("shadow-btn-dark");
+                document.getElementById("btn4").classList.add("shadow-btn-dark");
+                document.getElementById("btn5").classList.add("shadow-btn-dark");
+                document.getElementById("btn6").classList.add("shadow-btn-dark");
+                document.getElementById("btn7").classList.add("shadow-btn-dark");
+                document.getElementById("btn1").classList.remove("shadow-btn-light");
+                document.getElementById("btn2").classList.remove("shadow-btn-light");
+                document.getElementById("btn3").classList.remove("shadow-btn-light");
+                document.getElementById("btn4").classList.remove("shadow-btn-light");
+                document.getElementById("btn5").classList.remove("shadow-btn-light");
+                document.getElementById("btn6").classList.remove("shadow-btn-light");
+                document.getElementById("btn7").classList.remove("shadow-btn-light");
             }
-            marknumbkcolor("rgb(255, 255, 255)");
-            marknumcolor("rgb(0, 0, 0)");
         }
-
 
         // button press listener
         btnBox.forEach((btn) => {
@@ -731,10 +774,6 @@
             hrdsec = 0;
             updateTimer();
 
-            // let text = "";
-            // text = printArray(board);
-            // document.getElementById("Arr2").innerHTML = text + "<br>";
-
             board = boardinit.map(row => [...row]);
             generateBoard();
             boardsolve = [];
@@ -786,7 +825,6 @@
                     } else {
                         countNum[0]++;
                     }
-                    // console.log("countNum",countNum);
                 }
             }
 
@@ -796,6 +834,7 @@
             }
         }
 
+        // bin/num button background color change para
         function marknumbkcolor(bkcolorchang){
             for (i=1; i<26; i++) {
                 let numid = "num" + i;
@@ -805,6 +844,7 @@
             }
         }
 
+        // bin/num button color change para
         function marknumcolor(colorchang){
             for (i=1; i<26; i++) {
                 let numid = "num" + i;
@@ -814,6 +854,7 @@
             }
         }
 
+        // bin/num button diable/enable para
         function marknumdesabled(dis){
             for (i=1; i<26; i++) {
                 let numid = "num" + i;
@@ -925,7 +966,6 @@
                     } else {
                         countNum[0]++;
                     }
-                    // console.log("countNum",countNum);
                 }
             }
             for (i=1; i < 26; i++){
@@ -962,18 +1002,13 @@
             boardcheck = boardinit.map(row => [...row]);
             for (i = 1; i < 26; i++) {
                 for (j = 1; j < 26; j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    // console.log("document.getElementById(btnid).innerText",document.getElementById(btnid).innerText);
                     if (document.getElementById(btnid).innerText == "") {
                         boardcheck[i-1][j-1] = 0;
                     } else {
                         for (k=0;k<26;k++){
                             if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
                                 boardcheck[i-1][j-1] = k+1;
-                                // console.log("document.getElementById(btnid).innerText",document.getElementById(btnid).innerText);
-                                // console.log("boardcheck[i-1][j-1]",boardcheck[i-1][j-1]);
-                                // console.log("k",k);
                                 break;
                             }
                         }
@@ -988,10 +1023,6 @@
                 duplicatecheck = checkDuplicatesSeq(boardcheck, seqIndexArray);
             }
 
-            console.log("boardinit",boardinit);
-            console.log("board",board);
-            console.log("boardcheck",boardcheck);
-            console.log("boardsolve",boardsolve);
             let count = 0;
             for (i = 1; i < 26; i++) {
                 for (j = 1; j < 26; j++) {
@@ -1002,14 +1033,9 @@
                     document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     document.getElementById(btnid).style.fontSize = "0.8rem";
                     if (board[i-1][j-1] == "") {
-                        console.log("board[i-1][j-1]",board[i-1][j-1]);
-                        console.log("duplicatecheck",duplicatecheck);
                         if (duplicatecheck) {
                             document.getElementById(btnid).style.color = "magenta";
                         } else {
-                            console.log("NumAlphArr[1][boardsolve[i-1][j-1]-1]",NumAlphArr[1][boardsolve[i-1][j-1]-1]);
-                            console.log("NumAlphArr[0][boardsolve[i-1][j-1]-1]",NumAlphArr[0][boardsolve[i-1][j-1]-1]);
-                            console.log("document.getElementById(btnid).innerText",document.getElementById(btnid).innerText);
                             if (document.getElementById(btnid).innerText == (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1])) {
                                 document.getElementById(btnid).style.color = "magenta";
                             } else if (document.getElementById(btnid).innerText == "") {
@@ -1094,7 +1120,7 @@
             }
         }
 
-        // function to press  (1-9) number button
+        // function to press mark number/alphabet button
         function setNumber(num) {
             markNumber = num;
             btn5.style.border = "none";
@@ -1384,7 +1410,7 @@
             }
         }
 
-        // function to set difficulty (press any difficulty button)
+        // function to set difficulty level 
         function setDifficulty(diff) {
             difficulty = diff;
             document.getElementById("msg").innerText = "Please click Start to play game";
@@ -1568,9 +1594,8 @@
                     // error += "<br>";
                 }
             }
-            // console.log("duplicatecheck",duplicatecheck);
             console.log("error Row", error);
-            document.getElementById("Err").innerHTML = error;
+            // document.getElementById("Err").innerHTML = error;
             return duplicatecheck;
         }
 
@@ -1594,7 +1619,7 @@
                 }
             }
             console.log("error Col", error);
-            document.getElementById("Err1").innerHTML = error;
+            // document.getElementById("Err1").innerHTML = error;
             // return duplicatecheck;
         }
 
@@ -1619,7 +1644,7 @@
                     // error += "<br>";
                 }
             }
-            document.getElementById("Err2").innerHTML = error;
+            // document.getElementById("Err2").innerHTML = error;
             console.log("error Seq", error);
             // return duplicatecheck;
         }
@@ -1664,7 +1689,7 @@
             speechSynthesis.speak(utterance);
         }
 
-        // para to play beep sound when player/computer is play his turn
+        // para to play beep sound when player mark 
         function playBeep() {
             var beep = new Audio('Clock-Ticking-one.mp3');
             beep.play();
