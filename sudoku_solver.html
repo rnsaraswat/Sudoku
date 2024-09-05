@@ -870,10 +870,8 @@
                 remainArray[i] = 25 - countNum[i+1]
             }
             console.log("remainArray",remainArray);
-            // minValue = Math.min(...remainArray);
-            // console.log("minValue",minValue);
-            // let valueIndex = remainArray.indexOf(1);
-            // console.log("valueIndex",valueIndex);
+
+
             for (i=0;i<remainArray.length;i++){
                 console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
                 console.log("i ", i);
@@ -881,108 +879,745 @@
                 if(remainArray[i] == "") {
                     // return false;
                 } else if (remainArray[i] == 0) {
-                // } else if (remainArray.indexOf(i) == 0) {
                     // return false;
                 } else if (remainArray[i] == 1){
-                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
                     missingNumber = NumAlphArr[0][i];
                     returnRowCol = oneReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
-                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                    console.log("returnRowCol[0] ", returnRowCol[0]);
-                    console.log("returnRowCol[1] ", returnRowCol[1]);
                     Array[returnRowCol[0]][returnRowCol[1]] = missingNumber;
-                    console.log("Array[returnRowCol[0]][returnRowCol[1]]",Array[returnRowCol[0]][returnRowCol[1]]);
-                    console.log("Array",Array);
                     let btnid = "btn" + (((returnRowCol[0]+1) < 10) ? '0' + (returnRowCol[0]+1) : (returnRowCol[0]+1)) + (((returnRowCol[1]+1) < 10) ? '0' + (returnRowCol[1]+1) : (returnRowCol[1]+1)); 
                     document.getElementById(btnid).innerText = missingNumber;
                     document.getElementById(btnid).style.backgroundColor = "red";
                     document.getElementById(btnid).style.border = "5px solid green";
                     document.getElementById(btnid).style.color = "yellow";
                     continue;
+                } else {
+                    console.log("remainArray[i]",remainArray[i]);
+                }
+            }
+
+
+            for (i=0;i<remainArray.length;i++){
+                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
+                console.log("i ", i);
+
+                if(remainArray[i] == "") {
+                    // return false;
+                } else if (remainArray[i] == 0) {
+                    // return false;
                 } else if (remainArray[i] == 2){
-                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
                     missingNumber = NumAlphArr[0][i];
                     returnRowCol2 = twoReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
-                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                    console.log("returnRowCol2 ", returnRowCol2);
-                    console.log("returnRowCol2[0] ", returnRowCol2[0]);
-                    console.log("returnRowCol2[1] ", returnRowCol2[1]);
-                    console.log("returnRowCol2[2] ", returnRowCol2[2]);
-                    console.log("returnRowCol2[3] ", returnRowCol2[3]);
-                    console.log("Array[returnRowCol2[0]][returnRowCol2[2]] ", Array[returnRowCol2[0]][returnRowCol2[2]]);
-                    let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                    document.getElementById(btnid).style.border = "5px dashed green";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol2[1]][returnRowCol2[3]] ", Array[returnRowCol2[1]][returnRowCol2[3]]);
-                    btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                    document.getElementById(btnid).style.border = "5px dashed green";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol2[0]][returnRowCol2[3]] ", Array[returnRowCol2[0]][returnRowCol2[3]]);
-                    btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                    document.getElementById(btnid).style.border = "5px dashed green";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol2[1]][returnRowCol2[2]] ", Array[returnRowCol2[1]][returnRowCol2[2]]);
-                    btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                    document.getElementById(btnid).style.border = "5px dashed green";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-
+                    let cornerFound = [];
+                    console.log("cornerFound",cornerFound);
                     if(Array[returnRowCol2[0]][returnRowCol2[2]] == "" && Array[returnRowCol2[0]][returnRowCol2[3]] != ""){
                         console.log("Array[returnRowCol2[0]][returnRowCol2[2]] ==", Array[returnRowCol2[0]][returnRowCol2[2]]);
                         console.log("Array[returnRowCol2[0]][returnRowCol2[3]] !=", Array[returnRowCol2[0]][returnRowCol2[3]]);
                         Array[returnRowCol2[0]][returnRowCol2[2]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                        console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
                         document.getElementById(btnid).innerText = missingNumber;
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
                         document.getElementById(btnid).style.backgroundColor = "black";
-                        document.getElementById(btnid).style.border = "5px dotted green";
+                        document.getElementById(btnid).style.border = "5px dashed green";
                         document.getElementById(btnid).style.color = "yellow";
+                        cornerFound[0] = true;
+                    } else if(Array[returnRowCol2[0]][returnRowCol2[2]] == "" && Array[returnRowCol2[0]][returnRowCol2[3]] == "") {
+                        cornerFound[0] = false;
                     }
                     if(Array[returnRowCol2[0]][returnRowCol2[2]] != "" && Array[returnRowCol2[0]][returnRowCol2[3]] == "") {
                         console.log("Array[returnRowCol2[0]][returnRowCol2[2]] !=", Array[returnRowCol2[0]][returnRowCol2[2]]);
                         console.log("Array[returnRowCol2[0]][returnRowCol2[3]] ==", Array[returnRowCol2[0]][returnRowCol2[3]]);
                         Array[returnRowCol2[1]][returnRowCol2[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
                         document.getElementById(btnid).innerText = missingNumber;
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
                         document.getElementById(btnid).style.backgroundColor = "black";
-                        document.getElementById(btnid).style.border = "5px dotted green";
+                        document.getElementById(btnid).style.border = "5px dashed green";
                         document.getElementById(btnid).style.color = "yellow";
+                        cornerFound[1] = true;
+                    } else if(Array[returnRowCol2[0]][returnRowCol2[2]] == "" && Array[returnRowCol2[0]][returnRowCol2[3]] == "") {
+                        cornerFound[1] = false;
                     }
                     if(Array[returnRowCol2[1]][returnRowCol2[3]] == "" && Array[returnRowCol2[1]][returnRowCol2[2]] != ""){
                         console.log("Array[returnRowCol2[1]][returnRowCol2[3]] ==", Array[returnRowCol2[1]][returnRowCol2[3]]);
                         console.log("Array[returnRowCol2[1]][returnRowCol2[2]] !=", Array[returnRowCol2[1]][returnRowCol2[2]]);
                         Array[returnRowCol2[1]][returnRowCol2[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
                         document.getElementById(btnid).innerText = missingNumber;
                         document.getElementById(btnid).style.backgroundColor = "black";
-                        document.getElementById(btnid).style.border = "5px dotted green";
+                        document.getElementById(btnid).style.border = "5px dashed green";
                         document.getElementById(btnid).style.color = "yellow";
+                        cornerFound[3] = true;
+                    } else if(Array[returnRowCol2[1]][returnRowCol2[3]] == "" && Array[returnRowCol2[0]][returnRowCol2[2]] == "") {
+                        cornerFound[3] = false;
                     }
                     if(Array[returnRowCol2[1]][returnRowCol2[3]] != "" && Array[returnRowCol2[1]][returnRowCol2[2]] == "") {
                         console.log("Array[returnRowCol2[1]][returnRowCol2[3]] !=", Array[returnRowCol2[1]][returnRowCol2[3]]);
                         console.log("Array[returnRowCol2[1]][returnRowCol2[2]] ==", Array[returnRowCol2[1]][returnRowCol2[2]]);
                         Array[returnRowCol2[1]][returnRowCol2[2]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
                         document.getElementById(btnid).innerText = missingNumber;
                         document.getElementById(btnid).style.backgroundColor = "black";
-                        document.getElementById(btnid).style.border = "5px dotted green";
+                        document.getElementById(btnid).style.border = "5px dashed green";
+                        document.getElementById(btnid).style.color = "yellow";
+                        cornerFound[2] = true;
+                    } else if(Array[returnRowCol2[1]][returnRowCol2[3]] == "" && Array[returnRowCol2[0]][returnRowCol2[2]] == "") {
+                        cornerFound[2] = false;
+                    }
+                    if (cornerFound[0] == true && cornerFound[2] == false && cornerFound[3] == false){
+                        Array[returnRowCol2[1]][returnRowCol2[3]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px dashed green";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } else if (cornerFound[1] == true && cornerFound[2] == false && cornerFound[3] == false){
+                        Array[returnRowCol2[1]][returnRowCol2[2]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px dashed green";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } else if (cornerFound[2] == true && cornerFound[0] == false && cornerFound[1] == false){
+                        Array[returnRowCol2[0]][returnRowCol2[3]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[10]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px dashed green";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } else if (cornerFound[3] == true && cornerFound[0] == false && cornerFound[1] == false){
+                        Array[returnRowCol2[0]][returnRowCol2[2]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px dashed green";
                         document.getElementById(btnid).style.color = "yellow";
                     }
-                } else if (remainArray[i] > 1){
+                } else {
                     console.log("remainArray[i]",remainArray[i]);
                 }
             }
+
+            for (i=0;i<remainArray.length;i++){
+                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
+                console.log("i ", i);
+
+                if(remainArray[i] == "") {
+                    // return false;
+                } else if (remainArray[i] == 0) {
+                    // return false;
+                } else if (remainArray[i] == 3){
+                    missingNumber = NumAlphArr[0][i];
+                    returnRowCol3 = threeReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
+
+                    if(Array[returnRowCol3[0]][returnRowCol3[3]] == "" && Array[returnRowCol3[0]][returnRowCol3[4]] != "" && Array[returnRowCol3[0]][returnRowCol3[5]] != ""){
+                        Array[returnRowCol3[0]][returnRowCol3[3]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[0]+1) < 10) ? '0' + (returnRowCol3[0]+1) : (returnRowCol3[0]+1)) + (((returnRowCol3[3]+1) < 10) ? '0' + (returnRowCol3[3]+1) : (returnRowCol3[3]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol3[0]][returnRowCol3[3]] != "" && Array[returnRowCol3[0]][returnRowCol3[4]] == "" && Array[returnRowCol3[0]][returnRowCol3[5]] != ""){
+                        Array[returnRowCol3[0]][returnRowCol3[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[0]+1) < 10) ? '0' + (returnRowCol3[0]+1) : (returnRowCol3[0]+1)) + (((returnRowCol3[4]+1) < 10) ? '0' + (returnRowCol3[4]+1) : (returnRowCol3[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol3[0]][returnRowCol3[3]] != "" && Array[returnRowCol3[0]][returnRowCol3[4]] != "" && Array[returnRowCol3[0]][returnRowCol3[5]] == ""){
+                        Array[returnRowCol3[0]][returnRowCol3[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[0]+1) < 10) ? '0' + (returnRowCol3[0]+1) : (returnRowCol3[0]+1)) + (((returnRowCol3[5]+1) < 10) ? '0' + (returnRowCol3[5]+1) : (returnRowCol3[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                    if(Array[returnRowCol3[1]][returnRowCol3[3]] == "" && Array[returnRowCol3[1]][returnRowCol3[4]] != "" && Array[returnRowCol3[1]][returnRowCol3[5]] != ""){
+                        Array[returnRowCol3[1]][returnRowCol3[3]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[1]+1) < 10) ? '0' + (returnRowCol3[1]+1) : (returnRowCol3[1]+1)) + (((returnRowCol3[3]+1) < 10) ? '0' + (returnRowCol3[3]+1) : (returnRowCol3[3]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol3[1]][returnRowCol3[3]] != "" && Array[returnRowCol3[1]][returnRowCol3[4]] == "" && Array[returnRowCol3[1]][returnRowCol3[5]] != ""){
+                        Array[returnRowCol3[1]][returnRowCol3[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[1]+1) < 10) ? '0' + (returnRowCol3[1]+1) : (returnRowCol3[1]+1)) + (((returnRowCol3[4]+1) < 10) ? '0' + (returnRowCol3[4]+1) : (returnRowCol3[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol3[1]][returnRowCol3[3]] != "" && Array[returnRowCol3[1]][returnRowCol3[4]] != "" && Array[returnRowCol3[1]][returnRowCol3[5]] == ""){
+                        Array[returnRowCol3[1]][returnRowCol3[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[1]+1) < 10) ? '0' + (returnRowCol3[1]+1) : (returnRowCol3[1]+1)) + (((returnRowCol3[5]+1) < 10) ? '0' + (returnRowCol3[5]+1) : (returnRowCol3[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                    if(Array[returnRowCol3[2]][returnRowCol3[3]] == "" && Array[returnRowCol3[2]][returnRowCol3[4]] != "" && Array[returnRowCol3[2]][returnRowCol3[5]] != ""){
+                        Array[returnRowCol3[2]][returnRowCol3[3]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[2]+1) < 10) ? '0' + (returnRowCol3[2]+1) : (returnRowCol3[2]+1)) + (((returnRowCol3[3]+1) < 10) ? '0' + (returnRowCol3[3]+1) : (returnRowCol3[3]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol3[2]][returnRowCol3[3]] != "" && Array[returnRowCol3[2]][returnRowCol3[4]] == "" && Array[returnRowCol3[2]][returnRowCol3[5]] != ""){
+                        Array[returnRowCol3[2]][returnRowCol3[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[2]+1) < 10) ? '0' + (returnRowCol3[2]+1) : (returnRowCol3[2]+1)) + (((returnRowCol3[4]+1) < 10) ? '0' + (returnRowCol3[4]+1) : (returnRowCol3[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol3[2]][returnRowCol3[3]] != "" && Array[returnRowCol3[2]][returnRowCol3[4]] != "" && Array[returnRowCol3[2]][returnRowCol3[5]] == ""){
+                        Array[returnRowCol3[2]][returnRowCol3[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol3[2]+1) < 10) ? '0' + (returnRowCol3[2]+1) : (returnRowCol3[2]+1)) + (((returnRowCol3[5]+1) < 10) ? '0' + (returnRowCol3[5]+1) : (returnRowCol3[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px double orange";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                } else if (remainArray[i] > 3){
+                    console.log("remainArray[i]",remainArray[i]);
+                }
+            }
+
+
+            for (i=0;i<remainArray.length;i++){
+                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
+                console.log("i ", i);
+
+                if(remainArray[i] == "") {
+                    // return false;
+                } else if (remainArray[i] == 0) {
+                    // return false;
+                } else if (remainArray[i] == 4){
+                    missingNumber = NumAlphArr[0][i];
+                    returnRowCol4 = fourReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
+
+                    //frist
+                    if(Array[returnRowCol4[0]][returnRowCol4[4]] == "" && Array[returnRowCol4[0]][returnRowCol4[5]] != "" && Array[returnRowCol4[0]][returnRowCol4[6]] != "" && Array[returnRowCol4[0]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[0]][returnRowCol4[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[0]][returnRowCol4[4]] != "" && Array[returnRowCol4[0]][returnRowCol4[5]] == "" && Array[returnRowCol4[0]][returnRowCol4[6]] != "" && Array[returnRowCol4[0]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[0]][returnRowCol4[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[0]][returnRowCol4[4]] != "" && Array[returnRowCol4[0]][returnRowCol4[5]] != "" && Array[returnRowCol4[0]][returnRowCol4[6]] == "" && Array[returnRowCol4[0]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[0]][returnRowCol4[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[0]][returnRowCol4[4]] != "" && Array[returnRowCol4[0]][returnRowCol4[5]] != "" && Array[returnRowCol4[0]][returnRowCol4[6]] != "" && Array[returnRowCol4[0]][returnRowCol4[7]] == ""){
+                        Array[returnRowCol4[0]][returnRowCol4[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                    //second
+                    if(Array[returnRowCol4[1]][returnRowCol4[4]] == "" && Array[returnRowCol4[1]][returnRowCol4[5]] != "" && Array[returnRowCol4[1]][returnRowCol4[6]] != "" && Array[returnRowCol4[1]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[1]][returnRowCol4[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[1]][returnRowCol4[4]] != "" && Array[returnRowCol4[1]][returnRowCol4[5]] == "" && Array[returnRowCol4[1]][returnRowCol4[6]] != "" && Array[returnRowCol4[1]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[1]][returnRowCol4[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[1]][returnRowCol4[4]] != "" && Array[returnRowCol4[1]][returnRowCol4[5]] != "" && Array[returnRowCol4[1]][returnRowCol4[6]] == "" && Array[returnRowCol4[1]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[1]][returnRowCol4[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[1]][returnRowCol4[4]] != "" && Array[returnRowCol4[1]][returnRowCol4[5]] != "" && Array[returnRowCol4[1]][returnRowCol4[6]] != "" && Array[returnRowCol4[1]][returnRowCol4[7]] == ""){
+                        Array[returnRowCol4[1]][returnRowCol4[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                    //third
+                    if(Array[returnRowCol4[2]][returnRowCol4[4]] == "" && Array[returnRowCol4[2]][returnRowCol4[5]] != "" && Array[returnRowCol4[2]][returnRowCol4[6]] != "" && Array[returnRowCol4[2]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[2]][returnRowCol4[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[2]][returnRowCol4[4]] != "" && Array[returnRowCol4[2]][returnRowCol4[5]] == "" && Array[returnRowCol4[2]][returnRowCol4[6]] != "" && Array[returnRowCol4[2]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[2]][returnRowCol4[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[2]][returnRowCol4[4]] != "" && Array[returnRowCol4[2]][returnRowCol4[5]] != "" && Array[returnRowCol4[2]][returnRowCol4[6]] == "" && Array[returnRowCol4[2]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[2]][returnRowCol4[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[2]][returnRowCol4[4]] != "" && Array[returnRowCol4[2]][returnRowCol4[5]] != "" && Array[returnRowCol4[2]][returnRowCol4[6]] != "" && Array[returnRowCol4[2]][returnRowCol4[7]] == ""){
+                        Array[returnRowCol4[2]][returnRowCol4[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                    // fourth
+                    if(Array[returnRowCol4[3]][returnRowCol4[4]] == "" && Array[returnRowCol4[3]][returnRowCol4[5]] != "" && Array[returnRowCol4[3]][returnRowCol4[6]] != "" && Array[returnRowCol4[3]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[3]][returnRowCol4[4]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[3]][returnRowCol4[4]] != "" && Array[returnRowCol4[3]][returnRowCol4[5]] == "" && Array[returnRowCol4[3]][returnRowCol4[6]] != "" && Array[returnRowCol4[3]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[3]][returnRowCol4[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[3]][returnRowCol4[4]] != "" && Array[returnRowCol4[3]][returnRowCol4[5]] != "" && Array[returnRowCol4[3]][returnRowCol4[6]] == "" && Array[returnRowCol4[3]][returnRowCol4[7]] != ""){
+                        Array[returnRowCol4[3]][returnRowCol4[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol4[3]][returnRowCol4[4]] != "" && Array[returnRowCol4[3]][returnRowCol4[5]] != "" && Array[returnRowCol4[3]][returnRowCol4[6]] != "" && Array[returnRowCol4[3]][returnRowCol4[7]] == ""){
+                        Array[returnRowCol4[3]][returnRowCol4[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px inset magenta";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                } else if (remainArray[i] > 4){
+                    console.log("remainArray[i]",remainArray[i]);
+                }
+            }
+
+
+            for (i=0;i<remainArray.length;i++){
+                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
+                console.log("i ", i);
+
+                if(remainArray[i] == "") {
+                    // return false;
+                } else if (remainArray[i] == 0) {
+                    // return false;
+                } else if (remainArray[i] == 5){
+                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
+                    missingNumber = NumAlphArr[0][i];
+                    returnRowCol5 = fourReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
+                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
+                    console.log("returnRowCol5 ", returnRowCol5);
+                    console.log("returnRowCol5[0] ", returnRowCol5[0]);
+                    console.log("returnRowCol5[1] ", returnRowCol5[1]);
+                    console.log("returnRowCol5[2] ", returnRowCol5[2]);
+                    console.log("returnRowCol5[3] ", returnRowCol5[3]);
+                    console.log("returnRowCol5[4] ", returnRowCol5[4]);
+                    console.log("returnRowCol5[5] ", returnRowCol5[5]);
+                    console.log("returnRowCol5[6] ", returnRowCol5[6]);
+                    console.log("returnRowCol5[7] ", returnRowCol5[7]);
+                    console.log("returnRowCol5[8] ", returnRowCol5[8]);
+                    console.log("returnRowCol5[9] ", returnRowCol5[9]);
+                    //frist
+                    console.log("Array[returnRowCol5[0]][returnRowCol5[5]] ", Array[returnRowCol5[0]][returnRowCol5[5]]);
+                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[0]][returnRowCol5[6]] ", Array[returnRowCol5[0]][returnRowCol5[6]]);
+                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[0]][returnRowCol5[7]] ", Array[returnRowCol5[0]][returnRowCol5[7]]);
+                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[0]][returnRowCol5[8]] ", Array[returnRowCol5[0]][returnRowCol5[8]]);
+                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[0]][returnRowCol5[9]] ", Array[returnRowCol5[0]][returnRowCol5[9]]);
+                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+
+
+                    //second
+                    console.log("Array[returnRowCol5[1]][returnRowCol5[5]] ", Array[returnRowCol5[1]][returnRowCol5[5]]);
+                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[1]][returnRowCol5[6]] ", Array[returnRowCol5[1]][returnRowCol5[6]]);
+                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[1]][returnRowCol5[7]] ", Array[returnRowCol5[1]][returnRowCol5[7]]);
+                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[1]][returnRowCol5[8]] ", Array[returnRowCol5[1]][returnRowCol5[8]]);
+                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[1]][returnRowCol5[9]] ", Array[returnRowCol5[1]][returnRowCol5[9]]);
+                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+
+
+                    //third
+                    console.log("Array[returnRowCol5[2]][returnRowCol5[5]] ", Array[returnRowCol5[2]][returnRowCol5[5]]);
+                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[2]][returnRowCol5[6]] ", Array[returnRowCol5[2]][returnRowCol5[6]]);
+                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[2]][returnRowCol5[7]] ", Array[returnRowCol5[2]][returnRowCol5[7]]);
+                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[2]][returnRowCol5[8]] ", Array[returnRowCol5[2]][returnRowCol5[8]]);
+                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[2]][returnRowCol5[9]] ", Array[returnRowCol5[2]][returnRowCol5[9]]);
+                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+
+
+                    // fourth
+                    console.log("Array[returnRowCol5[3]][returnRowCol5[5]] ", Array[returnRowCol5[3]][returnRowCol5[5]]);
+                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[3]][returnRowCol5[6]] ", Array[returnRowCol5[3]][returnRowCol5[6]]);
+                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[3]][returnRowCol5[7]] ", Array[returnRowCol5[3]][returnRowCol5[7]]);
+                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[3]][returnRowCol5[8]] ", Array[returnRowCol5[3]][returnRowCol5[8]]);
+                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[3]][returnRowCol5[9]] ", Array[returnRowCol5[3]][returnRowCol5[9]]);
+                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+
+                    //fifth
+                    console.log("Array[returnRowCol5[4]][returnRowCol5[5]] ", Array[returnRowCol5[4]][returnRowCol5[5]]);
+                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[4]][returnRowCol5[6]] ", Array[returnRowCol5[4]][returnRowCol5[6]]);
+                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[4]][returnRowCol5[7]] ", Array[returnRowCol5[4]][returnRowCol5[7]]);
+                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[4]][returnRowCol5[8]] ", Array[returnRowCol5[4]][returnRowCol5[8]]);
+                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+                    console.log("Array[returnRowCol5[4]][returnRowCol5[9]] ", Array[returnRowCol5[4]][returnRowCol5[9]]);
+                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                    document.getElementById(btnid).style.border = "5px outset cyan";
+                    console.log("btnid ",btnid);
+                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
+
+                    //frist
+                    if(Array[returnRowCol5[0]][returnRowCol5[5]] == "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[0]][returnRowCol5[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] == "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[0]][returnRowCol5[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] == "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[0]][returnRowCol5[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] == "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[0]][returnRowCol5[8]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] == ""){
+                        Array[returnRowCol5[0]][returnRowCol5[9]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+
+                    //second
+                    if(Array[returnRowCol5[1]][returnRowCol5[5]] == "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[1]][returnRowCol5[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] == "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[1]][returnRowCol5[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] == "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[1]][returnRowCol5[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] == "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[1]][returnRowCol5[8]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] == ""){
+                        Array[returnRowCol5[1]][returnRowCol5[9]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    }
+
+                    //third
+                    if(Array[returnRowCol5[2]][returnRowCol5[5]] == "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[2]][returnRowCol5[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] == "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[2]][returnRowCol5[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] == "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[2]][returnRowCol5[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] == "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[2]][returnRowCol5[8]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] == ""){
+                        Array[returnRowCol5[2]][returnRowCol5[9]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    }
+
+                    // fourth
+                    if(Array[returnRowCol5[3]][returnRowCol5[5]] == "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[3]][returnRowCol5[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] == "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[3]][returnRowCol5[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] == "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[3]][returnRowCol5[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] == "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[3]][returnRowCol5[8]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] == ""){
+                        Array[returnRowCol5[3]][returnRowCol5[9]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    }
+
+                    //fifth
+                    if(Array[returnRowCol5[4]][returnRowCol5[5]] == "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[4]][returnRowCol5[5]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] == "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[4]][returnRowCol5[6]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] == "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[4]][returnRowCol5[7]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] == "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
+                        Array[returnRowCol5[4]][returnRowCol5[8]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    } 
+                    if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] == ""){
+                        Array[returnRowCol5[4]][returnRowCol5[9]] = missingNumber;
+                        let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
+                        document.getElementById(btnid).innerText = missingNumber;
+                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).style.border = "5px outset cyan";
+                        document.getElementById(btnid).style.color = "yellow";
+                    }
+
+                } else if (remainArray[i] > 5){
+                    console.log("remainArray[i]",remainArray[i]);
+                }
+            }
+
 
         }
 
@@ -1032,15 +1667,12 @@
             console.log("num", num, "Alp", alp, " i ", i);
             console.log("Array", Array);
             console.log("Array[i]", Array[i]);
-            // console.log("Array[i].indexOf(num)", Array[i].indexOf(num));
             let x = 0;
             for (m = 0; m < 25; m++) {
                 if(Array[m].indexOf(num)<0){
                     console.log("Array[m].indexOf(num) row not found m= ", m, " Array[m].indexOf(num)=", Array[m].indexOf(num));
                     returnRowCol2[x] = m;
                     x++;
-                // } else {
-                    // console.log("Array[m].indexOf(num) found m= ", m, " Array[m].indexOf(num)=", Array[m].indexOf(num));
                 }
 
                 for (n = 0; n < 25; n++) {
@@ -1064,6 +1696,110 @@
             return returnRowCol2;
         }
 
+        function threeReplacePara(Array, num, alp) {
+            let inCol = [];
+            let returnRowCol3 = [];
+            console.log("num", num, "Alp", alp, " i ", i);
+            console.log("Array", Array);
+            console.log("Array[i]", Array[i]);
+            let x = 0;
+            for (p = 0; p < 25; p++) {
+                if(Array[p].indexOf(num)<0){
+                    console.log("Array[p].indexOf(num) row not found p= ", p, " Array[p].indexOf(num)=", Array[p].indexOf(num));
+                    returnRowCol3[x] = p;
+                    x++;
+                }
+
+                for (q = 0; q < 25; q++) {
+                    if (Array[p][q] == num) {
+                        console.log("Array[j].indexOf(num) row found p= ", p, " q= ", q, " Array[p][n]=", Array[p][q]);
+                        inCol[p] = q; 
+                        continue;
+                    } else {
+                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
+                    }
+                }
+            }
+            for (r=0;r<25;r++){
+                if(inCol.indexOf(r)<0){
+                    console.log("inCol.indexOf(r)= ",inCol.indexOf(r), " r= ", r);
+                    returnRowCol3[x] = r;
+                    x++;
+                }
+            }
+            console.log("returnRowCol3 ", returnRowCol3);
+            return returnRowCol3;
+        }
+
+        function fourReplacePara(Array, num, alp) {
+            let inCol = [];
+            let returnRowCol4 = [];
+            console.log("num", num, "Alp", alp, " i ", i);
+            console.log("Array", Array);
+            console.log("Array[i]", Array[i]);
+            let x = 0;
+            for (s = 0; s < 25; s++) {
+                if(Array[s].indexOf(num)<0){
+                    console.log("Array[s].indexOf(num) row not found p= ", s, " Array[p].indexOf(num)=", Array[s].indexOf(num));
+                    returnRowCol4[x] = s;
+                    x++;
+                }
+
+                for (t = 0; t < 25; t++) {
+                    if (Array[s][t] == num) {
+                        console.log("Array[j].indexOf(num) row found s= ", s, " t= ", t, " Array[p][n]=", Array[s][t]);
+                        inCol[s] = t; 
+                        continue;
+                    } else {
+                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
+                    }
+                }
+            }
+            for (u=0;u<25;u++){
+                if(inCol.indexOf(u)<0){
+                    console.log("inCol.indexOf(u)= ",inCol.indexOf(u), " u= ", u);
+                    returnRowCol4[x] = u;
+                    x++;
+                }
+            }
+            console.log("returnRowCol4 ", returnRowCol4);
+            return returnRowCol4;
+        }
+
+        function fiveReplacePara(Array, num, alp) {
+            let inCol = [];
+            let returnRowCol5 = [];
+            console.log("num", num, "Alp", alp, " i ", i);
+            console.log("Array", Array);
+            console.log("Array[i]", Array[i]);
+            let x = 0;
+            for (j5 = 0; j5 < 25; j5++) {
+                if(Array[j5].indexOf(num)<0){
+                    console.log("Array[s].indexOf(num) row not found j5= ", j5, " Array[p].indexOf(num)=", Array[j5].indexOf(num));
+                    returnRowCol5[x] = j5;
+                    x++;
+                }
+
+                for (k5 = 0; k5 < 25; k5++) {
+                    if (Array[j5][k5] == num) {
+                        console.log("Array[j5].indexOf(num) row found j5= ", j5, " k5= ", k5, " Array[j5][k5]=", Array[j5][tk5]);
+                        inCol[j5] = k5; 
+                        continue;
+                    } else {
+                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
+                    }
+                }
+            }
+            for (l5=0;l5<25;l5++){
+                if(inCol.indexOf(l5)<0){
+                    console.log("inCol.indexOf(l5)= ",inCol.indexOf(l5), " l5= ", l5);
+                    returnRowCol5[x] = l5;
+                    x++;
+                }
+            }
+            console.log("returnRowCol5 ", returnRowCol5);
+            return returnRowCol5;
+        }
 
         // bin/num button background color change para
         function marknumbkcolor(bkcolorchang){
