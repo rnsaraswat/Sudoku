@@ -869,12 +869,14 @@
             for (i=0; i < 25; i++){
                 remainArray[i] = 25 - countNum[i+1]
             }
-            console.log("remainArray",remainArray);
+            numbersSolvePara(Array, remainArray);
+
+        }
+
+        function numbersSolvePara(Array, remainArray){
 
 
             for (i=0;i<remainArray.length;i++){
-                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                console.log("i ", i);
 
                 if(remainArray[i] == "") {
                     // return false;
@@ -885,20 +887,43 @@
                     returnRowCol = oneReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
                     Array[returnRowCol[0]][returnRowCol[1]] = missingNumber;
                     let btnid = "btn" + (((returnRowCol[0]+1) < 10) ? '0' + (returnRowCol[0]+1) : (returnRowCol[0]+1)) + (((returnRowCol[1]+1) < 10) ? '0' + (returnRowCol[1]+1) : (returnRowCol[1]+1)); 
-                    document.getElementById(btnid).innerText = missingNumber;
+                    document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
                     document.getElementById(btnid).style.backgroundColor = "red";
                     document.getElementById(btnid).style.border = "5px solid green";
-                    document.getElementById(btnid).style.color = "yellow";
+                    document.getElementById(btnid).style.color = "blue";
                     continue;
-                } else {
-                    console.log("remainArray[i]",remainArray[i]);
-                }
+                } 
             }
 
 
+            remainArray = [];
+            for (i=0; i < 25; i++){
+                remainArray[i] = 25 - countNum[i+1]
+            }
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (i = 1; i < 26; i++) {
+                for (j = 1; j < 26; j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                    if (backgroundColorArray[i-1][j-1] == "L") {
+                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
+                    } else {
+                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
+                    }
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                    if (board[i-1][j-1] != "") {
+                        countNum[Array[i-1][j-1]]++;
+                    } else {
+                        countNum[0]++;
+                    }
+                }
+            }
+
+            console.log("Array",Array);
+            console.log("remainArray",remainArray);
+
+
             for (i=0;i<remainArray.length;i++){
-                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                console.log("i ", i);
 
                 if(remainArray[i] == "") {
                     // return false;
@@ -908,55 +933,46 @@
                     missingNumber = NumAlphArr[0][i];
                     returnRowCol2 = twoReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
                     let cornerFound = [];
-                    console.log("cornerFound",cornerFound);
                     if(Array[returnRowCol2[0]][returnRowCol2[2]] == "" && Array[returnRowCol2[0]][returnRowCol2[3]] != ""){
-                        console.log("Array[returnRowCol2[0]][returnRowCol2[2]] ==", Array[returnRowCol2[0]][returnRowCol2[2]]);
-                        console.log("Array[returnRowCol2[0]][returnRowCol2[3]] !=", Array[returnRowCol2[0]][returnRowCol2[3]]);
                         Array[returnRowCol2[0]][returnRowCol2[2]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                         cornerFound[0] = true;
                     } else if(Array[returnRowCol2[0]][returnRowCol2[2]] == "" && Array[returnRowCol2[0]][returnRowCol2[3]] == "") {
                         cornerFound[0] = false;
                     }
                     if(Array[returnRowCol2[0]][returnRowCol2[2]] != "" && Array[returnRowCol2[0]][returnRowCol2[3]] == "") {
-                        console.log("Array[returnRowCol2[0]][returnRowCol2[2]] !=", Array[returnRowCol2[0]][returnRowCol2[2]]);
-                        console.log("Array[returnRowCol2[0]][returnRowCol2[3]] ==", Array[returnRowCol2[0]][returnRowCol2[3]]);
                         Array[returnRowCol2[1]][returnRowCol2[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                         cornerFound[1] = true;
                     } else if(Array[returnRowCol2[0]][returnRowCol2[2]] == "" && Array[returnRowCol2[0]][returnRowCol2[3]] == "") {
                         cornerFound[1] = false;
                     }
                     if(Array[returnRowCol2[1]][returnRowCol2[3]] == "" && Array[returnRowCol2[1]][returnRowCol2[2]] != ""){
-                        console.log("Array[returnRowCol2[1]][returnRowCol2[3]] ==", Array[returnRowCol2[1]][returnRowCol2[3]]);
-                        console.log("Array[returnRowCol2[1]][returnRowCol2[2]] !=", Array[returnRowCol2[1]][returnRowCol2[2]]);
                         Array[returnRowCol2[1]][returnRowCol2[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                         cornerFound[3] = true;
                     } else if(Array[returnRowCol2[1]][returnRowCol2[3]] == "" && Array[returnRowCol2[0]][returnRowCol2[2]] == "") {
                         cornerFound[3] = false;
                     }
                     if(Array[returnRowCol2[1]][returnRowCol2[3]] != "" && Array[returnRowCol2[1]][returnRowCol2[2]] == "") {
-                        console.log("Array[returnRowCol2[1]][returnRowCol2[3]] !=", Array[returnRowCol2[1]][returnRowCol2[3]]);
-                        console.log("Array[returnRowCol2[1]][returnRowCol2[2]] ==", Array[returnRowCol2[1]][returnRowCol2[2]]);
                         Array[returnRowCol2[1]][returnRowCol2[2]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                         cornerFound[2] = true;
                     } else if(Array[returnRowCol2[1]][returnRowCol2[3]] == "" && Array[returnRowCol2[0]][returnRowCol2[2]] == "") {
                         cornerFound[2] = false;
@@ -964,40 +980,64 @@
                     if (cornerFound[0] == true && cornerFound[2] == false && cornerFound[3] == false){
                         Array[returnRowCol2[1]][returnRowCol2[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } else if (cornerFound[1] == true && cornerFound[2] == false && cornerFound[3] == false){
                         Array[returnRowCol2[1]][returnRowCol2[2]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[1]+1) < 10) ? '0' + (returnRowCol2[1]+1) : (returnRowCol2[1]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } else if (cornerFound[2] == true && cornerFound[0] == false && cornerFound[1] == false){
                         Array[returnRowCol2[0]][returnRowCol2[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[10]+1)) + (((returnRowCol2[3]+1) < 10) ? '0' + (returnRowCol2[3]+1) : (returnRowCol2[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } else if (cornerFound[3] == true && cornerFound[0] == false && cornerFound[1] == false){
                         Array[returnRowCol2[0]][returnRowCol2[2]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol2[0]+1) < 10) ? '0' + (returnRowCol2[0]+1) : (returnRowCol2[0]+1)) + (((returnRowCol2[2]+1) < 10) ? '0' + (returnRowCol2[2]+1) : (returnRowCol2[2]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px dashed green";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     }
-                } else {
-                    console.log("remainArray[i]",remainArray[i]);
+                } 
+            }
+
+            remainArray = [];
+            for (i=0; i < 25; i++){
+                remainArray[i] = 25 - countNum[i+1]
+            }
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (i = 1; i < 26; i++) {
+                for (j = 1; j < 26; j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                    if (backgroundColorArray[i-1][j-1] == "L") {
+                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
+                    } else {
+                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
+                    }
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                    if (board[i-1][j-1] != "") {
+                        countNum[Array[i-1][j-1]]++;
+                    } else {
+                        countNum[0]++;
+                    }
                 }
             }
 
+            console.log("Array",Array);
+            console.log("remainArray",remainArray);
+
+
+
             for (i=0;i<remainArray.length;i++){
-                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                console.log("i ", i);
 
                 if(remainArray[i] == "") {
                     // return false;
@@ -1010,86 +1050,110 @@
                     if(Array[returnRowCol3[0]][returnRowCol3[3]] == "" && Array[returnRowCol3[0]][returnRowCol3[4]] != "" && Array[returnRowCol3[0]][returnRowCol3[5]] != ""){
                         Array[returnRowCol3[0]][returnRowCol3[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[0]+1) < 10) ? '0' + (returnRowCol3[0]+1) : (returnRowCol3[0]+1)) + (((returnRowCol3[3]+1) < 10) ? '0' + (returnRowCol3[3]+1) : (returnRowCol3[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol3[0]][returnRowCol3[3]] != "" && Array[returnRowCol3[0]][returnRowCol3[4]] == "" && Array[returnRowCol3[0]][returnRowCol3[5]] != ""){
                         Array[returnRowCol3[0]][returnRowCol3[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[0]+1) < 10) ? '0' + (returnRowCol3[0]+1) : (returnRowCol3[0]+1)) + (((returnRowCol3[4]+1) < 10) ? '0' + (returnRowCol3[4]+1) : (returnRowCol3[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol3[0]][returnRowCol3[3]] != "" && Array[returnRowCol3[0]][returnRowCol3[4]] != "" && Array[returnRowCol3[0]][returnRowCol3[5]] == ""){
                         Array[returnRowCol3[0]][returnRowCol3[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[0]+1) < 10) ? '0' + (returnRowCol3[0]+1) : (returnRowCol3[0]+1)) + (((returnRowCol3[5]+1) < 10) ? '0' + (returnRowCol3[5]+1) : (returnRowCol3[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
                     if(Array[returnRowCol3[1]][returnRowCol3[3]] == "" && Array[returnRowCol3[1]][returnRowCol3[4]] != "" && Array[returnRowCol3[1]][returnRowCol3[5]] != ""){
                         Array[returnRowCol3[1]][returnRowCol3[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[1]+1) < 10) ? '0' + (returnRowCol3[1]+1) : (returnRowCol3[1]+1)) + (((returnRowCol3[3]+1) < 10) ? '0' + (returnRowCol3[3]+1) : (returnRowCol3[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol3[1]][returnRowCol3[3]] != "" && Array[returnRowCol3[1]][returnRowCol3[4]] == "" && Array[returnRowCol3[1]][returnRowCol3[5]] != ""){
                         Array[returnRowCol3[1]][returnRowCol3[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[1]+1) < 10) ? '0' + (returnRowCol3[1]+1) : (returnRowCol3[1]+1)) + (((returnRowCol3[4]+1) < 10) ? '0' + (returnRowCol3[4]+1) : (returnRowCol3[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol3[1]][returnRowCol3[3]] != "" && Array[returnRowCol3[1]][returnRowCol3[4]] != "" && Array[returnRowCol3[1]][returnRowCol3[5]] == ""){
                         Array[returnRowCol3[1]][returnRowCol3[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[1]+1) < 10) ? '0' + (returnRowCol3[1]+1) : (returnRowCol3[1]+1)) + (((returnRowCol3[5]+1) < 10) ? '0' + (returnRowCol3[5]+1) : (returnRowCol3[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
                     if(Array[returnRowCol3[2]][returnRowCol3[3]] == "" && Array[returnRowCol3[2]][returnRowCol3[4]] != "" && Array[returnRowCol3[2]][returnRowCol3[5]] != ""){
                         Array[returnRowCol3[2]][returnRowCol3[3]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[2]+1) < 10) ? '0' + (returnRowCol3[2]+1) : (returnRowCol3[2]+1)) + (((returnRowCol3[3]+1) < 10) ? '0' + (returnRowCol3[3]+1) : (returnRowCol3[3]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol3[2]][returnRowCol3[3]] != "" && Array[returnRowCol3[2]][returnRowCol3[4]] == "" && Array[returnRowCol3[2]][returnRowCol3[5]] != ""){
                         Array[returnRowCol3[2]][returnRowCol3[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[2]+1) < 10) ? '0' + (returnRowCol3[2]+1) : (returnRowCol3[2]+1)) + (((returnRowCol3[4]+1) < 10) ? '0' + (returnRowCol3[4]+1) : (returnRowCol3[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol3[2]][returnRowCol3[3]] != "" && Array[returnRowCol3[2]][returnRowCol3[4]] != "" && Array[returnRowCol3[2]][returnRowCol3[5]] == ""){
                         Array[returnRowCol3[2]][returnRowCol3[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol3[2]+1) < 10) ? '0' + (returnRowCol3[2]+1) : (returnRowCol3[2]+1)) + (((returnRowCol3[5]+1) < 10) ? '0' + (returnRowCol3[5]+1) : (returnRowCol3[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px double orange";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
-                } else if (remainArray[i] > 3){
-                    console.log("remainArray[i]",remainArray[i]);
-                }
+                } 
             }
 
 
+            remainArray = [];
+            for (i=0; i < 25; i++){
+                remainArray[i] = 25 - countNum[i+1]
+            }
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (i = 1; i < 26; i++) {
+                for (j = 1; j < 26; j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                    if (backgroundColorArray[i-1][j-1] == "L") {
+                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
+                    } else {
+                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
+                    }
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                    if (board[i-1][j-1] != "") {
+                        countNum[Array[i-1][j-1]]++;
+                    } else {
+                        countNum[0]++;
+                    }
+                }
+            }
+
+            console.log("Array",Array);
+            console.log("remainArray",remainArray);
+
+
+
             for (i=0;i<remainArray.length;i++){
-                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                console.log("i ", i);
 
                 if(remainArray[i] == "") {
                     // return false;
@@ -1103,519 +1167,391 @@
                     if(Array[returnRowCol4[0]][returnRowCol4[4]] == "" && Array[returnRowCol4[0]][returnRowCol4[5]] != "" && Array[returnRowCol4[0]][returnRowCol4[6]] != "" && Array[returnRowCol4[0]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[0]][returnRowCol4[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[0]][returnRowCol4[4]] != "" && Array[returnRowCol4[0]][returnRowCol4[5]] == "" && Array[returnRowCol4[0]][returnRowCol4[6]] != "" && Array[returnRowCol4[0]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[0]][returnRowCol4[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[0]][returnRowCol4[4]] != "" && Array[returnRowCol4[0]][returnRowCol4[5]] != "" && Array[returnRowCol4[0]][returnRowCol4[6]] == "" && Array[returnRowCol4[0]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[0]][returnRowCol4[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[0]][returnRowCol4[4]] != "" && Array[returnRowCol4[0]][returnRowCol4[5]] != "" && Array[returnRowCol4[0]][returnRowCol4[6]] != "" && Array[returnRowCol4[0]][returnRowCol4[7]] == ""){
                         Array[returnRowCol4[0]][returnRowCol4[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[0]+1) < 10) ? '0' + (returnRowCol4[0]+1) : (returnRowCol4[0]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
                     //second
                     if(Array[returnRowCol4[1]][returnRowCol4[4]] == "" && Array[returnRowCol4[1]][returnRowCol4[5]] != "" && Array[returnRowCol4[1]][returnRowCol4[6]] != "" && Array[returnRowCol4[1]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[1]][returnRowCol4[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[1]][returnRowCol4[4]] != "" && Array[returnRowCol4[1]][returnRowCol4[5]] == "" && Array[returnRowCol4[1]][returnRowCol4[6]] != "" && Array[returnRowCol4[1]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[1]][returnRowCol4[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[1]][returnRowCol4[4]] != "" && Array[returnRowCol4[1]][returnRowCol4[5]] != "" && Array[returnRowCol4[1]][returnRowCol4[6]] == "" && Array[returnRowCol4[1]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[1]][returnRowCol4[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[1]][returnRowCol4[4]] != "" && Array[returnRowCol4[1]][returnRowCol4[5]] != "" && Array[returnRowCol4[1]][returnRowCol4[6]] != "" && Array[returnRowCol4[1]][returnRowCol4[7]] == ""){
                         Array[returnRowCol4[1]][returnRowCol4[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[1]+1) < 10) ? '0' + (returnRowCol4[1]+1) : (returnRowCol4[1]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
                     //third
                     if(Array[returnRowCol4[2]][returnRowCol4[4]] == "" && Array[returnRowCol4[2]][returnRowCol4[5]] != "" && Array[returnRowCol4[2]][returnRowCol4[6]] != "" && Array[returnRowCol4[2]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[2]][returnRowCol4[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[2]][returnRowCol4[4]] != "" && Array[returnRowCol4[2]][returnRowCol4[5]] == "" && Array[returnRowCol4[2]][returnRowCol4[6]] != "" && Array[returnRowCol4[2]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[2]][returnRowCol4[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[2]][returnRowCol4[4]] != "" && Array[returnRowCol4[2]][returnRowCol4[5]] != "" && Array[returnRowCol4[2]][returnRowCol4[6]] == "" && Array[returnRowCol4[2]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[2]][returnRowCol4[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[2]][returnRowCol4[4]] != "" && Array[returnRowCol4[2]][returnRowCol4[5]] != "" && Array[returnRowCol4[2]][returnRowCol4[6]] != "" && Array[returnRowCol4[2]][returnRowCol4[7]] == ""){
                         Array[returnRowCol4[2]][returnRowCol4[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[2]+1) < 10) ? '0' + (returnRowCol4[2]+1) : (returnRowCol4[2]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
                     // fourth
                     if(Array[returnRowCol4[3]][returnRowCol4[4]] == "" && Array[returnRowCol4[3]][returnRowCol4[5]] != "" && Array[returnRowCol4[3]][returnRowCol4[6]] != "" && Array[returnRowCol4[3]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[3]][returnRowCol4[4]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[4]+1) < 10) ? '0' + (returnRowCol4[4]+1) : (returnRowCol4[4]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[3]][returnRowCol4[4]] != "" && Array[returnRowCol4[3]][returnRowCol4[5]] == "" && Array[returnRowCol4[3]][returnRowCol4[6]] != "" && Array[returnRowCol4[3]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[3]][returnRowCol4[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[5]+1) < 10) ? '0' + (returnRowCol4[5]+1) : (returnRowCol4[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[3]][returnRowCol4[4]] != "" && Array[returnRowCol4[3]][returnRowCol4[5]] != "" && Array[returnRowCol4[3]][returnRowCol4[6]] == "" && Array[returnRowCol4[3]][returnRowCol4[7]] != ""){
                         Array[returnRowCol4[3]][returnRowCol4[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[6]+1) < 10) ? '0' + (returnRowCol4[6]+1) : (returnRowCol4[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol4[3]][returnRowCol4[4]] != "" && Array[returnRowCol4[3]][returnRowCol4[5]] != "" && Array[returnRowCol4[3]][returnRowCol4[6]] != "" && Array[returnRowCol4[3]][returnRowCol4[7]] == ""){
                         Array[returnRowCol4[3]][returnRowCol4[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol4[3]+1) < 10) ? '0' + (returnRowCol4[3]+1) : (returnRowCol4[3]+1)) + (((returnRowCol4[7]+1) < 10) ? '0' + (returnRowCol4[7]+1) : (returnRowCol4[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px inset magenta";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
-                } else if (remainArray[i] > 4){
-                    console.log("remainArray[i]",remainArray[i]);
-                }
+                } 
             }
 
 
+            remainArray = [];
+            for (i=0; i < 25; i++){
+                remainArray[i] = 25 - countNum[i+1]
+            }
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (i = 1; i < 26; i++) {
+                for (j = 1; j < 26; j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                    if (backgroundColorArray[i-1][j-1] == "L") {
+                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
+                    } else {
+                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
+                    }
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                    if (board[i-1][j-1] != "") {
+                        countNum[Array[i-1][j-1]]++;
+                    } else {
+                        countNum[0]++;
+                    }
+                }
+            }
+
+            console.log("Array",Array);
+            console.log("remainArray",remainArray);
+
+
+
             for (i=0;i<remainArray.length;i++){
-                console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                console.log("i ", i);
 
                 if(remainArray[i] == "") {
                     // return false;
                 } else if (remainArray[i] == 0) {
                     // return false;
                 } else if (remainArray[i] == 5){
-                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
                     missingNumber = NumAlphArr[0][i];
                     returnRowCol5 = fourReplacePara(Array, NumAlphArr[0][i], NumAlphArr[1][i]);
-                    console.log("NumAlphArr[0][i] ", NumAlphArr[0][i]);
-                    console.log("returnRowCol5 ", returnRowCol5);
-                    console.log("returnRowCol5[0] ", returnRowCol5[0]);
-                    console.log("returnRowCol5[1] ", returnRowCol5[1]);
-                    console.log("returnRowCol5[2] ", returnRowCol5[2]);
-                    console.log("returnRowCol5[3] ", returnRowCol5[3]);
-                    console.log("returnRowCol5[4] ", returnRowCol5[4]);
-                    console.log("returnRowCol5[5] ", returnRowCol5[5]);
-                    console.log("returnRowCol5[6] ", returnRowCol5[6]);
-                    console.log("returnRowCol5[7] ", returnRowCol5[7]);
-                    console.log("returnRowCol5[8] ", returnRowCol5[8]);
-                    console.log("returnRowCol5[9] ", returnRowCol5[9]);
-                    //frist
-                    console.log("Array[returnRowCol5[0]][returnRowCol5[5]] ", Array[returnRowCol5[0]][returnRowCol5[5]]);
-                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[0]][returnRowCol5[6]] ", Array[returnRowCol5[0]][returnRowCol5[6]]);
-                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[0]][returnRowCol5[7]] ", Array[returnRowCol5[0]][returnRowCol5[7]]);
-                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[0]][returnRowCol5[8]] ", Array[returnRowCol5[0]][returnRowCol5[8]]);
-                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[0]][returnRowCol5[9]] ", Array[returnRowCol5[0]][returnRowCol5[9]]);
-                    btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-
-
-                    //second
-                    console.log("Array[returnRowCol5[1]][returnRowCol5[5]] ", Array[returnRowCol5[1]][returnRowCol5[5]]);
-                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[1]][returnRowCol5[6]] ", Array[returnRowCol5[1]][returnRowCol5[6]]);
-                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[1]][returnRowCol5[7]] ", Array[returnRowCol5[1]][returnRowCol5[7]]);
-                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[1]][returnRowCol5[8]] ", Array[returnRowCol5[1]][returnRowCol5[8]]);
-                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[1]][returnRowCol5[9]] ", Array[returnRowCol5[1]][returnRowCol5[9]]);
-                    btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-
-
-                    //third
-                    console.log("Array[returnRowCol5[2]][returnRowCol5[5]] ", Array[returnRowCol5[2]][returnRowCol5[5]]);
-                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[2]][returnRowCol5[6]] ", Array[returnRowCol5[2]][returnRowCol5[6]]);
-                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[2]][returnRowCol5[7]] ", Array[returnRowCol5[2]][returnRowCol5[7]]);
-                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[2]][returnRowCol5[8]] ", Array[returnRowCol5[2]][returnRowCol5[8]]);
-                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[2]][returnRowCol5[9]] ", Array[returnRowCol5[2]][returnRowCol5[9]]);
-                    btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-
-
-                    // fourth
-                    console.log("Array[returnRowCol5[3]][returnRowCol5[5]] ", Array[returnRowCol5[3]][returnRowCol5[5]]);
-                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[3]][returnRowCol5[6]] ", Array[returnRowCol5[3]][returnRowCol5[6]]);
-                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[3]][returnRowCol5[7]] ", Array[returnRowCol5[3]][returnRowCol5[7]]);
-                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[3]][returnRowCol5[8]] ", Array[returnRowCol5[3]][returnRowCol5[8]]);
-                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[3]][returnRowCol5[9]] ", Array[returnRowCol5[3]][returnRowCol5[9]]);
-                    btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-
-                    //fifth
-                    console.log("Array[returnRowCol5[4]][returnRowCol5[5]] ", Array[returnRowCol5[4]][returnRowCol5[5]]);
-                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[4]][returnRowCol5[6]] ", Array[returnRowCol5[4]][returnRowCol5[6]]);
-                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[4]][returnRowCol5[7]] ", Array[returnRowCol5[4]][returnRowCol5[7]]);
-                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[4]][returnRowCol5[8]] ", Array[returnRowCol5[4]][returnRowCol5[8]]);
-                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
-                    console.log("Array[returnRowCol5[4]][returnRowCol5[9]] ", Array[returnRowCol5[4]][returnRowCol5[9]]);
-                    btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                    document.getElementById(btnid).style.border = "5px outset cyan";
-                    console.log("btnid ",btnid);
-                        console.log("document.getElementById(btnid).innerText", document.getElementById(btnid).innerText);
 
                     //frist
                     if(Array[returnRowCol5[0]][returnRowCol5[5]] == "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[0]][returnRowCol5[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] == "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[0]][returnRowCol5[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] == "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[0]][returnRowCol5[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] == "" && Array[returnRowCol5[0]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[0]][returnRowCol5[8]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[0]][returnRowCol5[5]] != "" && Array[returnRowCol5[0]][returnRowCol5[6]] != "" && Array[returnRowCol5[0]][returnRowCol5[7]] != "" && Array[returnRowCol5[0]][returnRowCol5[8]] != "" && Array[returnRowCol5[0]][returnRowCol5[9]] == ""){
                         Array[returnRowCol5[0]][returnRowCol5[9]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[0]+1) < 10) ? '0' + (returnRowCol5[0]+1) : (returnRowCol5[0]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
 
                     //second
                     if(Array[returnRowCol5[1]][returnRowCol5[5]] == "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[1]][returnRowCol5[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] == "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[1]][returnRowCol5[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] == "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[1]][returnRowCol5[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] == "" && Array[returnRowCol5[1]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[1]][returnRowCol5[8]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[1]][returnRowCol5[5]] != "" && Array[returnRowCol5[1]][returnRowCol5[6]] != "" && Array[returnRowCol5[1]][returnRowCol5[7]] != "" && Array[returnRowCol5[1]][returnRowCol5[8]] != "" && Array[returnRowCol5[1]][returnRowCol5[9]] == ""){
                         Array[returnRowCol5[1]][returnRowCol5[9]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[1]+1) < 10) ? '0' + (returnRowCol5[1]+1) : (returnRowCol5[1]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     }
 
                     //third
                     if(Array[returnRowCol5[2]][returnRowCol5[5]] == "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[2]][returnRowCol5[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] == "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[2]][returnRowCol5[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] == "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[2]][returnRowCol5[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] == "" && Array[returnRowCol5[2]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[2]][returnRowCol5[8]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[2]][returnRowCol5[5]] != "" && Array[returnRowCol5[2]][returnRowCol5[6]] != "" && Array[returnRowCol5[2]][returnRowCol5[7]] != "" && Array[returnRowCol5[2]][returnRowCol5[8]] != "" && Array[returnRowCol5[2]][returnRowCol5[9]] == ""){
                         Array[returnRowCol5[2]][returnRowCol5[9]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[2]+1) < 10) ? '0' + (returnRowCol5[2]+1) : (returnRowCol5[2]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     }
 
                     // fourth
                     if(Array[returnRowCol5[3]][returnRowCol5[5]] == "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[3]][returnRowCol5[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] == "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[3]][returnRowCol5[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] == "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[3]][returnRowCol5[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] == "" && Array[returnRowCol5[3]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[3]][returnRowCol5[8]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[3]][returnRowCol5[5]] != "" && Array[returnRowCol5[3]][returnRowCol5[6]] != "" && Array[returnRowCol5[3]][returnRowCol5[7]] != "" && Array[returnRowCol5[3]][returnRowCol5[8]] != "" && Array[returnRowCol5[3]][returnRowCol5[9]] == ""){
                         Array[returnRowCol5[3]][returnRowCol5[9]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[3]+1) < 10) ? '0' + (returnRowCol5[3]+1) : (returnRowCol5[3]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     }
 
                     //fifth
                     if(Array[returnRowCol5[4]][returnRowCol5[5]] == "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[4]][returnRowCol5[5]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[5]+1) < 10) ? '0' + (returnRowCol5[5]+1) : (returnRowCol5[5]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] == "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[4]][returnRowCol5[6]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[6]+1) < 10) ? '0' + (returnRowCol5[6]+1) : (returnRowCol5[6]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] == "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[4]][returnRowCol5[7]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[7]+1) < 10) ? '0' + (returnRowCol5[7]+1) : (returnRowCol5[7]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] == "" && Array[returnRowCol5[4]][returnRowCol5[9]] != ""){
                         Array[returnRowCol5[4]][returnRowCol5[8]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[8]+1) < 10) ? '0' + (returnRowCol5[8]+1) : (returnRowCol5[8]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     } 
                     if(Array[returnRowCol5[4]][returnRowCol5[5]] != "" && Array[returnRowCol5[4]][returnRowCol5[6]] != "" && Array[returnRowCol5[4]][returnRowCol5[7]] != "" && Array[returnRowCol5[4]][returnRowCol5[8]] != "" && Array[returnRowCol5[4]][returnRowCol5[9]] == ""){
                         Array[returnRowCol5[4]][returnRowCol5[9]] = missingNumber;
                         let btnid = "btn" + (((returnRowCol5[4]+1) < 10) ? '0' + (returnRowCol5[4]+1) : (returnRowCol5[4]+1)) + (((returnRowCol5[9]+1) < 10) ? '0' + (returnRowCol5[9]+1) : (returnRowCol5[9]+1)); 
-                        document.getElementById(btnid).innerText = missingNumber;
-                        document.getElementById(btnid).style.backgroundColor = "black";
+                        document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][missingNumber-1] : NumAlphArr[0][missingNumber-1];
+                        document.getElementById(btnid).style.backgroundColor = "white";
                         document.getElementById(btnid).style.border = "5px outset cyan";
-                        document.getElementById(btnid).style.color = "yellow";
+                        document.getElementById(btnid).style.color = "blue";
                     }
 
-                } else if (remainArray[i] > 5){
-                    console.log("remainArray[i]",remainArray[i]);
-                }
+                } 
             }
 
 
@@ -1626,178 +1562,129 @@
             let notInCol = 0;
             let inCol = [];
             let returnRowCol = [];
-            console.log("num", num, "Alp", alp, " i ", i);
-            console.log("Array", Array);
-            console.log("Array[i]", Array[i]);
-            // console.log("Array[i].indexOf(num)", Array[i].indexOf(num));
             for (j = 0; j < 25; j++) {
                 if(Array[j].indexOf(num)<0){
-                    console.log("Array[k].indexOf(num) row not found j= ", j, " Array[j].indexOf(num)=", Array[j].indexOf(num));
                     notInRow = j;
-                // } else {
-                    // console.log("Array[i].indexOf(num) found j= ", j, " Array[j].indexOf(num)=", Array[j].indexOf(num));
                 }
 
                 for (k = 0; k < 25; k++) {
                     if (Array[j][k] == num) {
-                        console.log("Array[j].indexOf(num) row found j= ", j, " k= ", k, " Array[j][k]=", Array[j][k]);
                         inCol[j] = k; 
                         continue;
-                    } else {
-                        // console.log("Array[j][k] !=num col not found j= ", j, " k= ", k, " Array[j][k]=", Array[j][k]);
                     }
                 }
             }
             for (l=0;l<25;l++){
                 if(inCol.indexOf(l)<0){
-                    console.log("inCol.indexOf(i)= ",inCol.indexOf(l), " l= ", l);
                     notInCol = l;
                 }
             }
-            console.log("notInRow= ", notInRow, " notInCol= ", notInCol);
             returnRowCol[0] = notInRow;
             returnRowCol[1] = notInCol;
-            console.log("returnRowCol ", returnRowCol);
             return returnRowCol;
         }
 
         function twoReplacePara(Array, num, alp) {
             let inCol = [];
             let returnRowCol2 = [];
-            console.log("num", num, "Alp", alp, " i ", i);
-            console.log("Array", Array);
-            console.log("Array[i]", Array[i]);
             let x = 0;
             for (m = 0; m < 25; m++) {
                 if(Array[m].indexOf(num)<0){
-                    console.log("Array[m].indexOf(num) row not found m= ", m, " Array[m].indexOf(num)=", Array[m].indexOf(num));
                     returnRowCol2[x] = m;
                     x++;
                 }
 
                 for (n = 0; n < 25; n++) {
                     if (Array[m][n] == num) {
-                        console.log("Array[j].indexOf(num) row found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
                         inCol[m] = n; 
                         continue;
-                    } else {
-                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
                     }
                 }
             }
             for (o=0;o<25;o++){
                 if(inCol.indexOf(o)<0){
-                    console.log("inCol.indexOf(o)= ",inCol.indexOf(o), " o= ", o);
                     returnRowCol2[x] = o;
                     x++;
                 }
             }
-            console.log("returnRowCol2 ", returnRowCol2);
             return returnRowCol2;
         }
 
         function threeReplacePara(Array, num, alp) {
             let inCol = [];
             let returnRowCol3 = [];
-            console.log("num", num, "Alp", alp, " i ", i);
-            console.log("Array", Array);
-            console.log("Array[i]", Array[i]);
             let x = 0;
             for (p = 0; p < 25; p++) {
                 if(Array[p].indexOf(num)<0){
-                    console.log("Array[p].indexOf(num) row not found p= ", p, " Array[p].indexOf(num)=", Array[p].indexOf(num));
                     returnRowCol3[x] = p;
                     x++;
                 }
 
                 for (q = 0; q < 25; q++) {
                     if (Array[p][q] == num) {
-                        console.log("Array[j].indexOf(num) row found p= ", p, " q= ", q, " Array[p][n]=", Array[p][q]);
                         inCol[p] = q; 
                         continue;
-                    } else {
-                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
                     }
                 }
             }
             for (r=0;r<25;r++){
                 if(inCol.indexOf(r)<0){
-                    console.log("inCol.indexOf(r)= ",inCol.indexOf(r), " r= ", r);
                     returnRowCol3[x] = r;
                     x++;
                 }
             }
-            console.log("returnRowCol3 ", returnRowCol3);
             return returnRowCol3;
         }
 
         function fourReplacePara(Array, num, alp) {
             let inCol = [];
             let returnRowCol4 = [];
-            console.log("num", num, "Alp", alp, " i ", i);
-            console.log("Array", Array);
-            console.log("Array[i]", Array[i]);
             let x = 0;
             for (s = 0; s < 25; s++) {
                 if(Array[s].indexOf(num)<0){
-                    console.log("Array[s].indexOf(num) row not found p= ", s, " Array[p].indexOf(num)=", Array[s].indexOf(num));
                     returnRowCol4[x] = s;
                     x++;
                 }
 
                 for (t = 0; t < 25; t++) {
                     if (Array[s][t] == num) {
-                        console.log("Array[j].indexOf(num) row found s= ", s, " t= ", t, " Array[p][n]=", Array[s][t]);
                         inCol[s] = t; 
                         continue;
-                    } else {
-                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
                     }
                 }
             }
             for (u=0;u<25;u++){
                 if(inCol.indexOf(u)<0){
-                    console.log("inCol.indexOf(u)= ",inCol.indexOf(u), " u= ", u);
                     returnRowCol4[x] = u;
                     x++;
                 }
             }
-            console.log("returnRowCol4 ", returnRowCol4);
             return returnRowCol4;
         }
 
         function fiveReplacePara(Array, num, alp) {
             let inCol = [];
             let returnRowCol5 = [];
-            console.log("num", num, "Alp", alp, " i ", i);
-            console.log("Array", Array);
-            console.log("Array[i]", Array[i]);
             let x = 0;
             for (j5 = 0; j5 < 25; j5++) {
                 if(Array[j5].indexOf(num)<0){
-                    console.log("Array[s].indexOf(num) row not found j5= ", j5, " Array[p].indexOf(num)=", Array[j5].indexOf(num));
                     returnRowCol5[x] = j5;
                     x++;
                 }
 
                 for (k5 = 0; k5 < 25; k5++) {
                     if (Array[j5][k5] == num) {
-                        console.log("Array[j5].indexOf(num) row found j5= ", j5, " k5= ", k5, " Array[j5][k5]=", Array[j5][tk5]);
                         inCol[j5] = k5; 
                         continue;
-                    } else {
-                        // console.log("Array[m][n] !=num col not found m= ", m, " n= ", n, " Array[m][n]=", Array[m][n]);
                     }
                 }
             }
             for (l5=0;l5<25;l5++){
                 if(inCol.indexOf(l5)<0){
-                    console.log("inCol.indexOf(l5)= ",inCol.indexOf(l5), " l5= ", l5);
                     returnRowCol5[x] = l5;
                     x++;
                 }
             }
-            console.log("returnRowCol5 ", returnRowCol5);
             return returnRowCol5;
         }
 
