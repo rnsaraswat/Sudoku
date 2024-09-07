@@ -611,6 +611,7 @@
                     let eraseNumber = 0;
                     if(Number(btn.innerText)>0 && Number(btn.innerText)<20){
                         eraseNumber = Number(btn.innerText);
+                        countNum[Number(btn.innerText)]--;
                     } else {
                         for (k=0;k<26;k++){
                             if(btn.innerText == NumAlphArr[1][k]){
@@ -1297,7 +1298,7 @@
                         if (document.getElementById(btnid).innerText == "") {
                             document.getElementById(btnid).disabled = false;
                         } else if (NumberAlpha) {
-                            for (k=0;k<26;k++){
+                            for (k=0;k<20;k++){
                                 if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
                                     if(NumAlphArr[0][k] == markNumber){
                                         document.getElementById(btnid).disabled = true;
@@ -1305,6 +1306,9 @@
                                         document.getElementById(btnid).style.color = "white";
                                         break;
                                     }
+                                } else {
+                                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                                    document.getElementById(btnid).style.color = "blue";
                                 }
                             }
                         } else if(Number(document.getElementById(btnid).innerText) == markNumber){

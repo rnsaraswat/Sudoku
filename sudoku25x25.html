@@ -642,57 +642,69 @@
         btnBox.forEach((btn) => {
             btn.addEventListener("click", () => {
                 if (erase) {
-                    countNum[Number(btn.innerText)]--;
-                    if (Number(btn.innerText) == 1) {
-                        document.getElementById("sp1").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 2) {
-                        document.getElementById("sp2").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 3) {
-                        document.getElementById("sp3").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 4) {
-                        document.getElementById("sp4").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 5) {
-                        document.getElementById("sp5").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 6) {
-                        document.getElementById("sp6").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 7) {
-                        document.getElementById("sp7").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 8) {
-                        document.getElementById("sp8").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 9) {
-                        document.getElementById("sp9").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 10) {
-                        document.getElementById("sp10").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 11) {
-                        document.getElementById("sp11").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 12) {
-                        document.getElementById("sp12").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 13) {
-                        document.getElementById("sp13").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 14) {
-                        document.getElementById("sp14").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 15) {
-                        document.getElementById("sp15").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 16) {
-                        document.getElementById("sp16").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 17) {
-                        document.getElementById("sp17").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 18) {
-                        document.getElementById("sp18").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 19) {
-                        document.getElementById("sp19").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 20) {
-                        document.getElementById("sp20").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 21) {
-                        document.getElementById("sp21").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 22) {
-                        document.getElementById("sp22").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 23) {
-                        document.getElementById("sp23").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 24) {
-                        document.getElementById("sp24").innerText = 25 - countNum[Number(btn.innerText)];
-                    } else if (Number(btn.innerText) == 25) {
-                        document.getElementById("sp25").innerText = 25 - countNum[Number(btn.innerText)];
+                    let eraseNumber = 0;
+                    if(Number(btn.innerText)>0 && Number(btn.innerText)<20){
+                        eraseNumber = Number(btn.innerText);
+                        countNum[Number(btn.innerText)]--;
+                    } else {
+                        for (k=0;k<25;k++){
+                            if(btn.innerText == NumAlphArr[1][k]){
+                                countNum[NumAlphArr[0][k]]--;
+                                eraseNumber = NumAlphArr[0][k];
+                                break;
+                            }
+                        }
+                    }
+                    if (eraseNumber == 1) {
+                        document.getElementById("sp1").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 2) {
+                        document.getElementById("sp2").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 3) {
+                        document.getElementById("sp3").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 4) {
+                        document.getElementById("sp4").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 5) {
+                        document.getElementById("sp5").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 6) {
+                        document.getElementById("sp6").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 7) {
+                        document.getElementById("sp7").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 8) {
+                        document.getElementById("sp8").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 9) {
+                        document.getElementById("sp9").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 10) {
+                        document.getElementById("sp10").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 11) {
+                        document.getElementById("sp11").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 12) {
+                        document.getElementById("sp12").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 13) {
+                        document.getElementById("sp13").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 14) {
+                        document.getElementById("sp14").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 15) {
+                        document.getElementById("sp15").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 16) {
+                        document.getElementById("sp16").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 17) {
+                        document.getElementById("sp17").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 18) {
+                        document.getElementById("sp18").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 19) {
+                        document.getElementById("sp19").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 20) {
+                        document.getElementById("sp20").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 21) {
+                        document.getElementById("sp21").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 22) {
+                        document.getElementById("sp22").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 23) {
+                        document.getElementById("sp23").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 24) {
+                        document.getElementById("sp24").innerText = 25 - countNum[eraseNumber];
+                    } else if (eraseNumber == 25) {
+                        document.getElementById("sp25").innerText = 25 - countNum[eraseNumber];
                     }
                     btn.innerText = "";
                 } else {
@@ -1388,6 +1400,20 @@
                     if (board[i-1][j-1] == "") {
                         if (document.getElementById(btnid).innerText == "") {
                             document.getElementById(btnid).disabled = false;
+                        } else if (NumberAlpha) {
+                            for (k=0;k<25;k++){
+                                if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
+                                    if(NumAlphArr[0][k] == markNumber){
+                                        document.getElementById(btnid).disabled = true;
+                                        document.getElementById(btnid).style.backgroundColor = "blue";
+                                        document.getElementById(btnid).style.color = "white";
+                                        break;
+                                    }
+                                } else {
+                                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                                    document.getElementById(btnid).style.color = "blue";
+                                }
+                            }
                         } else if (Number(document.getElementById(btnid).innerText) == markNumber) {
                             document.getElementById(btnid).disabled = true;
                             document.getElementById(btnid).style.backgroundColor = "blue";
