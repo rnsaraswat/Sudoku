@@ -342,22 +342,18 @@
             [12, 17, 13, 4, 16, 15, 7, 5, 2, 3, 18, 10, 9, 14, 1, 20, 6, 19, 11, 8], 
             [1, 14, 7, 8, 15, 11, 6, 13, 20, 4, 3, 5, 16, 19, 12, 9, 10, 17, 2, 18], 
             [20, 11, 10, 9, 3, 19, 18, 16, 8, 12, 6, 7, 2, 4, 17, 5, 13, 14, 1, 15],
-
             [18, 13, 2, 6, 19, 16, 17, 14, 10, 15, 7, 9, 20, 11, 3, 12, 1, 4, 8, 5], 
             [16, 5, 4, 17, 12, 7, 13, 11, 3, 9, 10, 8, 14, 1, 18, 6, 19, 2, 15, 20], 
             [14, 7, 8, 3, 1, 6, 5, 20, 4, 2, 13, 16, 19, 12, 15, 10, 17, 11, 18, 9], 
             [11, 10, 9, 15, 20, 18, 8, 1, 12, 19, 5, 2, 4, 17, 6, 13, 3, 16, 14, 7], 
-
             [7, 2, 6, 19, 18, 17, 16, 12, 15, 10, 9, 20, 11, 3, 13, 1, 4, 8, 5, 14], 
             [13, 4, 16, 12, 17, 5, 2, 3, 9, 7, 8, 14, 1, 15, 10, 19, 11, 18, 20, 6],
             [5, 8, 15, 1, 14, 13, 20, 4, 11, 6, 16, 19, 12, 18, 7, 17, 2, 3, 9, 10],
             [10, 9, 3, 20, 11, 14, 1, 8, 19, 18, 2, 4, 17, 6, 5, 16, 12, 15, 7, 13],
-
             [4, 12, 19, 18, 7, 10, 14, 15, 16, 17, 20, 11, 3, 13, 9, 2, 8, 5, 6, 1],
             [2, 6, 17, 16, 5, 4, 3, 9, 7, 13, 14, 1, 15, 10, 8, 11, 18, 20, 12, 19], 
             [8, 3, 1, 14, 13, 20, 11, 2, 6, 5, 19, 12, 18, 7, 16, 4, 15, 9, 10, 17], 
             [9, 15, 20, 11, 10, 1, 12, 19, 18, 8, 4, 17, 6, 5, 2, 3, 14, 7, 13, 16],
-
             [6, 16, 18, 13, 2, 12, 15, 7, 17, 20, 11, 3, 10, 9, 14, 8, 5, 1, 19, 4], 
             [17, 1, 14, 5, 4, 3, 9, 10, 13, 11, 12, 15, 7, 8, 19, 18, 20, 6, 16, 2], 
             [3, 19, 12, 7, 8, 2, 4, 6, 5, 14, 1, 18, 13, 16, 20, 15, 9, 10, 17, 11],
@@ -440,13 +436,7 @@
         marknumbkcolor("rgb(255, 255, 255)");
         marknumcolor("rgb(0, 0, 0)");
         let btnBox = document.querySelectorAll(".btn-box");
-        for (i = 1; i < 21; i++) {
-            for (j = 1; j < 21; j++) {
-                btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                document.getElementById(btnid).disabled = true;
-                document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
-            }
-        }
+        funcThemeSequre();
 
         // Puzzle board setup para
         function gameBoardSetup(){
@@ -477,7 +467,8 @@
                 boxNumDiv.classList.add("box-num");
                 const sp = document.createElement("button");
                 sp.classList.add("spansmall");
-                sp.setAttribute("id","sp" + i);
+                let spid = "sp" + i;
+                sp.setAttribute("id",spid);
                 sp.setAttribute("onclick", "setNumber(" + i + ")");
                 sp.innerText = 20;
                 boxNumDiv.appendChild(sp);
@@ -489,35 +480,29 @@
                 btnNumDiv.innerText = NumberAlpha ? NumAlphArr[1][i-1] : NumAlphArr[0][i-1];
                 boxNumDiv.appendChild(btnNumDiv);
                 btnParentDiv.appendChild(boxNumDiv);
+                document.getElementById(numid).style.color = "rgba(0, 0, 0, 0.3)";
+                document.getElementById(spid).style.color = "rgba(0, 0, 0, 0.3)";
             }
         }
 
         // Numbers/Alphabet Change para
         function funcNumbers(){
-            let str = document.getElementById("msg").innerText;
-            if (!NumberAlpha){
-                document.getElementById("msg").innerText = "Please click empty bin to mark " + NumAlphArr[1][Number(str.charAt(str.length - 2) + str.charAt(str.length - 1))-1];
-                NumberAlpha = true;
-                document.getElementById("btn6").innerText = "Numbers";
-                for (i = 1; i < 21; i++) {
-                    for (j = 1; j < 21; j++) {
-                        btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        if (document.getElementById(btnid).innerText != "") {
-                            document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][document.getElementById(btnid).innerText-1] : NumAlphArr[0][document.getElementById(btnid).innerText-1];
-                        }
-                    }
-                    numid = "num" + i;
-                    document.getElementById(numid).innerText = NumberAlpha ? NumAlphArr[1][i-1] : NumAlphArr[0][i-1];
+            marknumbkcolor("rgb(255, 255, 255)");
+            for (i = 1; i < 21; i++) {
+                for (j = 1; j < 21; j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.55)";
+                    document.getElementById(btnid).style.color = "black";
                 }
-            } else {
-                NumberAlpha = false;
+            }
+            let str = document.getElementById("msg").innerText;
+            if (NumberAlpha){
                 document.getElementById("btn6").innerText = "Alphabets";
                 for (i = 1; i < 21; i++) {
                     for (j = 1; j < 21; j++) {
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        if (document.getElementById(btnid).innerText == "") {
-                        } else {
-                            for (k=0;k<26;k++){
+                        if (document.getElementById(btnid).innerText != "") {
+                            for (k=0;k<21;k++){
                                 if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
                                     document.getElementById(btnid).innerText = k+1;
                                     break;
@@ -526,9 +511,40 @@
                         }
                     }
                     numid = "num" + i;
+                    document.getElementById(numid).innerText = NumberAlpha ? NumAlphArr[0][i-1] : NumAlphArr[1][i-1];
+                    if(timer){
+                        document.getElementById(numid).style.color = "rgb(0, 0, 0)";
+                        if (NumberAlpha) {
+                            document.getElementById("msg").innerText = "Please click (A-T) to Start Mark";
+                        } else {
+                            document.getElementById("msg").innerText = "Please click (1-20) to Start Mark";
+                        }
+                    } else {
+                        document.getElementById(numid).style.color = "rgba(0, 0, 0, 0.3)";
+                        document.getElementById("msg").innerText = "Please Select Difficulty Level";
+                    }
+                }
+                NumberAlpha = false;
+            } else {
+                NumberAlpha = true;
+                document.getElementById("btn6").innerText = "Numbers";
+                for (i = 1; i < 21; i++) {
+                    for (j = 1; j < 21; j++) {
+                        btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                        if (document.getElementById(btnid).innerText == "") {
+                        } else {
+                            document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][document.getElementById(btnid).innerText-1] : NumAlphArr[0][document.getElementById(btnid).innerText-1];
+                        }
+                    }
+                    numid = "num" + i;
                     document.getElementById(numid).innerText = NumberAlpha ? NumAlphArr[1][i-1] : NumAlphArr[0][i-1];
-                    if(str.charAt(str.length - 1) == NumAlphArr[1][i]){
-                        document.getElementById("msg").innerText = "Please click empty bin to mark " + (i+1);
+                    if(timer){
+                        document.getElementById(numid).style.color = "rgb(0, 0, 0)";
+                        if (NumberAlpha) {
+                            document.getElementById("msg").innerText = "Please click (A-T) to Start Mark";
+                        } else {
+                            document.getElementById("msg").innerText = "Please click (1-20) to Start Mark";
+                        }
                     }
                 }
             }
@@ -537,6 +553,10 @@
         // theme (dark/light) change para
         function funcTheme(){
             let h1 = document.getElementsByTagName("h1");
+            if (timer) {
+                marknumcolor("rgb(0, 0, 0)")
+                marknumbkcolor("rgb(255, 255, 255)");
+            }
             if(document.getElementById("btn7").innerText == "Light") {
                 document.getElementById("btn7").innerText = "Dark";
                 h1[0].classList.remove('shadowDark');
@@ -567,6 +587,7 @@
                 document.getElementById("btn5").classList.remove("shadow-btn-dark");
                 document.getElementById("btn6").classList.remove("shadow-btn-dark");
                 document.getElementById("btn7").classList.remove("shadow-btn-dark");
+                funcThemeSequre();
             } else {
                 document.getElementById("btn7").innerText = "Light";
                 h1[0].classList.remove('shadowLight');
@@ -597,6 +618,41 @@
                 document.getElementById("btn5").classList.remove("shadow-btn-light");
                 document.getElementById("btn6").classList.remove("shadow-btn-light");
                 document.getElementById("btn7").classList.remove("shadow-btn-light");
+                funcThemeSequre();
+            }
+        }
+        
+        // squre dark/light with theme (dark/light) change para 
+        function funcThemeSequre() {
+            if(document.getElementById("btn7").innerText == "Light") {
+                for (i = 1; i < 21; i++) {
+                    for (j = 1; j < 21; j++) {
+                        btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                        document.getElementById(btnid).disabled = true;
+                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
+                        document.getElementById(btnid).style.color = "black";
+                        if(timer){
+                            document.getElementById(btnid).style.color = "rgb(0, 0, 0)";
+                        } else {
+                            document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
+                        }
+                    }
+
+                }
+            } else {
+                for (i = 1; i < 21; i++) {
+                    for (j = 1; j < 21; j++) {
+                        btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                        document.getElementById(btnid).disabled = true;
+                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.33)";
+                        document.getElementById(btnid).style.color = "black";
+                        if(timer){
+                            document.getElementById(btnid).style.color = "rgb(0, 0, 0)";
+                        } else {
+                            document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
+                        }
+                    }
+                }
             }
         }
 
@@ -742,6 +798,8 @@
             btn3.disabled = false;
             btn4.disabled = false;
             btn5.disabled = false;
+            btn6.disabled = false;
+            btn7.disabled = false;
             btn1.style.border = "none";
             btn2.style.border = "none";
             btn3.style.border = "none";
@@ -752,11 +810,15 @@
             btn3.classList.add('hover-btn-control');
             btn4.classList.add('hover-btn-control');
             btn5.classList.add('hover-btn-control');
+            btn6.classList.add('hover-btn-control');
+            btn7.classList.add('hover-btn-control');
             btn2.style.color = "black";
             btn3.style.color = "black";
             btn4.style.color = "black";
             btn4.style.color = "black";
             btn5.style.color = "black";
+            btn6.style.color = "black";
+            btn7.style.color = "black";
             if (NumberAlpha) {
                 document.getElementById("msg").innerText = "Please click (A-T) to Start Mark ";
             } else {
@@ -768,12 +830,6 @@
                     // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
-                    if (backgroundColorArray[i-1][j-1] == "L") {
-                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
-                    } else {
-                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
-                    }
-                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     if (board[i-1][j-1] != "") {
                         countNum[board[i-1][j-1]]++;
                     } else {
@@ -781,7 +837,7 @@
                     }
                 }
             }
-
+            funcThemeSequre();
             for (i=1; i < 21; i++){
                 let spid = "sp" + i;
                 document.getElementById(spid).innerText = 20 - countNum[i];
@@ -831,6 +887,7 @@
                 btn5.disabled = true;
                 marknumdesabled(true);
                 marknumcolor("rgba(0, 0, 0, 0.3)");
+                marknumcolor("rgba(0, 0, 0, 0.3)");
 
                 document.getElementById("msg").innerText = "Please click pause";
                 for (i = 1; i < 21; i++) {
@@ -838,6 +895,7 @@
                         // btnid = "btn" + (i + 1) + (j + 1);
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                         document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
+                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     }
                 }
             } else {
@@ -854,7 +912,8 @@
                 btn4.style.color = "black";
                 btn5.style.color = "black";
                 marknumdesabled(false);
-                marknumcolor("black");
+                marknumbkcolor("rgb(255, 255, 255)");
+                marknumcolor("rgb(0, 0, 0)");
 
                 for (i = 1; i < 21; i++) {
                     for (j = 1; j < 21; j++) {
@@ -886,13 +945,7 @@
             seconds = 0;
             hrdsec = 0;
             countNum = [];
-            for (i = 1; i < 21; i++) {
-                for (j = 1; j < 21; j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
-                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
-                }
-            }
+            funcThemeSequre();
             updateTimer();
             displayGeneratedPuzzle(board);
             marknumbkcolor("rgb(255, 255, 255)");
@@ -909,12 +962,6 @@
                     // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
-                    if (backgroundColorArray[i-1][j-1] == "L") {
-                        document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
-                    } else {
-                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
-                    }
-                    // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     if (board[i-1][j-1] != "") {
                         countNum[board[i-1][j-1]]++;
                     } else {
@@ -936,17 +983,22 @@
             btn3.style.border = ".2rem solid blue";
             btn4.style.color = "rgba(0, 0, 0, 0.3)";
             btn5.style.color = "rgba(0, 0, 0, 0.3)";
+            btn6.style.color = "rgba(0, 0, 0, 0.3)";
+            btn7.style.color = "rgba(0, 0, 0, 0.3)";
             btn1.disabled = false;
             btn2.disabled = true;
             btn3.disabled = true;
             btn4.disabled = true;
             btn5.disabled = true;
+            btn6.disabled = true;
+            btn7.disabled = true;
             btn1.classList.add('hover-btn-control');
             btn2.classList.remove('hover-btn-control');
             btn3.classList.remove('hover-btn-control');
             btn4.classList.remove('hover-btn-control');
             btn5.classList.remove('hover-btn-control');
-
+            btn6.classList.remove('hover-btn-control');
+            btn7.classList.remove('hover-btn-control');
 
             marknumdesabled(true);
             marknumbkcolor("rgb(255, 255, 255)");
@@ -977,14 +1029,13 @@
                 duplicatecheck = checkDuplicatesSeq(boardcheck, seqIndexArray);
             }
 
+            funcThemeSequre();
             let count = 0;
             for (i = 1; i < 21; i++) {
                 for (j = 1; j < 21; j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
                     document.getElementById(btnid).style.color = "black";
-                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     document.getElementById(btnid).style.fontSize = "1.2rem";
                     if (board[i-1][j-1] == "") {
                         if (duplicatecheck) {
@@ -1032,6 +1083,7 @@
                 document.getElementById("msg").innerText = "Please click marked bin to erase";
                 marknumbkcolor("rgb(255, 255, 255)");
                 marknumcolor("black");
+                funcThemeSequre();
                 for (i = 1; i < 21; i++) {
                     for (j = 1; j < 21; j++) {
                         // btnid = "btn" + (i + 1) + (j + 1);
@@ -1056,7 +1108,6 @@
 
             for (i = 1; i < 21; i++) {
                 for (j = 1; j < 21; j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).style.fontSize = "1.2rem";
                     if (board[i-1][j-1] == "") {
@@ -1285,11 +1336,11 @@
                 }
             }
 
+            funcThemeSequre();
             for (i = 1; i < 21; i++) {
                 for (j = 1; j < 21; j++) {
                     // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-
                     if (board[i-1][j-1] == "") {
                         if (document.getElementById(btnid).innerText == "") {
                             document.getElementById(btnid).disabled = false;
@@ -1303,7 +1354,6 @@
                                         break;
                                     }
                                 } else {
-                                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                                     document.getElementById(btnid).style.color = "blue";
                                 }
                             }
@@ -1313,7 +1363,6 @@
                             document.getElementById(btnid).style.color = "white";
                         } else {
                             document.getElementById(btnid).disabled = true;
-                            document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                             document.getElementById(btnid).style.color = "blue";
                         }
                     } else if (board[i-1][j-1] == markNumber) {
@@ -1323,7 +1372,6 @@
                     } else {
                         document.getElementById(btnid).disabled = true;
                         document.getElementById(btnid).style.color = "black";
-                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     }
                 }
             }
