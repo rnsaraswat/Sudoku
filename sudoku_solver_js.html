@@ -30,7 +30,7 @@
     // Javascript program for above approach
     
     // N is the size of the 2D matrix   N*N
-    let N = 9;
+    let N = 25;
     
     /* Takes a partially filled-in grid and attempts
         to assign values to all unassigned locations in
@@ -39,7 +39,6 @@
         columns, and boxes) */
     function solveSudoku(grid, row, col)
     {
-        let N = 9;
         // console.log("grid", grid);
         // console.log("N= ", N, " Row= ", row, " Col= ", col);
         /* If we have reached the 8th row and 9th column (0 indexed matrix), we are returning true to avoid further backtracking       */
@@ -63,7 +62,7 @@
             return solveSudoku(grid, row, col + 1);
         }
     
-        for(let num = 1; num < 10; num++)
+        for(let num = 1; num < 26; num++)
         {
             
             // Check if it is safe to place the num (1-9)  in the given row ,col ->we move to next column
@@ -103,11 +102,11 @@
     {
         for(let i = 0; i < N; i++)
         {
-            // for(let j = 0; j < N; j++)
-                document.write(grid[i] + ",  ");
-                // document.write(grid[i][j] + ", ");
-                
-            // document.write("<br>");
+            for(let j = 0; j < N; j++){
+                // document.write(grid[i] + ",  ");
+                document.write(grid[i][j] + ", ");
+            }
+            document.write("<br>");
         }
         document.write("<br>");
     }
@@ -118,9 +117,9 @@
         // console.log("isSafe grid", grid, " Row= ", row, " Col= ", col, " num= ", num);
         
         // Check if we find the same num in the similar row, we return false
-        for(let x = 0; x <= 8; x++) {
+        for(let x = 0; x <= (N-1); x++) {
             if (grid[row][x] == num){
-                console.log("row error grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+                // console.log("row error grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
                 return false;
             } else {
                 // console.log("row ok grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
@@ -128,9 +127,9 @@
         }
     
         // Check if we find the same num in the similar column, we return false
-        for(let x = 0; x <= 8; x++){
+        for(let x = 0; x <= (N-1); x++){
             if (grid[x][col] == num){
-                console.log("col error grid[x][col] ", grid[x][col], " Col= ", col, " x= ", x, " num= ", num, " row= ", row);
+                // console.log("col error grid[x][col] ", grid[x][col], " Col= ", col, " x= ", x, " num= ", num, " row= ", row);
                 return false;
             } else {
                 // console.log("col ok grid[x][col] ", grid[x][col], " row(x)= ", x, " Col= ", col, " num= ", num, " row= ", row);
@@ -139,13 +138,13 @@
         }
     
         // Check if we find the same num in the particular 3*3 matrix, we return false
-        let startRow = row - row % 3, 
-            startCol = col - col % 3;
-        console.log("row= ", row, "row % 3 = ", (row % 3), " startRow= ", startRow);
-        console.log("col= ", col, "col % 3 = ", (col % 3), " startCol= ", startCol);
+        let startRow = row - row % 5, 
+            startCol = col - col % 5;
+        console.log("row= ", row, "row % 5 = ", (row % 5), " startRow= ", startRow);
+        console.log("col= ", col, "col % 5 = ", (col % 5), " startCol= ", startCol);
             
-        for(let i = 0; i < 3; i++)
-            for(let j = 0; j < 3; j++){
+        for(let i = 0; i < 5; i++)
+            for(let j = 0; j < 5; j++){
                 if (grid[i + startRow][j + startCol] == num){
                     console.log("seq error grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
                     console.log("seq error i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
@@ -225,15 +224,46 @@
     //              [ 0, 0, 0, 0, 0, 0, 0, 7, 4 ],
     //              [ 0, 0, 5, 2, 0, 6, 3, 0, 0 ] ]
 
-    let grid = [[3, 1, 6, 5, 7, 8, 4, 9, 2],
-                [5, 2, 9, 1, 3, 4, 7, 6, 8],
-                [4, 8, 7, 6, 2, 9, 5, 3, 1],
-                [2, 6, 3, 4, 1, 5, 9, 8, 7],
-                [9, 7, 4, 8, 6, 3, 1, 2, 5],
-                [8, 5, 1, 7, 9, 2, 6, 4, 3],
-                [1, 3, 8, 9, 4, 7, 2, 5, 6],
-                [6, 9, 2, 3, 5, 1, 8, 7, 4],
-                [7, 4, 5, 2, 8, 6, 3, 1, 9] ];
+    // let grid = [[3, 1, 6, 5, 7, 8, 4, 9, 2],
+    //             [5, 2, 9, 1, 3, 4, 7, 6, 8],
+    //             [4, 8, 7, 6, 2, 9, 5, 3, 1],
+    //             [2, 6, 3, 4, 1, 5, 9, 8, 7],
+    //             [9, 7, 4, 8, 6, 3, 1, 2, 5],
+    //             [8, 5, 1, 7, 9, 2, 6, 4, 3],
+    //             [1, 3, 8, 9, 4, 7, 2, 5, 6],
+    //             [6, 9, 2, 3, 5, 1, 8, 7, 4],
+    //             [7, 4, 5, 2, 8, 6, 3, 1, 9] ];
+    
+
+                let grid = [
+            [1,  17,  0, 14,  5,  6, 22, 18,  4, 10, 11,  2, 23,  9, 15, 16, 12,  0, 19, 25, 21,  7, 13, 24, 20], 
+            [6,  22, 18,  4, 10, 16, 12,  3, 19, 25,  0, 17,  8, 14,  5, 21,  7, 13, 24,  0, 11,  2, 23,  9, 15], 
+            [21,  7, 13, 24, 20,  1, 17,  8, 14,  5,  6, 22, 18,  4,  0, 11,  2, 23,  9, 15, 16, 12,  3, 19, 25], 
+            [11,  2,  0,  9, 15, 21,  7, 13, 24, 20, 16, 12,  3, 19, 25,  1, 17,  8, 14,  5,  6,  0, 18,  4, 10], 
+            [ 0, 12,  3, 19, 25, 11,  2, 23,  9, 15,  0,  7, 13, 24, 20,  6, 22, 18,  4, 10,  1, 17,  8, 14,  5], 
+            [5,  21, 12, 18,  9, 10,  1, 22,  8, 14, 15,  6,  2, 13, 19, 20, 16,  0, 23,  4, 25, 11, 17,  3, 24], 
+            [10,  1, 22,  8, 14, 20, 16,  7, 23,  4,  5, 21, 12, 18,  9, 25, 11, 17,  3, 24, 15,  6,  2, 13, 19], 
+            [25, 11, 17,  3, 24,  5, 21, 12, 18,  9, 10,  1, 22,  8, 14, 15,  6,  2, 13, 19, 20, 16,  7, 23,  4], 
+            [15,  6,  2, 13, 19, 25, 11, 17,  3, 24, 20, 16,  7, 23,  4,  5, 21, 12, 18,  9, 10,  1, 22,  8, 14], 
+            [20, 16,  7, 23,  4, 15,  6,  2, 13, 19, 25, 11, 17,  3, 24, 10,  1, 22,  8, 14,  5, 21, 12, 18,  9], 
+            [2,  18,  9, 15,  6,  7, 23, 19,  5, 11, 12,  3, 24, 10, 16, 17, 13,  4, 20,  1, 22,  8, 14, 25, 21], 
+            [7,  23, 19,  5, 11, 17, 13,  4, 20,  1,  0, 18,  9, 15,  6, 22,  8, 14, 25, 21, 12,  3, 24, 10, 16], 
+            [22,  8, 14, 25, 21,  2, 18,  9, 15,  6,  7, 23, 19,  5, 11, 12,  3, 24, 10, 16, 17, 13,  4, 20,  1], 
+            [12,  3, 24, 10, 16, 22,  8, 14, 25, 21, 17, 13,  4, 20,  1,  2, 18,  9, 15,  6,  7, 23, 19,  5, 11], 
+            [17, 13,  4, 20,  1, 12,  3, 24, 10, 16, 22,  8,  0, 25, 21,  7, 23, 19,  5, 11,  2, 18,  9, 15,  6], 
+            [4,  20, 11, 17,  8,  9, 25, 21,  7, 13, 14,  5,  1, 12, 18, 19, 15,  6, 22,  3, 24, 10, 16,  2, 23], 
+            [9,  25, 21,  7, 13, 19, 15,  6, 22,  3,  4, 20, 11, 17,  8, 24, 10, 16,  2, 23, 14,  5,  1, 12, 18], 
+            [24, 10, 16,  2, 23,  4, 20, 11, 17,  8,  9, 25, 21,  7, 13, 14,  5,  1, 12, 18, 19, 15,  6, 22,  3], 
+            [14,  5,  1,  0, 18, 24, 10, 16,  2, 23, 19, 15,  6, 22,  3,  4, 20, 11, 17,  8,  9, 25, 21,  7, 13], 
+            [19, 15,  6, 22,  3, 14,  5,  1, 12, 18, 24, 10, 16,  2, 23,  9, 25, 21,  7, 13,  4, 20, 11, 17,  8], 
+            [3,  19, 10, 16,  7,  8, 24, 20,  6, 12, 13,  4, 25, 11, 17, 18, 14,  5, 21,  2, 23,  9, 15,  1, 22], 
+            [8,  24, 20,  6, 12, 18, 14,  5, 21,  2,  3, 19, 10, 16,  7, 23,  9, 15,  1, 22, 13,  4, 25, 11, 17], 
+            [23,  9, 15,  1, 22,  3, 19, 10, 16,  7,  8, 24, 20,  6, 12, 13,  4, 25, 11, 17, 18, 14,  5, 21,  2], 
+            [13,  4, 25, 11, 17, 23,  9, 15,  1, 22, 18, 14,  5, 21,  2,  3, 19, 10, 16,  7,  8, 24, 20,  6, 12], 
+            [18, 14,  5, 21,  2, 13,  4,  0, 11, 17, 23,  9, 15,  1, 22,  8, 24, 20,  6, 12,  3,  0, 10, 16,  7], 
+        ];
+
+
 
     print(grid);
     boardinit = grid.map(row => [...row]);

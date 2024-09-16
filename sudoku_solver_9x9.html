@@ -283,7 +283,7 @@
                 </div>
             </div>
             <div>
-                <span id="msg">Message</span>
+                <span id="msg">Press Fill to Start filling</span>
             </div>
             <p id="Arr"></p>
             <p id="Arr1"></p>
@@ -486,9 +486,8 @@
         // theme (dark/light) change para
         function funcTheme(){
             let h1 = document.getElementsByTagName("h1");
-                marknumcolor("rgb(0, 0, 0)")
-                marknumbkcolor("rgb(255, 255, 255)");
-                backgroundColorSetPara()
+            marknumcolor("rgb(0, 0, 0)")
+            marknumbkcolor("rgb(255, 255, 255)");
             if(document.getElementById("btn7").innerText == "Light") {
                 document.getElementById("btn7").innerText = "Dark";
                 h1[0].classList.remove('shadowDark');
@@ -530,22 +529,27 @@
                 document.getElementById("btn6").classList.remove("shadow-btn-light");
                 document.getElementById("btn7").classList.remove("shadow-btn-light");
             }
+            backgroundColorSetPara();
         }
         
         function backgroundColorSetPara(){
+            if(document.getElementById("btn7").innerText == "Light"){
+                bkGroundColorChange = "rgba(255, 255, 255, 0.55)";
+            } else {
+                bkGroundColorChange = "rgba(255, 255, 255, 0.00)";
+            }
             for (i = 1; i < 10; i++) {
                 for (j = 1; j < 10; j++) {
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
                     if ((i>0 && i<4) && (j>3 && j<7)){
-                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.55)";
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
                     } else if ((i>3 && i<7) && (j<4 || j>6)){
-                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.55)";
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
                     } else if ((i>6 && i<10) && j>3 && j<7) {
-                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.55)";
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
                     } else {
                         document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255)";
-    
                     }
                 }
             }

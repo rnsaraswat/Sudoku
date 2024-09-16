@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku (16x16) Game</title>
+    <title>Sudoku (16x16) Solver</title>
     <style>
         * {
             margin: 0;
@@ -86,8 +86,8 @@
         }
 
         .btn-box {
-            width: 2.25rem;
-            height: 2.25rem;
+            width: 2.24rem;
+            height: 2.24rem;
             font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
@@ -185,10 +185,13 @@
             background-color: rgba(255, 255, 255, 0.6);
         }
 
-        #Time,
-        #displayTime,
-        #msg  {
+        #msg {
             font-size: 2rem;
+            color: var(--cl-light);
+        }
+
+        p  {
+            font-size: 1rem;
             color: var(--cl-light);
         }
 
@@ -264,35 +267,14 @@
         </div>
         <div class='child'>
             <h1 class="shadowDark">SUDOKU</h1>
-            <div class="btn-btndiv">
-                <div class="box-level"><button id="dif1" class="btn-level hover-btn-level" onclick="setDifficulty(1)">Learner</button>
-                </div>
-                <div class="box-level"><button id="dif2" class="btn-level hover-btn-level" onclick="setDifficulty(2)">Easy</button>
-                </div>
-                <div class="box-level"><button id="dif3" class="btn-level hover-btn-level" onclick="setDifficulty(3)">Medium</button>
-                </div>
-                <div class="box-level"><button id="dif4" class="btn-level hover-btn-level" onclick="setDifficulty(4)">Hard</button>
-                </div>
-                <div class="box-level"><button id="dif5" class="btn-level hover-btn-level" onclick="setDifficulty(5)">Expert</button>
-                </div>
-            </div>
-            <div>
-                <span id="Time">Time</span>
-                <span id="displayTime">00:00:00</span>
-            </div>
             <div id="btnContainer" class="btn-btndiv">
             </div>
             <div class="btn-btndiv">
-                <div class="box-Control"><button id="btn1" class="btn-control" onclick="funcstart()">Start</button>
-                </div>
-                <div class="box-Control"><button id="btn2" class="btn-control" onclick="funcreset()">Reset</button>
-                </div>
-                <div class="box-Control"><button id="btn3" class="btn-control" onclick="funcsolve()">Solve</button>
-                </div>
-                <div class="box-Control"><button id="btn4" class="btn-control" onclick="funcpause()">Pause</button>
-                </div>
-                <div class="box-Control"><button id="btn5" class="btn-control" onclick="funcerase()">Erase</button>
-                </div>
+                <div class="box-Control"><button id="btn1" class="btn-control" onclick="funcstart()">Fill</button></div>
+                <div class="box-Control"><button id="btn5" class="btn-control" onclick="funcerase()">Erase</button></div>
+                <div class="box-Control"><button id="btn2" class="btn-control" onclick="funcreset()">Reset</button></div>
+                <div class="box-Control"><button id="btn3" class="btn-control" onclick="funcsolve()">Solve</button></div>
+                <div class="box-Control"><button id="btn4" class="btn-control" onclick="funcpause()">Pause</button></div>
             </div>
             <div class="btn-btndiv">
                 <div class="box-Control"><button id="btn6" class="btn-control hover-btn-control" onclick="funcNumbers()">Numbers</button>
@@ -301,7 +283,7 @@
                 </div>
             </div>
             <div>
-                <span id="msg">Please Select Difficulty Level</span>
+                <span id="msg">Press Fill to Start filling</span>
             </div>
             <p id="Arr"></p>
             <p id="Arr1"></p>
@@ -309,17 +291,12 @@
             <p id="Err"></p>
             <p id="Err1"></p>
             <p id="Err2"></p>
+            <p id="Err3"></p>
         </div>
     </div>
 
     <script>
         // init variables
-        let timer = false;
-        let hours = 0;
-        let minutes = 0;
-        let seconds = 0;
-        let hrdsec = 0;
-        let difficulty = 1;
         let markNumber = 0;
         let erase = false;
         let boardsolve = [];
@@ -330,6 +307,7 @@
         let btnid = 0;
         let countNum = [];
         let NumberAlpha = true;
+        let N = 16;
 
         let NumAlphArr = [
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -337,7 +315,6 @@
             ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"],
         ];
 
-        // one solved board to create new puzzle
         let board = [
             [11, 4,   7,  9,  8, 10, 13,  5, 14,  1,  6,  3,  2, 12, 15, 16],
             [16, 2,   5, 10,  4,  3, 15, 14,  8, 11,  7, 12,  9, 13,  6,  1],
@@ -357,55 +334,33 @@
             [3,  12, 13,  8,  2,  9,  6, 10,  5,  4, 14,  1, 11, 16,  7, 15],
         ];
 
-        let backgroundColorArray = [
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-            ["D", "D", "D", "D", "L", "L", "L", "L", "D", "D", "D", "D", "L", "L", "L", "L"],
-        ];
-
         let seqIndexArray = [
-            [[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3], [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], [3, 1], [3, 2], [3, 3]],
-            [[0, 4], [0, 5], [0, 6], [0, 7], [1, 4], [1, 5], [1, 6], [1, 7], [2, 4], [2, 5], [2, 6], [2, 7], [3, 4], [3, 5], [3, 6], [3, 7]],
-            [[0, 8], [0, 9], [0, 10], [0, 11], [1, 8], [1, 9], [1, 10], [1, 11], [2, 8], [2, 9], [2, 10], [2, 11], [3, 8], [3, 9], [3, 10], [3, 11]],
-            [[0, 12], [0, 13], [0, 14], [0, 15], [1, 12], [1, 13], [1, 14], [1, 15], [2, 12], [2, 13], [2, 14], [2, 15], [3, 12], [3, 13], [3, 14], [3, 15]],
-            [[4, 0], [4, 1], [4, 2], [4, 3], [5, 0], [5, 1], [5, 2], [5, 3], [6, 0], [6, 1], [6, 2], [6, 3], [7, 0], [7, 1], [7, 2], [7, 3]],
-            [[4, 4], [4, 5], [4, 6], [4, 7], [5, 4], [5, 5], [5, 6], [5, 7], [6, 4], [6, 5], [6, 6], [6, 7], [7, 4], [7, 5], [7, 6], [7, 7]],
-            [[4, 8], [4, 9], [4, 10], [4, 11], [5, 8], [5, 9], [5, 10], [5, 11], [6, 8], [6, 9], [6, 10], [6, 11], [7, 8], [7, 9], [7, 10], [7, 11]],
-            [[4, 12], [4, 13], [4, 14], [4, 15], [5, 12], [5, 13], [5, 14], [5, 15], [6, 12], [6, 13], [6, 14], [6, 15], [7, 12], [7, 13], [7, 14], [7, 15]],
-            [[8, 0], [8, 1], [8, 2], [8, 3], [9, 0], [9, 1], [9, 2], [9, 3], [10, 0], [10, 1], [10, 2], [10, 3], [11, 0], [11, 1], [11, 2], [11, 3]],
-            [[8, 4], [8, 5], [8, 6], [8, 7], [9, 4], [9, 5], [9, 6], [9, 7], [10, 4], [10, 5], [10, 6], [10, 7], [11, 4], [11, 5], [11, 6], [11, 7]],
-            [[8, 8], [8, 9], [8, 10], [8, 11], [9, 8], [9, 9], [9, 10], [9, 11], [10, 8], [10, 9], [10, 10], [10, 11], [11, 8], [11, 9], [11, 10], [11, 11]],
-            [[8, 12], [8, 13], [8, 14], [8, 15], [9, 12], [9, 13], [9, 14], [9, 15], [10, 12], [10, 13], [10, 14], [10, 15], [11, 12], [11, 13], [11, 14], [11, 15]],
-            [[12, 0], [12, 1], [12, 2], [12, 3], [13, 0], [13, 1], [13, 2], [13, 3], [14, 0], [14, 1], [14, 2], [14, 3], [15, 0], [15, 1], [15, 2], [15, 3]],
-            [[12, 4], [12, 5], [12, 6], [12, 7], [13, 4], [13, 5], [13, 6], [13, 7], [14, 4], [14, 5], [14, 6], [14, 7], [15, 4], [15, 5], [15, 6], [15, 7]],
-            [[12, 8], [12, 9], [12, 10], [12, 11], [13, 8], [13, 9], [13, 10], [13, 11], [14, 8], [14, 9], [14, 10], [14, 11], [15, 8], [15, 9], [15, 10], [15, 11]],
+            [[0, 0],   [0, 1],   [0, 2],   [0, 3],   [1, 0],   [1, 1],   [1, 2],   [1, 3],   [2, 0],   [2, 1],   [2, 2],   [2, 3],   [3, 0],   [3, 1],   [3, 2],   [3, 3]],
+            [[0, 4],   [0, 5],   [0, 6],   [0, 7],   [1, 4],   [1, 5],   [1, 6],   [1, 7],   [2, 4],   [2, 5],   [2, 6],   [2, 7],   [3, 4],   [3, 5],   [3, 6],   [3, 7]],
+            [[0, 8],   [0, 9],   [0, 10],  [0, 11],  [1, 8],   [1, 9],   [1, 10],  [1, 11],  [2, 8],   [2, 9],   [2, 10],  [2, 11],  [3, 8],   [3, 9],   [3, 10],  [3, 11]],
+            [[0, 12],  [0, 13],  [0, 14],  [0, 15],  [1, 12],  [1, 13],  [1, 14],  [1, 15],  [2, 12],  [2, 13],  [2, 14],  [2, 15],  [3, 12],  [3, 13],  [3, 14],  [3, 15]],
+
+            [[4, 0],   [4, 1],   [4, 2],   [4, 3],   [5, 0],   [5, 1],   [5, 2],   [5, 3],   [6, 0],   [6, 1],   [6, 2],   [6, 3],   [7, 0],   [7, 1],   [7, 2],   [7, 3]],
+            [[4, 4],   [4, 5],   [4, 6],   [4, 7],   [5, 4],   [5, 5],   [5, 6],   [5, 7],   [6, 4],   [6, 5],   [6, 6],   [6, 7],   [7, 4],   [7, 5],   [7, 6],   [7, 7]],
+            [[4, 8],   [4, 9],   [4, 10],  [4, 11],  [5, 8],   [5, 9],   [5, 10],  [5, 11],  [6, 8],   [6, 9],   [6, 10],  [6, 11],  [7, 8],   [7, 9],   [7, 10],  [7, 11]],
+            [[4, 12],  [4, 13],  [4, 14],  [4, 15],  [5, 12],  [5, 13],  [5, 14],  [5, 15],  [6, 12],  [6, 13],  [6, 14],  [6, 15],  [7, 12],  [7, 13],  [7, 14],  [7, 15]],
+
+            [[8, 0],   [8, 1],   [8, 2],   [8, 3],   [9, 0],   [9, 1],   [9, 2],   [9, 3],   [10, 0],  [10, 1],  [10, 2],  [10, 3],  [11, 0],  [11, 1],  [11, 2],  [11, 3]],
+            [[8, 4],   [8, 5],   [8, 6],   [8, 7],   [9, 4],   [9, 5],   [9, 6],   [9, 7],   [10, 4],  [10, 5],  [10, 6],  [10, 7],  [11, 4],  [11, 5],  [11, 6],  [11, 7]],
+            [[8, 8],   [8, 9],   [8, 10],  [8, 11],  [9, 8],   [9, 9],   [9, 10],  [9, 11],  [10, 8],  [10, 9],  [10, 10], [10, 11], [11, 8],  [11, 9],  [11, 10], [11, 11]],
+            [[8, 12],  [8, 13],  [8, 14],  [8, 15],  [9, 12],  [9, 13],  [9, 14],  [9, 15],  [10, 12], [10, 13], [10, 14], [10, 15], [11, 12], [11, 13], [11, 14], [11, 15]],
+
+            [[12, 0],  [12, 1],  [12, 2],  [12, 3],  [13, 0],  [13, 1],  [13, 2],  [13, 3],  [14, 0],  [14, 1],  [14, 2],  [14, 3],  [15, 0],  [15, 1],  [15, 2],  [15, 3]],
+            [[12, 4],  [12, 5],  [12, 6],  [12, 7],  [13, 4],  [13, 5],  [13, 6],  [13, 7],  [14, 4],  [14, 5],  [14, 6],  [14, 7],  [15, 4],  [15, 5],  [15, 6],  [15, 7]],
+            [[12, 8],  [12, 9],  [12, 10], [12, 11], [13, 8],  [13, 9],  [13, 10], [13, 11], [14, 8],  [14, 9],  [14, 10], [14, 11], [15, 8],  [15, 9],  [15, 10], [15, 11]],
             [[12, 12], [12, 13], [12, 14], [12, 15], [13, 12], [13, 13], [13, 14], [13, 15], [14, 12], [14, 13], [14, 14], [14, 15], [15, 12], [15, 13], [15, 14], [15, 15]],
         ];
-        
+
         boardinit = board.map(row => [...row]);
         
         gameBoardSetup();
         gameNumberSetup();
         funcTheme();
-
-        let leveldif1 = document.getElementById("dif1");
-        let leveldif2 = document.getElementById("dif2");
-        let leveldif3 = document.getElementById("dif3");
-        let leveldif4 = document.getElementById("dif4");
-        let leveldif5 = document.getElementById("dif5");
 
         let btn1 = document.getElementById("btn1");
         let btn2 = document.getElementById("btn2");
@@ -413,18 +368,36 @@
         let btn4 = document.getElementById("btn4");
         let btn5 = document.getElementById("btn5");
 
-        // enable difficulty button and disable other
-        btn1.disabled = true;
+        // button fill enable and other disabled
+        btn1.disabled = false;
         btn2.disabled = true;
         btn3.disabled = true;
         btn4.disabled = true;
         btn5.disabled = true;
+        btn6.disabled = false;
+        btn7.disabled = false;
+
+        btn1.style.border = "none";
+        btn2.style.border = "none";
+        btn3.style.border = "none";
+        btn4.style.border = "none";
+        btn5.style.border = "none";
+        btn6.style.border = "none";
+        btn7.style.border = "none";
+        btn1.classList.add('hover-btn-control');
+        btn2.classList.remove('hover-btn-control');
+        btn3.classList.remove('hover-btn-control');
+        btn4.classList.remove('hover-btn-control');
+        btn5.classList.remove('hover-btn-control');
+        btn6.classList.add('hover-btn-control');
+        btn7.classList.add('hover-btn-control');
+        btn1.style.color = "black";
 
         // disable all number button bin
         marknumdesabled(true);
         marknumbkcolor("rgb(255, 255, 255)");
         let btnBox = document.querySelectorAll(".btn-box");
-        funcThemeSequre();
+        backgroundColorSetPara();
 
         // Puzzle board setup para
         function gameBoardSetup(){
@@ -476,13 +449,8 @@
         // Numbers/Alphabet Change para
         function funcNumbers(){
             marknumbkcolor("rgb(255, 255, 255)");
-            for (i = 1; i < 17; i++) {
-                for (j = 1; j < 17; j++) {
-                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.55)";
-                    document.getElementById(btnid).style.color = "black";
-                }
-            }
+            backgroundColorSetPara();
+
             let str = document.getElementById("msg").innerText;
             if (NumberAlpha){
                 document.getElementById("btn6").innerText = "Alphabets";
@@ -490,7 +458,7 @@
                     for (j = 1; j < 17; j++) {
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                         if (document.getElementById(btnid).innerText != "") {
-                            for (k=0;k<17;k++){
+                            for (k=0;k<16;k++){
                                 if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
                                     document.getElementById(btnid).innerText = k+1;
                                     break;
@@ -500,17 +468,12 @@
                     }
                     numid = "num" + i;
                     document.getElementById(numid).innerText = NumberAlpha ? NumAlphArr[0][i-1] : NumAlphArr[1][i-1];
-                    if(timer){
                         document.getElementById(numid).style.color = "rgb(0, 0, 0)";
                         if (NumberAlpha) {
-                            document.getElementById("msg").innerText = "Please click (A-P) to Start Mark";
+                            document.getElementById("msg").innerText = "Please click (A-Y) to Start Mark";
                         } else {
                             document.getElementById("msg").innerText = "Please click (1-16) to Start Mark";
                         }
-                    } else {
-                        document.getElementById(numid).style.color = "rgba(0, 0, 0, 0.3)";
-                        document.getElementById("msg").innerText = "Please Select Difficulty Level";
-                    }
                 }
                 NumberAlpha = false;
             } else {
@@ -526,13 +489,11 @@
                     }
                     numid = "num" + i;
                     document.getElementById(numid).innerText = NumberAlpha ? NumAlphArr[1][i-1] : NumAlphArr[0][i-1];
-                    if(timer){
-                        document.getElementById(numid).style.color = "rgb(0, 0, 0)";
-                        if (NumberAlpha) {
-                            document.getElementById("msg").innerText = "Please click (A-P) to Start Mark";
-                        } else {
-                            document.getElementById("msg").innerText = "Please click (1-16) to Start Mark";
-                        }
+                    document.getElementById(numid).style.color = "rgb(0, 0, 0)";
+                    if (NumberAlpha) {
+                        document.getElementById("msg").innerText = "Please click (A-J) to Start Mark";
+                    } else {
+                        document.getElementById("msg").innerText = "Please click (1-16) to Start Mark";
                     }
                 }
             }
@@ -541,26 +502,14 @@
         // theme (dark/light) change para
         function funcTheme(){
             let h1 = document.getElementsByTagName("h1");
-            if (timer) {
-                marknumcolor("rgb(0, 0, 0)")
-                marknumbkcolor("rgb(255, 255, 255)");
-            }
+            marknumcolor("rgb(0, 0, 0)")
+            marknumbkcolor("rgb(255, 255, 255)");
             if(document.getElementById("btn7").innerText == "Light") {
                 document.getElementById("btn7").innerText = "Dark";
                 h1[0].classList.remove('shadowDark');
                 h1[0].classList.add('shadowLight');
                 document.querySelector(':root').style.setProperty('--bg-light', '#d1d1d1');
                 document.querySelector(':root').style.setProperty('--cl-light', '#464646');
-                document.getElementById("dif1").classList.add("shadow-btn-light");
-                document.getElementById("dif2").classList.add("shadow-btn-light");
-                document.getElementById("dif3").classList.add("shadow-btn-light");
-                document.getElementById("dif4").classList.add("shadow-btn-light");
-                document.getElementById("dif5").classList.add("shadow-btn-light");
-                document.getElementById("dif1").classList.remove("shadow-btn-dark");
-                document.getElementById("dif2").classList.remove("shadow-btn-dark");
-                document.getElementById("dif3").classList.remove("shadow-btn-dark");
-                document.getElementById("dif4").classList.remove("shadow-btn-dark");
-                document.getElementById("dif5").classList.remove("shadow-btn-dark");
                 document.getElementById("btn1").classList.add("shadow-btn-light");
                 document.getElementById("btn2").classList.add("shadow-btn-light");
                 document.getElementById("btn3").classList.add("shadow-btn-light");
@@ -575,23 +524,12 @@
                 document.getElementById("btn5").classList.remove("shadow-btn-dark");
                 document.getElementById("btn6").classList.remove("shadow-btn-dark");
                 document.getElementById("btn7").classList.remove("shadow-btn-dark");
-                funcThemeSequre();
             } else {
                 document.getElementById("btn7").innerText = "Light";
                 h1[0].classList.remove('shadowLight');
                 h1[0].classList.add('shadowDark');
                 document.querySelector(':root').style.setProperty('--bg-light', '#464646');
                 document.querySelector(':root').style.setProperty('--cl-light', '#d1d1d1');
-                document.getElementById("dif1").classList.add("shadow-btn-dark");
-                document.getElementById("dif2").classList.add("shadow-btn-dark");
-                document.getElementById("dif3").classList.add("shadow-btn-dark");
-                document.getElementById("dif4").classList.add("shadow-btn-dark");
-                document.getElementById("dif5").classList.add("shadow-btn-dark");
-                document.getElementById("dif1").classList.remove("shadow-btn-light");
-                document.getElementById("dif2").classList.remove("shadow-btn-light");
-                document.getElementById("dif3").classList.remove("shadow-btn-light");
-                document.getElementById("dif4").classList.remove("shadow-btn-light");
-                document.getElementById("dif5").classList.remove("shadow-btn-light");
                 document.getElementById("btn1").classList.add("shadow-btn-dark");
                 document.getElementById("btn2").classList.add("shadow-btn-dark");
                 document.getElementById("btn3").classList.add("shadow-btn-dark");
@@ -606,39 +544,30 @@
                 document.getElementById("btn5").classList.remove("shadow-btn-light");
                 document.getElementById("btn6").classList.remove("shadow-btn-light");
                 document.getElementById("btn7").classList.remove("shadow-btn-light");
-                funcThemeSequre();
             }
+            backgroundColorSetPara();
         }
         
-        // squre dark/light with theme (dark/light) change para 
-        function funcThemeSequre() {
-            if(document.getElementById("btn7").innerText == "Light") {
-                for (i = 1; i < 17; i++) {
-                    for (j = 1; j < 17; j++) {
-                        btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        document.getElementById(btnid).disabled = true;
-                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
-                        document.getElementById(btnid).style.color = "black";
-                        if(timer){
-                            document.getElementById(btnid).style.color = "rgb(0, 0, 0)";
-                        } else {
-                            document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
-                        }
-                    }
-
-                }
+        function backgroundColorSetPara(){
+            if(document.getElementById("btn7").innerText == "Light"){
+                bkGroundColorChange = "rgba(255, 255, 255, 0.55)";
             } else {
-                for (i = 1; i < 17; i++) {
-                    for (j = 1; j < 17; j++) {
-                        btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        document.getElementById(btnid).disabled = true;
-                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.33)";
-                        document.getElementById(btnid).style.color = "black";
-                        if(timer){
-                            document.getElementById(btnid).style.color = "rgb(0, 0, 0)";
-                        } else {
-                            document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
-                        }
+                bkGroundColorChange = "rgba(255, 255, 255, 0.00)";
+            }
+            for (i = 1; i < 17; i++) {
+                for (j = 1; j < 17; j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                    if ((i>0 && i<5) && ((j>4 && j<9) || (j>12 && j<17))) {
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
+                    } else if ((i>4 && i<9) && ((j>0 && j<5) || (j>8 && j<13))) {
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
+                    } else if ((i>8 && i<13) && ((j>4 && j<9) || (j>12 && j<17))) {
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
+                    } else if ((i>12 && i<17) && ((j>0 && j<5) || (j>8 && j<13))) {
+                        document.getElementById(btnid).style.backgroundColor = bkGroundColorChange;
+                    } else {
+                        document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255)";
                     }
                 }
             }
@@ -649,7 +578,7 @@
             btn.addEventListener("click", () => {
                 if (erase) {
                     let eraseNumber = 0;
-                    if(Number(btn.innerText)>0 && Number(btn.innerText)<20){
+                    if(Number(btn.innerText)>0 && Number(btn.innerText)<16){
                         eraseNumber = Number(btn.innerText);
                         countNum[Number(btn.innerText)]--;
                     } else {
@@ -733,12 +662,12 @@
                         }
                         btn.innerText = NumberAlpha ? NumAlphArr[1][markNumber-1] : NumAlphArr[0][markNumber-1];
                         btn.style.backgroundColor = "blue";
-                        btn.style.color = "white";
+                        btn.style.color = "black";
                         btn.disabled = true;
                         playBeep();
                     } else {
                         if (NumberAlpha) {
-                            document.getElementById("msg").innerText = "Please click (A-P) to Start Mark";
+                            document.getElementById("msg").innerText = "Please click (A-Y) to Start Mark";
                         } else {
                             document.getElementById("msg").innerText = "Please click (1-16) to Start Mark";
                         }
@@ -749,22 +678,18 @@
 
         // function for press start button
         function funcstart() {
-            timer = true;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-            hrdsec = 0;
-            updateTimer();
-
             board = boardinit.map(row => [...row]);
             generateBoard();
             boardsolve = [];
+            generatePuzzle();
             boardsolve = board.map(row => [...row]);
-            generatePuzzle(difficulty);
-            displayGeneratedPuzzle(board);
+            console.log(boardsolve)
+            displayGeneratedPuzzle(boardsolve);
             marknumdesabled(false);
             marknumbkcolor("rgb(255, 255, 255)");
             marknumcolor("rgb(0, 0, 0)");
+            backgroundColorSetPara();
+            document.getElementById("Err").innerText = "";
             btn1.disabled = true;
             btn2.disabled = false;
             btn3.disabled = false;
@@ -792,15 +717,23 @@
             btn6.style.color = "black";
             btn7.style.color = "black";
             if (NumberAlpha) {
-                document.getElementById("msg").innerText = "Please click (A-P) to Start Mark ";
+                document.getElementById("msg").innerText = "Please click (A-Y) to Start Mark ";
             } else {
                 document.getElementById("msg").innerText = "Please click (1-16) to Start Mark";
             }
-            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             for (i = 1; i < 17; i++) {
                 for (j = 1; j < 17; j++) {
+                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).disabled = false;
+                    // if (backgroundColorArray[i-1][j-1] == "L") {
+                    //     document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
+                    // } else {
+                    //     document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
+                    // }
+                    // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     if (board[i-1][j-1] != "") {
                         countNum[board[i-1][j-1]]++;
                     } else {
@@ -808,7 +741,16 @@
                     }
                 }
             }
-            funcThemeSequre();
+            backgroundColorSetPara();
+
+
+            // countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            // for (i = 1; i < 17; i++) {
+            //     for (j = 1; j < 17; j++) {
+            //         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+            //         document.getElementById(btnid).disabled = false;
+            //     }
+            // }
             for (i=1; i < 17; i++){
                 let spid = "sp" + i;
                 document.getElementById(spid).innerText = 16 - countNum[i];
@@ -847,8 +789,7 @@
 
         // function for press pause button
         function funcpause() {
-            if (timer) {
-                timer = false;
+            if(document.getElementById("btn4").innerText == "Pause"){
                 document.getElementById("btn4").innerText = "Resume";
                 btn4.style.border = ".2rem solid blue";
                 btn1.disabled = true;
@@ -859,17 +800,16 @@
                 marknumdesabled(true);
                 marknumbkcolor("rgb(255, 255, 255)");
                 marknumcolor("rgba(0, 0, 0, 0.3)");
+                backgroundColorSetPara();
 
                 document.getElementById("msg").innerText = "Please click Resume";
                 for (i = 1; i < 17; i++) {
                     for (j = 1; j < 17; j++) {
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                         document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
-                        document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     }
                 }
             } else {
-                timer = true;
                 document.getElementById("btn4").innerText = "Pause";
                 btn1.disabled = true;
                 btn2.disabled = false;
@@ -884,7 +824,7 @@
                 marknumdesabled(false);
                 marknumbkcolor("rgb(255, 255, 255)");
                 marknumcolor("rgb(0, 0, 0)");
-
+    
                 for (i = 1; i < 17; i++) {
                     for (j = 1; j < 17; j++) {
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
@@ -902,35 +842,27 @@
                         }
                     }
                 }
-                updateTimer();
                 document.getElementById("msg").innerText = "Please click Pause ";
             }
         }
 
         // function to press reset button
         function funcreset() {
-            timer = false;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-            hrdsec = 0;
-            countNum = [];
-            funcThemeSequre();
-            updateTimer();
-            displayGeneratedPuzzle(board);
+            backgroundColorSetPara();
             marknumbkcolor("rgb(255, 255, 255)");
             marknumcolor("rgb(0, 0, 0)");
 
             if (NumberAlpha) {
-                document.getElementById("msg").innerText = "Please click (A-P) to Start Mark";
+                document.getElementById("msg").innerText = "Please click (A-Y) to Start Mark";
             } else {
-                document.getElementById("msg").innerText = "Please click (1-16) to Start Mark";
+                document.getElementById("msg").innerText = "Please click (1-25) to Start Mark";
             }
             countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             for (i = 1; i < 17; i++) {
                 for (j = 1; j < 17; j++) {
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    document.getElementById(btnid).disabled = true;
+                    document.getElementById(btnid).disabled = false;
+                    document.getElementById(btnid).innerText = "";
                     if (board[i-1][j-1] != "") {
                         countNum[board[i-1][j-1]]++;
                     } else {
@@ -940,13 +872,12 @@
             }
             for (i=1; i < 17; i++){
                 let spid = "sp" + i;
-                document.getElementById(spid).innerText = 16 - countNum[i];
+                document.getElementById(spid).innerText = 17 - countNum[i];
             }
         }
 
         // function to press solve button
         function funcsolve() {
-            timer = false;
             document.getElementById("msg").innerText = "Please click Start to play game";
             btn2.style.color = "rgba(0, 0, 0, 0.3)";
             btn3.style.border = ".2rem solid blue";
@@ -975,68 +906,80 @@
 
             document.getElementById(btnid).disabled = false;
             boardcheck = boardinit.map(row => [...row]);
+            console.log(boardcheck);
             for (i = 1; i < 17; i++) {
                 for (j = 1; j < 17; j++) {
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     if (document.getElementById(btnid).innerText == "") {
-                        boardcheck[i-1][j-1] = 0;
+                        boardcheck[i-1][j-1] = "";
                     } else {
-                        for (k=0;k<16;k++){
-                            if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
-                                boardcheck[i-1][j-1] = k+1;
-                                break;
+                        // console.log(document.getElementById(btnid).innerText)
+                        if (document.getElementById(btnid).innerText >= 0){
+                            boardcheck[i-1][j-1] = NumAlphArr[0][document.getElementById(btnid).innerText];
+                        } else {
+                            for (k=0;k<25;k++){
+                                if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
+                                    // console.log(i,j,k,NumAlphArr[1][k],NumAlphArr[0][k]);
+                                    boardcheck[i-1][j-1] = k+1;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
+            // console.log("boardcheck",boardcheck);
             duplicatecheck = checkDuplicatesRow(boardcheck);
             if (duplicatecheck) {
                 duplicatecheck = checkDuplicatesCol(boardcheck);
             }
             if (duplicatecheck) {
-                duplicatecheck = checkDuplicatesSeq(boardcheck, seqIndexArray);
+                duplicatecheck = checkDuplicatesSeq(boardcheck);
             }
 
-            funcThemeSequre();
-            let count = 0;
-            for (i = 1; i < 17; i++) {
-                for (j = 1; j < 17; j++) {
-                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    document.getElementById(btnid).disabled = true;
-                    document.getElementById(btnid).style.color = "black";
-                    document.getElementById(btnid).style.fontSize = "1.5rem";
-                    if (board[i-1][j-1] == "") {
-                        if (duplicatecheck) {
-                            document.getElementById(btnid).style.color = "magenta";
-                        } else {
-                            if (document.getElementById(btnid).innerText == (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1])) {
-                                document.getElementById(btnid).style.color = "magenta";
-                            } else if (document.getElementById(btnid).innerText == "") {
-                                document.getElementById(btnid).innerText = (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1]);
-                                document.getElementById(btnid).style.color = "red";
-                                count++
-                            } else if (document.getElementById(btnid).innerText != (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1])) {
+            console.log(countNum);
+            if (countNum[0]>225){
+                document.getElementById("msg").innerHTML = "Please fill " + (countNum[0] - 225) + " more number ";
+                textToSpeechEng("Please fill " + (countNum[0] - 225) + " more number ");
+                btn5.disabled = false;
+                btn5.classList.add('hover-btn-control');
+                btn5.style.color = "black";
+                btn3.style.border = "none";
+                btn3.disabled = false;
+                btn3.classList.add('hover-btn-control');
+                btn3.style.color = "black";
+                marknumdesabled(false);
+            } else {
+                if(duplicatecheck){
+                    if (solveSudoku(boardcheck, 0, 0)) {
+                        backgroundColorSetPara();
+                        let count = 0;
+                        for (i = 1; i < 17; i++) {
+                            for (j = 1; j < 17; j++) {
+                                btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                                document.getElementById(btnid).disabled = true;
+                                document.getElementById(btnid).style.color = "black";
                                 document.getElementById(btnid).style.fontSize = "1rem";
-                                document.getElementById(btnid).innerHTML = "<span style=\"color:red;\">" + document.getElementById(btnid).innerText + "<span><span style=\"color:magenta;\">(" + (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1]) + ")<span>";
-                                count++;
+                                document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][boardcheck[i-1][j-1]-1] : NumAlphArr[0][boardcheck[i-1][j-1]-1];
                             }
                         }
+                        textToSpeechEng("Puzzle Solved");
+                    } else {
+                        document.getElementById("msg").innerHTML = "<span class=\"msgloser\">No Solution</span>exists";
+                        textToSpeechEng("No Solution exists");
                     }
-                }
-            }
-
-            if (!duplicatecheck) {
-                if (count > 0) {
-                    document.getElementById("msg").innerHTML = "<span class=\"msgloser\">Loser</span>(" + count + " Mistake) Cilck Start to play";
-                    textToSpeechEng("Loser" + count + " Mistake");
                 } else {
-                    document.getElementById("msg").innerHTML = "<span class=\"msgwinner\">Winner</span> click Start to play";
-                    textToSpeechEng("Winner");
+                    document.getElementById("msg").innerHTML = "<span class=\"msgloser\">Duplicate Data</span>Error";
+                        textToSpeechEng("Duplicate Data Error");
+                        btn5.disabled = false;
+                        btn5.classList.add('hover-btn-control');
+                        btn5.style.color = "black";
+                        btn3.style.border = "none";
+                        btn3.disabled = false;
+                        btn3.classList.add('hover-btn-control');
+                        btn3.style.color = "black";
+                        marknumdesabled(false);
                 }
-            } else if (duplicatecheck) {
-                document.getElementById("msg").innerHTML = "<span class=\"msgwinner\">Winner</span> click Start to play";
-                textToSpeechEng("Winner");
             }
         }
 
@@ -1050,17 +993,12 @@
                 document.getElementById("msg").innerText = "Please click marked bin to erase";
                 marknumbkcolor("rgb(255, 255, 255)");
                 marknumcolor("black");
-                funcThemeSequre();
+                backgroundColorSetPara();
                 for (i = 1; i < 17; i++) {
                     for (j = 1; j < 17; j++) {
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        if (board[i-1][j-1] == "") {
                             document.getElementById(btnid).disabled = false;
                             document.getElementById(btnid).style.color = "blue";
-                        } else {
-                            document.getElementById(btnid).disabled = true;
-                            document.getElementById(btnid).style.color = "black";
-                        }
                     }
                 }
             }
@@ -1073,8 +1011,9 @@
 
             for (i = 1; i < 17; i++) {
                 for (j = 1; j < 17; j++) {
+                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    document.getElementById(btnid).style.fontSize = "1.5rem";
+                    document.getElementById(btnid).style.fontSize = "0.8rem";
                     if (board[i-1][j-1] == "") {
                         document.getElementById(btnid).innerText = ""; 
                         document.getElementById(btnid).disabled = false;
@@ -1082,12 +1021,22 @@
                     } else {
                         document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][board[i-1][j-1]-1] : NumAlphArr[0][board[i-1][j-1]-1]; 
                         document.getElementById(btnid).style.color = "black";
-                        document.getElementById(btnid).style.fontSize = "1.5rem";
+                        document.getElementById(btnid).style.fontSize = "0.8rem";
                         document.getElementById(btnid).style.fontWeight = "bold";
                         document.getElementById(btnid).disabled = true;
                     }
                 }
             }
+
+            // for (i = 1; i < 17; i++) {
+            //     for (j = 1; j < 17; j++) {
+            //         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+            //         document.getElementById(btnid).style.fontSize = "1.5rem";
+            //         document.getElementById(btnid).innerText = ""; 
+            //         document.getElementById(btnid).disabled = false;
+            //         document.getElementById(btnid).style.borderColor = "rgba(0, 0, 0, 0.3)";
+            //     }
+            // }
         }
 
         // function to press mark number/alphabet button
@@ -1260,129 +1209,17 @@
                     document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
                 }
             }
-
-            funcThemeSequre();
+            backgroundColorSetPara();
             for (i = 1; i < 17; i++) {
                 for (j = 1; j < 17; j++) {
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    if (board[i-1][j-1] == "") {
-                        if (document.getElementById(btnid).innerText == "") {
-                            document.getElementById(btnid).disabled = false;
-                        } else if (NumberAlpha) {
-                            for (k=0;k<16;k++){
-                                if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
-                                    if(NumAlphArr[0][k] == markNumber){
-                                        document.getElementById(btnid).disabled = true;
-                                        document.getElementById(btnid).style.backgroundColor = "blue";
-                                        document.getElementById(btnid).style.color = "white";
-                                        break;
-                                    }
-                                } else {
-                                    document.getElementById(btnid).style.color = "blue";
-                                }
-                            }
-                        } else if (Number(document.getElementById(btnid).innerText) == markNumber) {
-                            document.getElementById(btnid).disabled = true;
-                            document.getElementById(btnid).style.backgroundColor = "blue";
-                            document.getElementById(btnid).style.color = "white";
-                        } else {
-                            document.getElementById(btnid).disabled = true;
-                            document.getElementById(btnid).style.color = "blue";
-                        }
-                    } else if (board[i-1][j-1] == markNumber) {
-                        document.getElementById(btnid).disabled = true;
-                        document.getElementById(btnid).style.color = "yellow";
-                        document.getElementById(btnid).style.backgroundColor = "blue";
-                    } else {
-                        document.getElementById(btnid).disabled = true;
-                        document.getElementById(btnid).style.color = "black";
-                    }
+                    document.getElementById(btnid).disabled = false;
                 }
             }
         }
 
-        // function to set difficulty level 
-        function setDifficulty(diff) {
-            difficulty = diff;
-            document.getElementById("msg").innerText = "Please click Start to play game";
-            btn1.disabled = false;
-            btn1.classList.add('hover-btn-control');
-            btn2.disabled = true;
-            btn3.disabled = true;
-            btn4.disabled = true;
-            btn5.disabled = true;
-            leveldif1.style.cursor = "none";
-            leveldif2.style.cursor = "none";
-            leveldif3.style.cursor = "none";
-            leveldif4.style.cursor = "none";
-            leveldif5.style.cursor = "none";
-            if (difficulty == 1) {
-                leveldif1.disabled = true;
-                leveldif1.style.opacity = "1";
-                leveldif1.style.color = "black";
-                leveldif2.disabled = true;
-                leveldif3.disabled = true;
-                leveldif4.disabled = true;
-                leveldif5.disabled = true;
-                leveldif2.classList.remove('hover-btn-level');
-                leveldif3.classList.remove('hover-btn-level');
-                leveldif4.classList.remove('hover-btn-level');
-                leveldif5.classList.remove('hover-btn-level');
-            } else if (difficulty == 2) {
-                leveldif1.disabled = true;
-                leveldif2.disabled = true;
-                leveldif2.style.opacity = "1";
-                leveldif2.style.color = "black";
-                leveldif3.disabled = true;
-                leveldif4.disabled = true;
-                leveldif5.disabled = true;
-                leveldif1.classList.remove('hover-btn-level');
-                leveldif3.classList.remove('hover-btn-level');
-                leveldif4.classList.remove('hover-btn-level');
-                leveldif5.classList.remove('hover-btn-level');
-            } else if (difficulty == 3) {
-                leveldif1.disabled = true;
-                leveldif2.disabled = true;
-                leveldif3.disabled = true;
-                leveldif3.style.opacity = "1";
-                leveldif3.style.color = "black";
-                leveldif4.disabled = true;
-                leveldif5.disabled = true;
-                leveldif1.classList.remove('hover-btn-level');
-                leveldif2.classList.remove('hover-btn-level');
-                leveldif4.classList.remove('hover-btn-level');
-                leveldif5.classList.remove('hover-btn-level');
-            } else if (difficulty == 4) {
-                leveldif1.disabled = true;
-                leveldif2.disabled = true;
-                leveldif3.disabled = true;
-                leveldif4.disabled = true;
-                leveldif4.style.cursor = "none";
-                leveldif4.style.opacity = "1";
-                leveldif4.style.color = "black";
-                leveldif5.disabled = true;
-                leveldif1.classList.remove('hover-btn-level');
-                leveldif2.classList.remove('hover-btn-level');
-                leveldif3.classList.remove('hover-btn-level');
-                leveldif5.classList.remove('hover-btn-level');
-            } else if (difficulty == 5) {
-                leveldif1.disabled = true;
-                leveldif2.disabled = true;
-                leveldif3.disabled = true;
-                leveldif4.disabled = true;
-                leveldif5.disabled = true;
-                leveldif5.style.opacity = "1";
-                leveldif5.style.color = "black";
-                leveldif1.classList.remove('hover-btn-level');
-                leveldif2.classList.remove('hover-btn-level');
-                leveldif3.classList.remove('hover-btn-level');
-                leveldif4.classList.remove('hover-btn-level');
-            }
-        }
-
-        // function to to generate new puzzle array as per difficulty level
-        function generatePuzzle(difficulty) {
-            let min = difficulty;
+        function generatePuzzle() {
+            let min = 5;
             let max = min + 2;
             board.forEach((row) => {
                 let toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
@@ -1390,10 +1227,6 @@
                     row[toReplace[i]] = '';
                 }
             });
-
-            // let text = "";
-            // text = printArray(board);
-            // document.getElementById("Arr1").innerHTML = text;
         }
 
         // function to shuffle array to make game puzzle
@@ -1422,7 +1255,7 @@
 
         // function to check generated puzzle is ok or not
         function generateBoard() {
-            let error = "";
+            // let error = "";
             let random10 = Math.floor((Math.random() * 15) + 1);
 
             // loop to generate new puzzle board
@@ -1443,9 +1276,9 @@
             // text = printArray(board);
             // document.getElementById("Arr2").innerHTML = text + "<br>";
 
-            checkDuplicatesRow(board);
-            checkDuplicatesCol(board);
-            checkDuplicatesSeq(board, seqIndexArray);
+            // checkDuplicatesRow(board);
+            // checkDuplicatesCol(board);
+            // checkDuplicatesSeq(board, seqIndexArray);
         }
 
         // para to print array on browser
@@ -1464,24 +1297,30 @@
         function checkDuplicatesRow(Array) {
             duplicatecheck = true;
             error = "";
+
             for (r = 0; r < 16; r++) {
                 for (i = 0; i < 16; i++) {
                     for (j = i + 1; j < 16; j++) {
-                        if (j == 17) { j = 0 };
+                        if (j == 16) { j = 0 };
+                        if (Array[r][i] == ""){
+                            continue;
+                        }
                         if (Array[r][i] === Array[r][j]) {
-                            // console.log("Array[r][i]= ", Array[r][i], " Array[r][j] ", Array[r][j], "Duplicates");
-                            // error += "row Duplicates r= " + r + ", i= " + i + " (" + Array[r][i] + ") r= " + r + ", j= " + j + " (" + Array[r][j] + ") <br>";
+                            // console.log("Row Duplicates Row= ", (r+1), " Col= ", (i+1), " (", Array[r][i], ") Row= ", (r+1), " Col= ", (j+1), " (", Array[r][j], ")");
+                            error += "Row Duplicates Row= " + (r+1) + " Col= " + (i+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[r][i]-1] : NumAlphArr[0][Array[i][r]-1]) + ") Row= " + (r+1) + " Col= " + (j+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[r][j]-1] : NumAlphArr[0][Array[r][j]-1]) + "),<br>";
                             duplicatecheck = false;
-                        } else {
-                            // console.log("Array[r][i]= ", Array[r][i], " Array[r][j] ", Array[r][j], "OK Row");
-                            // error += "row OK (" + Array[r][i] + ") (" + Array[r][j] + ") " + r + " " + i + " " + j + ", ";
+                            // document.getElementById("Err").innerHTML = error;
+                            // return duplicatecheck;
+                        // } else {
+                            // console.log("Row OK Row= ", r, " Col= ", i, " (", Array[r][i], ") Row= ", r, " Col= ", j, " (", Array[r][j], "),<br>");
+                            // error += "Row OK Row= " + r + " Col= " + i + " (" + Array[r][i] + ") Row= " + r + " Col= " + j + " (" + Array[r][j] + "),<br>";
                         }
                     }
                     // error += "<br>";
                 }
             }
-            console.log("error Row", error);
-            // document.getElementById("Err").innerHTML = error;
+            // console.log("error Row", error);
+            document.getElementById("Err").innerHTML = error;
             return duplicatecheck;
         }
 
@@ -1492,77 +1331,56 @@
             for (r = 0; r < 16; r++) {
                 for (i = 0; i < 16; i++) {
                     for (j = i + 1; j < 16; j++) {
-                        if (j == 17) { j = 0 };
+                        if (j == 16) { j = 0 };
+                        if (Array[i][r] == ""){
+                            continue;
+                        }
                         if (Array[i][r] === Array[j][r]) {
-                            // console.log("Array[i][r]= ", Array[i][r], " Array[j][r] ", Array[j][r], "Duplicates");
-                            // error += "Col Duplicates i,r = [" + i + "][" + r + "](" + Array[i][r] + ") j,r =[" + j + "][" + r + "] (" + Array[j][r] + ") " + r + " " + i + " " + j + ",<br>";
-                        } else {
-                            // console.log("Array[i][r]= ", Array[i][r], " Array[j][r] ", Array[j][r], "OK Col");
-                            // error += "Col OK (" + Array[i][r] + ") (" + Array[j][r] + ") " + r + " " + i + " " + j + ", ";
+                            // console.log("Col Duplicates Row= " + (i+1) + " Col= " + (r+1) + " (" + Array[i][r] + ") Row= " + (j+1) + " Col= " + (r+1) + " (" + Array[j][r] + ")");
+                            error += "Col Duplicates Row= " + (i+1) + " Col= " + (r+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[i][r]-1] : NumAlphArr[0][Array[i][r]-1]) + ") Row= " + (j+1) + " Col= " + (r+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[j][r]-1] : NumAlphArr[0][Array[j][r]-1]) + "),<br>";
+                            duplicatecheck = false;
+                            // document.getElementById("Err").innerHTML = error;
+                            // return duplicatecheck;
+                        // } else {
+                            // console.log("Col Duplicates Row= " + i + " Col= " + r + " (" + Array[i][r] + ") Row= " + j + " Col= " + r + " (" + Array[j][r] + "),<br>");
+                            // error += "Col Duplicates Row= " + i + " Col= " + r + " (" + Array[i][r] + ") Row= " + j + " Col= " + r + " (" + Array[j][r] + "),<br>";
                         }
                     }
                     // error += "<br>";
                 }
             }
-            console.log("error Col", error);
-            // document.getElementById("Err1").innerHTML = error;
-            // return duplicatecheck;
+            // console.log("error Col", error);
+            document.getElementById("Err").innerHTML = error;
+            return duplicatecheck;
         }
 
         // para to check Array duplicates elements in Squre
-        function checkDuplicatesSeq(Array, seqIndexArray) {
-            let s1, s2;
+        function checkDuplicatesSeq(Array) {
             duplicatecheck = true;
             error = "";
 
-            for (r = 0; r < 16; r++) {
-                for (i = 0; i < 16; i++) {
-                    for (j = i + 1; j < 16; j++) {
-                        if (j == 17) { j = 0 };
-                        if (Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] === Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]) {
-                            // console.log("Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]= ", Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]], " Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]] ", Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]], "Duplicates");
-                            // error += "seq Duplicates r= " + r + ", i= " + i + ", 0 (" + Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] + ") r= "+ r + ", j= " + j + ", 0 (" + Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]] + ")<br>";
-                        } else {
-                            // console.log("Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]= ", Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]], " Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]] ", Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]], "OK Col");
-                            // error += "Col OK (" + Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] + ") (" + Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]] + ") " + r + " " + i + " " + j + ", ";
+            for (r=0;r<16;r++){
+                for (i=0;i<16;i++){
+                    for (j=i+1;j<16;j++){
+                        if(j==16){j=0};
+                        if (Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] == ""){
+                            continue;
                         }
-                    }
-                    // error += "<br>";
-                }
-            }
-            // document.getElementById("Err2").innerHTML = error;
-            console.log("error Seq", error);
-            // return duplicatecheck;
-        }
-
-        // display upadted time of game play
-        function displayTime() {
-            var displayTime = document.getElementById('displayTime');
-            displayTime.innerHTML = ((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
-        }
-
-        // update of time para
-        function updateTimer() {
-            if (timer) {
-
-                d = new Date(); //object of date()
-                hrdsec = parseInt(d.getMilliseconds() / 10);
-
-                if (hrdsec >= 99) {
-                    hrdsec = 0;
-                    seconds++;
-                    if (seconds >= 60) {
-                        seconds = 0;
-                        minutes++;
-                        if (minutes >= 60) {
-                            minutes = 0;
-                            hours++;
+                        if(Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] == Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]){
+                            // console.log("Seq error Seq= ", (r+1), " Box= ", (i+1), Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]],", Seq= ", (r+1), " Box= ", (j+1), Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]);
+                            error += "Seq Duplicates Seq= " + (r+1) + " Box= " + (i+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]-1] : NumAlphArr[0][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]]) + "), Seq= " + (r+1) + " Box= " + (j+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]-1] : NumAlphArr[0][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]]) + "),<br>";
+                            duplicatecheck = false;
+                            // document.getElementById("Err").innerHTML = error;
+                            // return duplicatecheck;
+                        // } else {
+                            // console.log("Seq error Row= ", r, " Col= ", i, Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]],", Row= ", r, " Col= ", j, Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]);
+                            // error += "Seq Duplicates Row= " + r + " Col= " + i + " " + Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] + ", Row= " + r + " Col= " + j + " " + Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]] + "<br>";
                         }
                     }
                 }
-                displayTime()
-                setTimeout("updateTimer()", 10);
             }
+            document.getElementById("Err").innerHTML = error;
+            return duplicatecheck;
         }
 
         // para to speeach in english
@@ -1579,6 +1397,134 @@
         function playBeep() {
             var beep = new Audio('Clock-Ticking-one.mp3');
             beep.play();
+        }
+
+        function solveSudoku(grid, row, col)
+        {
+            // console.log("grid", grid);
+            // console.log("N= ", N, " Row= ", row, " Col= ", col);
+            /* If we have reached the 8th row and 9th column (0 indexed matrix), we are returning true to avoid further backtracking       */
+            if (row == N - 1 && col == N){
+                return true;
+            }
+        
+            // Check if column value  becomes 9, we move to next row and column start from 0
+            if (col == N)
+            {
+                // printrow(grid);
+                row++;
+                col = 0;
+            }
+        
+            // Check if the current position of the grid already contains value >0, we iterate for next column
+            // console.log("grid[row]", grid[row], " Row= ", row);
+            // console.log("grid[row][col]", grid[row][col], " Row= ", row, " Col= ", col);
+            
+            if (grid[row][col] != 0){
+                return solveSudoku(grid, row, col + 1);
+            }
+        
+            for(let num = 1; num <(N+1); num++)
+            {
+                
+                if (num >= (N-1)){
+                    console.log(grid, row, col, num);
+                }
+                // Check if it is safe to place the num (1-16)  in the given row ,col ->we move to next column
+                if (isSafe(grid, row, col, num))
+                {
+                    
+                    /*  assigning the num in the current (row,col)  position of the grid and assuming our assigned num in the position is correct */
+                    grid[row][col] = num;
+        
+                    // Checking for next possibility with next column
+                    if (solveSudoku(grid, row, col + 1)){
+                        return true;
+                    }
+                }
+                
+                /* removing the assigned num , since our assumption was wrong , and we go for next assumption with diff num value   */
+                grid[row][col] = 0;
+            }
+            return false;
+        }
+        
+        /* A utility function to print grid */
+        function print(grid)
+        {
+            for(let i = 0; i < N; i++)
+            {
+                for(let j = 0; j < N; j++)
+                    document.write(grid[i][j] + ", ");
+                    
+                document.write("<br>");
+            }
+            document.write("<br>");
+        }
+        
+        /* A utility function to print grid */
+        function printrow(grid)
+        {
+            error = "";
+            for(let i = 0; i < N; i++)
+            {
+                // for(let j = 0; j < N; j++)
+                    // document.write(grid[i] + ",  ");
+                    error += grid[i] + ", ";
+                    // document.write(grid[i][j] + ", ");
+                    
+                // document.write("<br>");
+            }
+            error += "<br>";
+            document.getElementById("Err").innerHTML = error;
+            // document.write("<br>");
+        }
+
+        // Check whether it will be legal to assign num to the given row, col
+        function isSafe(grid, row, col, num)
+        {
+            // console.log("isSafe grid", grid, " Row= ", row, " Col= ", col, " num= ", num);
+            
+            // Check if we find the same num in the similar row, we return false
+            for(let x = 0; x <= (N-1); x++) {
+                if (grid[row][x] == num){
+                    // console.log("row error grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+                    return false;
+                // } else {
+                    // console.log("row ok grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+                }
+            }
+        
+            // Check if we find the same num in the similar column, we return false
+            for(let x = 0; x <= (N-1); x++){
+                if (grid[x][col] == num){
+                    // console.log("col error grid[x][col] ", grid[x][col], " Col= ", col, " x= ", x, " num= ", num, " row= ", row);
+                    return false;
+                } else {
+                    // console.log("col ok grid[x][col] ", grid[x][col], " row(x)= ", x, " Col= ", col, " num= ", num, " row= ", row);
+
+                }
+            }
+        
+            // Check if we find the same num in the particular 3*3 matrix, we return false
+            let startRow = row - row % 4, 
+                startCol = col - col % 4;
+            // console.log("row= ", row, "row % 3 = ", (row % 3), " startRow= ", startRow);
+            // console.log("col= ", col, "col % 3 = ", (col % 3), " startCol= ", startCol);
+                
+            for(let i = 0; i < 4; i++)
+                for(let j = 0; j < 4; j++){
+                    if (grid[i + startRow][j + startCol] == num){
+                        // console.log("seq error grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
+                        // console.log("seq error i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
+                        return false;
+                    // }else {
+                        // console.log("seq ok grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
+                        // console.log("seq ok i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
+                    }
+                }
+        
+            return true;
         }
     </script>
 </body>

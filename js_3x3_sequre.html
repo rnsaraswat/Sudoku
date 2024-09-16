@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <!-- <link rel="stylesheet" href="src/style.css"> -->
+    <style>
+        body {
+            background: transparent; /* Make it white if you need */
+            color: #fcbe24;
+            padding: 0 24px;
+            margin: 0;
+            height: 100vh;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          }
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Sudoku Solver</h1>
+    <p id="F1"></p>
+    <p id="F2"></p>
+    <br>
+    
+<script>
+
+    // Javascript program for above approach
+    
+    // N is the size of the 2D matrix   N*N
+    let N = 9;
+    let text1 = "";
+    let text2 = "";
+    
+    /* Takes a partially filled-in grid and attempts
+        to assign values to all unassigned locations in
+        such a way to meet the requirements for
+        Sudoku solution (non-duplication across rows,
+        columns, and boxes) */
+    function solveSudoku(grid, row, col)
+    {
+        // console.log("grid", grid);
+        // console.log("N= ", N, " Row= ", row, " Col= ", col);
+        /* If we have reached the 8th row and 9th column (0 indexed matrix), we are returning true to avoid further backtracking       */
+        if (row == N - 1 && col == N){
+            return true;
+        }
+    
+        // Check if column value  becomes 9, we move to next row and column start from 0
+        if (col == N)
+        {
+            // printrow(grid);
+            row++;
+            col = 0;
+        }
+    
+        // Check if the current position of the grid already contains value >0, we iterate for next column
+        // console.log("grid[row]", grid[row], " Row= ", row);
+        // console.log("grid[row][col]", grid[row][col], " Row= ", row, " Col= ", col);
+        
+        if (grid[row][col] != 0){
+            return solveSudoku(grid, row, col + 1);
+        }
+    
+        for(let num = 1; num < (N+1); num++)
+        {
+            
+            // Check if it is safe to place the num (1-9)  in the given row ,col ->we move to next column
+            if (isSafe(grid, row, col, num))
+            {
+                
+                /*  assigning the num in the current (row,col)  position of the grid and assuming our assigned num in the position is correct */
+                grid[row][col] = num;
+    
+                // Checking for next possibility with next column
+                if (solveSudoku(grid, row, col + 1)){
+                    return true;
+                }
+            }
+            
+            /* removing the assigned num , since our assumption was wrong , and we go for next assumption with diff num value   */
+            grid[row][col] = 0;
+        }
+        return false;
+    }
+    
+    /* A utility function to print grid */
+    function print(grid)
+    {
+        text1 = "";
+        for(let i = 0; i < N; i++)
+        {
+            for(let j = 0; j < N; j++)
+            text1 += grid[i][j] + " ";
+
+                // document.write(grid[i][j] + " ");
+                
+            text1 += "<br>";
+            // document.write("<br>");
+        }
+            text1 += "<br>";
+            return text1;
+
+
+    }
+    
+    /* A utility function to print grid */
+    function printrow(grid)
+    {
+        for(let i = 0; i < N; i++)
+        {
+            for(let j = 0; j < N; j++){
+                // document.write(grid[i] + ",  ");
+                document.write(grid[i][j] + ", ");
+            }
+            document.write("<br>");
+        }
+        document.write("<br>");
+    }
+
+    // Check whether it will be legal to assign num to the given row, col
+    function isSafe(grid, row, col, num)
+    {
+        // console.log("isSafe grid", grid, " Row= ", row, " Col= ", col, " num= ", num);
+        
+        // Check if we find the same num in the similar row, we return false
+        for(let x = 0; x <= (N-1); x++) {
+            if (grid[row][x] == num){
+                // console.log("row error grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+                return false;
+            } else {
+                // console.log("row ok grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+            }
+        }
+    
+        // Check if we find the same num in the similar column, we return false
+        for(let x = 0; x <= (N-1); x++){
+            if (grid[x][col] == num){
+                // console.log("col error grid[x][col] ", grid[x][col], " Col= ", col, " x= ", x, " num= ", num, " row= ", row);
+                return false;
+            } else {
+                // console.log("col ok grid[x][col] ", grid[x][col], " row(x)= ", x, " Col= ", col, " num= ", num, " row= ", row);
+
+            }
+        }
+    
+        // Check if we find the same num in the particular 3*3 matrix, we return false
+        let startRow = row - row % 3, 
+            startCol = col - col % 3;
+        console.log("row= ", row, "row % 3 = ", (row % 3), " startRow= ", startRow);
+        console.log("col= ", col, "col % 3 = ", (col % 3), " startCol= ", startCol);
+        console.log("seq grid[startRow][startCol]  ", grid[startRow][startCol]);
+
+            
+        for(let i = 0; i < 3; i++)
+            for(let j = 0; j < 3; j++){
+                if (grid[i + startRow][j + startCol] == num){
+                    // console.log("seq error grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
+                    // console.log("seq error i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
+                    return false;
+                }else {
+                    // console.log("seq ok grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
+                    // console.log("seq ok i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
+                }
+            }
+    
+        return true;
+    }
+    
+    // function generateBoard() {
+    //     let error = "";
+    //     let random10 = Math.floor((Math.random() * 8) + 1);
+
+    //     // loop to generate new puzzle board
+    //     // r is used to how many times each number is added 1 in it
+    //     for (let r = 0; r < random10; r++) {
+    //         // these 2 loops to select each element of array (board) and add 1 to each element
+    //         for (let i = 0; i < 9; i++) {
+    //             for (let j = 0; j < 9; j++) {
+    //                 grid[i][j] = grid[i][j] + 1;
+    //                 if (grid[i][j] == 10) {
+    //                     grid[i][j] = 1;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    // Driver Code
+    let grid = [ [ 3, 0, 6, 5, 0, 8, 4, 0, 0 ],
+                 [ 5, 2, 0, 0, 0, 0, 0, 0, 0 ],
+                 [ 0, 8, 7, 0, 0, 0, 0, 3, 1 ],
+                 [ 0, 0, 3, 0, 1, 0, 0, 8, 0 ],
+                 [ 9, 0, 0, 8, 6, 3, 0, 0, 5 ],
+                 [ 0, 5, 0, 0, 9, 0, 6, 0, 0 ],
+                 [ 1, 3, 0, 0, 0, 0, 2, 5, 0 ],
+                 [ 0, 0, 0, 0, 0, 0, 0, 7, 4 ],
+                 [ 0, 0, 5, 2, 0, 6, 3, 0, 0 ] ]
+
+    // let grid = [[3, 1, 6, 5, 7, 8, 4, 9, 2],
+    //             [5, 2, 9, 1, 3, 4, 7, 6, 8],
+    //             [4, 8, 7, 6, 2, 9, 5, 3, 1],
+    //             [2, 6, 3, 4, 1, 5, 9, 8, 7],
+    //             [9, 7, 4, 8, 6, 3, 1, 2, 5],
+    //             [8, 5, 1, 7, 9, 2, 6, 4, 3],
+    //             [1, 3, 8, 9, 4, 7, 2, 5, 6],
+    //             [6, 9, 2, 3, 5, 1, 8, 7, 4],
+    //             [7, 4, 5, 2, 8, 6, 3, 1, 9] ];
+
+
+    text1 = print(grid);
+    document.getElementById("F1").innerHTML = text1;
+    console.log("grid",grid);
+
+    if (solveSudoku(grid, 0, 0)){
+        text2 = print(grid)
+        document.getElementById("F2").innerHTML = text2;
+    } else{
+        text2 = "no solution  exists ";
+        document.getElementById("F2").innerHTML = text2;
+    }
+    
+    </script>
+</body>
+  </html>
+    
