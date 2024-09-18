@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <!-- <link rel="stylesheet" href="src/style.css"> -->
+    <style>
+        body {
+            background: transparent; /* Make it white if you need */
+            color: #fcbe24;
+            padding: 0 24px;
+            margin: 0;
+            height: 100vh;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          }
+    </style>
+</head>
+<body>
+    
+    <h1 id="header">Sudoku Solver</h1>
+    <p id="F1"></p>
+    <p id="F2"></p>
+    <br>
+
+    <!-- Input field -->
+    <input type="number" id="myInput" placeholder="Enter number"> 
+
+    <!-- Button to get input value -->
+    <button onclick="getValue()">Get Value</button> 
+    
+    <!-- Script to get input value -->
+    <script>         
+    // Javascript program for above approach
+        
+        // N is the size of the 2D matrix   N*N
+        // let N = 25;
+        // let N = value1
+        let text1 = "";
+        let text2 = "";
+        let value1;
+        let N;
+        let grid = [];
+
+        console.log(N);
+        console.log(value1);
+
+
+
+        // remove some element as per difficilty from solved puzzle
+        function generatePuzzle(board) {
+            let min = 2;
+            let max = min + 2;
+            let toReplace = [];
+
+            board.forEach((row) => {
+                if (Number(N) == 25){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]);
+                } else if (Number(N) == 24){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]);
+                } else if (Number(N) == 22){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]);
+                } else if (Number(N) == 21){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+                } else if (Number(N) == 20){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]);
+                } else if (Number(N) == 18){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]);
+                } else if (Number(N) == 16){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+                } else if (Number(N) == 15){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+                } else if (Number(N) == 14){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+                } else if (Number(N) == 12){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+                } else if (Number(N) == 10){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+                } else if (Number(N) == 9){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+                } else if (Number(N) == 8){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7]);
+                } else if (Number(N) == 6){
+                     toReplace = shuffleArray([0, 1, 2, 3, 4, 5]);
+                } else if (Number(N) == 4){
+                     toReplace = shuffleArray([0, 1, 2, 3]);
+                }
+                console.log(toReplace);
+                for (let i = 0; i < Math.floor(Math.random() * (max - min + 1) + min); i++) {
+                    row[toReplace[i]] = '';
+                }
+            });
+        }
+
+        // function to shuffle array to make game puzzle
+        function shuffleArray(array) {
+            let currentIndex = array.length,
+                temporaryValue, randomIndex;
+            // While there remain elements to shuffle inside the array
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element from the array
+                randomIndex = Math.floor(Math.random() * currentIndex);
+
+                // randomIndex is a random number between 0 and the array position
+                currentIndex -= 1;
+
+                // We get a new currentIndex and swap it with the current element.
+                temporaryValue = array[currentIndex];
+                // We save the currentIndex value in temporaryValue
+                array[currentIndex] = array[randomIndex];
+                // Now we fill the new currentIndex position with the value from the randomIndex
+                array[randomIndex] = temporaryValue;
+                // Lastly in the randomIndex position we put the temporaryValue we saved before
+            }
+            return array;
+        }
+
+        // function to Generate new puzzle from solved puzzle & check generated puzzle is ok or not
+        function generateBoard(board) {
+            // let error = "";
+            let random10 = Math.floor((Math.random() * Number(N)) + 1);
+
+            // loop to generate new puzzle board
+            // r is used to how many times each number is added 1 in it
+            for (let r = 0; r < random10; r++) {
+                // these 2 loops to select each element of array (board) and add 1 to each element
+                for (let i = 0; i < Number(N); i++) {
+                    for (let j = 0; j < Number(N); j++) {
+                        board[i][j] = board[i][j] + 1;
+                        if (board[i][j] == (Number(N) + 1)) {
+                            board[i][j] = 1;
+                        }
+                    }
+                }
+            }
+
+            // let text = "";
+            // text = printArray(board);
+            // document.getElementById("Arr2").innerHTML = text + "<br>";
+
+            // these line check generated puzzle 
+            // checkDuplicatesRow(board);
+            // checkDuplicatesCol(board);
+            // checkDuplicatesSeq(board, seqIndexArray);
+        }
+
+        // para to print array on browser
+        function printArray(Array) {
+            text = "";
+            for (i = 0; i < Number(N); i++) {
+                for (j = 0; j < Number(N); j++) {
+                    text += Array[i][j] + ", ";
+                }
+                text += "<br>";
+            }
+            return text;
+        }
+
+        // // para to check Array duplicates elements in row
+        // function checkDuplicatesRow(Array) {
+        //     duplicatecheck = true;
+        //     error = "";
+
+        //     for (r = 0; r < Number(N); r++) {
+        //         for (i = 0; i < Number(N); i++) {
+        //             for (j = i + 1; j < Number(N); j++) {
+        //                 if (j == Number(N)) { j = 0 };
+        //                 if (Array[r][i] == ""){
+        //                     continue;
+        //                 }
+        //                 if (Array[r][i] === Array[r][j]) {
+        //                     // console.log("Row Duplicates Row= ", (r+1), " Col= ", (i+1), " (", Array[r][i], ") Row= ", (r+1), " Col= ", (j+1), " (", Array[r][j], ")");
+        //                     error += "Row Duplicates Row= " + (r+1) + " Col= " + (i+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[r][i]-1] : NumAlphArr[0][Array[i][r]-1]) + ") Row= " + (r+1) + " Col= " + (j+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[r][j]-1] : NumAlphArr[0][Array[r][j]-1]) + "),<br>";
+        //                     duplicatecheck = false;
+        //                     // document.getElementById("Err").innerHTML = error;
+        //                     // return duplicatecheck;
+        //                 // } else {
+        //                     // console.log("Row OK Row= ", r, " Col= ", i, " (", Array[r][i], ") Row= ", r, " Col= ", j, " (", Array[r][j], "),<br>");
+        //                     // error += "Row OK Row= " + r + " Col= " + i + " (" + Array[r][i] + ") Row= " + r + " Col= " + j + " (" + Array[r][j] + "),<br>";
+        //                 }
+        //             }
+        //             // error += "<br>";
+        //         }
+        //     }
+        //     // console.log("error Row", error);
+        //     document.getElementById("Err").innerHTML = error;
+        //     return duplicatecheck;
+        // }
+
+        // // para to check Array duplicates elements in Col
+        // function checkDuplicatesCol(Array) {
+        //     duplicatecheck = true;
+        //     error = "";
+        //     for (r = 0; r < Number(N); r++) {
+        //         for (i = 0; i < Number(N); i++) {
+        //             for (j = i + 1; j < Number(N); j++) {
+        //                 if (j == 16) { j = 0 };
+        //                 if (Array[i][r] == ""){
+        //                     continue;
+        //                 }
+        //                 if (Array[i][r] === Array[j][r]) {
+        //                     // console.log("Col Duplicates Row= " + (i+1) + " Col= " + (r+1) + " (" + Array[i][r] + ") Row= " + (j+1) + " Col= " + (r+1) + " (" + Array[j][r] + ")");
+        //                     error += "Col Duplicates Row= " + (i+1) + " Col= " + (r+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[i][r]-1] : NumAlphArr[0][Array[i][r]-1]) + ") Row= " + (j+1) + " Col= " + (r+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[j][r]-1] : NumAlphArr[0][Array[j][r]-1]) + "),<br>";
+        //                     duplicatecheck = false;
+        //                     // document.getElementById("Err").innerHTML = error;
+        //                     // return duplicatecheck;
+        //                 // } else {
+        //                     // console.log("Col Duplicates Row= " + i + " Col= " + r + " (" + Array[i][r] + ") Row= " + j + " Col= " + r + " (" + Array[j][r] + "),<br>");
+        //                     // error += "Col Duplicates Row= " + i + " Col= " + r + " (" + Array[i][r] + ") Row= " + j + " Col= " + r + " (" + Array[j][r] + "),<br>";
+        //                 }
+        //             }
+        //             // error += "<br>";
+        //         }
+        //     }
+        //     // console.log("error Col", error);
+        //     document.getElementById("Err").innerHTML = error;
+        //     return duplicatecheck;
+        // }
+
+        // // para to check Array duplicates elements in Squre
+        // function checkDuplicatesSeq(Array) {
+        //     duplicatecheck = true;
+        //     error = "";
+
+        //     for (r=0;r<Number(N);r++){
+        //         for (i=0;i<Number(N);i++){
+        //             for (j=i+1;j<Number(N);j++){
+        //                 if(j==Number(N)){j=0};
+        //                 if (Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] == ""){
+        //                     continue;
+        //                 }
+        //                 if(Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] == Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]){
+        //                     // console.log("Seq error Seq= ", (r+1), " Box= ", (i+1), Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]],", Seq= ", (r+1), " Box= ", (j+1), Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]);
+        //                     error += "Seq Duplicates Seq= " + (r+1) + " Box= " + (i+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]-1] : NumAlphArr[0][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]]) + "), Seq= " + (r+1) + " Box= " + (j+1) + " (" + (NumberAlpha ? NumAlphArr[1][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]-1] : NumAlphArr[0][Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]]]) + "),<br>";
+        //                     duplicatecheck = false;
+        //                     // document.getElementById("Err").innerHTML = error;
+        //                     // return duplicatecheck;
+        //                 // } else {
+        //                     // console.log("Seq error Row= ", r, " Col= ", i, Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]],", Row= ", r, " Col= ", j, Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]]);
+        //                     // error += "Seq Duplicates Row= " + r + " Col= " + i + " " + Array[seqIndexArray[r][i][0]][seqIndexArray[r][i][1]] + ", Row= " + r + " Col= " + j + " " + Array[seqIndexArray[r][j][0]][seqIndexArray[r][j][1]] + "<br>";
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     document.getElementById("Err").innerHTML = error;
+        //     return duplicatecheck;
+        // }
+
+
+
+        /* Takes a partially filled-in grid and attempts
+            to assign values to all unassigned locations in
+            such a way to meet the requirements for
+            Sudoku solution (non-duplication across rows,
+            columns, and boxes) */
+        function solveSudoku(grid, row, col)
+        {
+            // console.log("grid", grid);
+            // console.log("N= ", N, " Row= ", row, " Col= ", col);
+            /* If we have reached the 8th row and 9th column (0 indexed matrix), we are returning true to avoid further backtracking       */
+            if (row == N - 1 && col == N){
+                return true;
+            }
+        
+            // Check if column value  becomes 9, we move to next row and column start from 0
+            if (col == N)
+            {
+                // printrow(grid);
+                row++;
+                col = 0;
+            }
+        
+            // Check if the current position of the grid already contains value >0, we iterate for next column
+            // console.log("grid[row]", grid[row], " Row= ", row);
+            // console.log("grid[row][col]", grid[row][col], " Row= ", row, " Col= ", col);
+            if (grid[row][col] != 0){
+                return solveSudoku(grid, row, col + 1);
+            }
+        
+            for(let num = 1; num < (Number(N)+1); num++)
+            {
+                
+                // Check if it is safe to place the num (1-9)  in the given row ,col ->we move to next column
+                if (isSafe(grid, row, col, num))
+                {
+                    
+                    /*  assigning the num in the current (row,col)  position of the grid and assuming our assigned num in the position is correct */
+                    grid[row][col] = num;
+        
+                    // Checking for next possibility with next column
+                    if (solveSudoku(grid, row, col + 1)){
+                        return true;
+                    }
+                }
+                
+                /* removing the assigned num , since our assumption was wrong , and we go for next assumption with diff num value   */
+                grid[row][col] = 0;
+            }
+            return false;
+        }
+        
+        /* A utility function to print grid */
+        function print(grid)
+        {
+            text1 = "";
+            for(let i = 0; i < N; i++)
+            {
+                for(let j = 0; j < N; j++)
+                text1 += grid[i][j] + " ";
+
+                    // document.write(grid[i][j] + " ");
+                    
+                text1 += "<br>";
+                // document.write("<br>");
+            }
+                text1 += "<br>";
+                return text1;
+
+
+        }
+        
+        /* A utility function to print grid */
+        function printrow(grid)
+        {
+            for(let i = 0; i < N; i++)
+            {
+                // for(let j = 0; j < N; j++){
+                    document.write(grid[i] + ",  ");
+                    // document.write(grid[i][j] + ", ");
+                // }
+                // document.write("<br>");
+            }
+            document.write("<br>");
+        }
+
+        // Check whether it will be legal to assign num to the given row, col
+        function isSafe(grid, row, col, num)
+        {
+            // console.log("isSafe grid", grid, " Row= ", row, " Col= ", col, " num= ", num);
+            
+            // Check if we find the same num in the similar row, we return false
+            for(let x = 0; x <= (Number(N)-1); x++) {
+                if (grid[row][x] == num){
+                    // console.log("row error grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+                    return false;
+                } else {
+                    // console.log("row ok grid[row][x] ", grid[row][x], " Row= ", row, " (col)x= ", x, " num= ", num, " Col= ", col);
+                }
+            }
+        
+            // Check if we find the same num in the similar column, we return false
+            for(let x = 0; x <= (Number(N)-1); x++){
+                if (grid[x][col] == num){
+                    // console.log("col error grid[x][col] ", grid[x][col], " Col= ", col, " x= ", x, " num= ", num, " row= ", row);
+                    return false;
+                } else {
+                    // console.log("col ok grid[x][col] ", grid[x][col], " row(x)= ", x, " Col= ", col, " num= ", num, " row= ", row);
+
+                }
+            }
+        
+            let startRow = 0;
+            let startCol = 0;
+            // Check if we find the same num in the particular 3*3 matrix, we return false
+            if (Number(N) == 25){
+                        startRow = row - row % 5, 
+                        startCol = col - col % 5;
+                        p = 5;
+                        q = 5;
+                } else if (Number(N) == 24){
+                        startRow = row - row % 4, 
+                        startCol = col - col % 6;
+                        p = 4;
+                        q = 6;
+                } else if (Number(N) == 22){
+                        startRow = row - row % 2, 
+                        startCol = col - col % 11;
+                        p = 2;
+                        q = 11;
+                } else if (Number(N) == 21){
+                        startRow = row - row % 3, 
+                        startCol = col - col % 7;
+                        p = 3;
+                        q = 7;
+                } else if (Number(N) == 20){
+                        startRow = row - row % 4, 
+                        startCol = col - col % 5;
+                        p = 4;
+                        q = 5;
+                } else if (Number(N) == 18){
+                        startRow = row - row % 3, 
+                        startCol = col - col % 6;
+                        p = 3;
+                        q = 6;
+                } else if (Number(N) == 16){
+                        startRow = row - row % 4, 
+                        startCol = col - col % 4;
+                        p = 4;
+                        q = 4;
+                } else if (Number(N) == 15){
+                        startRow = row - row % 3, 
+                        startCol = col - col % 5;
+                        p = 3;
+                        q = 5;
+                } else if (Number(N) == 14){
+                        startRow = row - row % 2, 
+                        startCol = col - col % 7;
+                        p = 2;
+                        q = 7;
+                } else if (Number(N) == 12){
+                        startRow = row - row % 3, 
+                        startCol = col - col % 4;
+                        p = 3;
+                        q = 4;
+                } else if (Number(N) == 10){
+                        startRow = row - row % 2, 
+                        startCol = col - col % 5;
+                        p = 2;
+                        q = 5;
+                } else if (Number(N) == 9){
+                        startRow = row - row % 3, 
+                        startCol = col - col % 3;
+                        p = 3;
+                        q = 3;
+                } else if (Number(N) == 8){
+                        startRow = row - row % 2, 
+                        startCol = col - col % 4;
+                        p = 2;
+                        q = 4;
+                } else if (Number(N) == 6){
+                        startRow = row - row % 2, 
+                        startCol = col - col % 3;
+                        p = 2;
+                        q = 3;
+                } else if (Number(N) == 4){
+                        startRow = row - row % 2, 
+                        startCol = col - col % 2;
+                        p = 2;
+                        q = 2;
+                }
+            // let startRow = row - row % 5, 
+            //     startCol = col - col % 5;
+            // console.log("row= ", row, "row % 4 = ", (row % 4), " startRow= ", startRow);
+            console.log(" startRow= ", startRow, " startCol= ", startCol);
+            console.log("seq grid[startRow][startCol]  ", grid[startRow][startCol]);
+
+                
+            for(let i = 0; i < p; i++)
+                for(let j = 0; j < q; j++){
+                    if (grid[i + startRow][j + startCol] == num){
+                        // console.log("seq error grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
+                        // console.log("seq error i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
+                        return false;
+                    }else {
+                        // console.log("seq ok grid[i + startRow][j + startCol]  ", grid[i + startRow][j + startCol], " i + startRow= ", (i + startRow), " j + startCol= ", (j + startCol));
+                        // console.log("seq ok i ", i, " startRow= ", startRow, " j= ", j, " startCol= ", startCol);
+                    }
+                }
+        
+            return true;
+        }
+        
+        function getValue() { 
+            // Get the input element by its ID 
+            let inputField = document.getElementById("myInput"); 
+            
+            // Get the value of the input field 
+            value1 = inputField.value; 
+            
+
+            if (value1 == 25 || value1 == 24 || value1 == 22 || value1 == 21 || value1 == 20 || value1 == 18 || value1 == 16 || value1 == 15 || value1 == 14 || value1 == 12 || value1 == 10 || value1 == 9 || value1 == 8 || value1 == 6 || value1 == 4) {
+                alert("Enter Value = " + value1); 
+                console.log("Enter Value = ", value1); 
+
+                N = value1;
+                if (N == 25) {
+                    grid = [];
+                    let board25 = [
+                        [1, 17, 0, 14, 5, 6, 22, 18, 0,  0, 11, 2, 23, 9,  0, 16, 12, 3, 19,  0, 21, 7, 13, 24, 20], 
+                        [6, 22, 18, 0,  0, 16, 12, 3, 19,  0, 1, 17, 0, 14, 5, 21, 7, 13, 24,  0, 11, 2, 23, 9, 15], 
+                        [21, 7, 13, 24,  0, 1, 17, 0, 14, 5, 6, 22, 18, 0,  0, 11, 2, 23, 9,  0, 16, 12, 3, 19, 25], 
+                        [11, 2, 23, 9,  0, 21, 7, 13, 24,  0, 16, 12, 3, 19,  0, 1, 17, 0, 14, 5, 6, 22, 18, 0, 10], 
+                        [16, 12, 3, 19,  0, 11, 2, 23, 9,  0, 21, 7, 13, 24,  0, 6, 22, 18, 0,  0, 1, 17, 0, 14, 5], 
+                        [5, 21, 12, 18, 9,  0, 1, 22, 0, 14,  0, 6, 2, 13, 19,  0, 16, 7, 23, 0,  0, 11, 17, 3, 24], 
+                        [10, 1, 22, 0, 14,  0, 16, 7, 23, 0, 5, 21, 12, 18, 9,  0, 11, 17, 3, 24,  0, 6, 2, 13, 19], 
+                        [25, 11, 17, 3, 24, 5, 21, 12, 18, 9,  0, 1, 22, 0, 14,  0, 6, 2, 13, 19,  0, 16, 7, 23, 4], 
+                        [15, 6, 2, 13, 19,  0, 11, 17, 3, 24,  0, 16, 7, 23, 0, 5, 21, 12, 18, 9,  0, 1, 22, 0, 14], 
+                        [20, 16, 7, 23, 0,  0, 6, 2, 13, 19,  0, 11, 17, 3, 24,  0, 1, 22, 0, 14, 5, 21, 12, 18, 9], 
+                        [2, 18, 9,  0, 6, 7, 23, 19, 5, 11, 12, 3, 24,  0, 16, 17, 13, 0,  0, 1, 22, 0, 14,  0, 21], 
+                        [7, 23, 19, 5, 11, 17, 13, 0,  0, 1, 2, 18, 9,  0, 6, 22, 0, 14,  0, 21, 12, 3, 24,  0, 16], 
+                        [22, 0, 14,  0, 21, 2, 18, 9,  0, 6, 7, 23, 19, 5, 11, 12, 3, 24,  0, 16, 17, 13, 0,  0, 1], 
+                        [12, 3, 24,  0, 16, 22, 0, 14,  0, 21, 17, 13, 0,  0, 1, 2, 18, 9,  0, 6, 7, 23, 19, 5, 11], 
+                        [17, 13, 0,  0, 1, 12, 3, 24,  0, 16, 22, 0, 14,  0, 21, 7, 23, 19, 5, 11, 2, 18, 9,  0, 6], 
+                        [4,  0, 11, 17, 0, 9,  0, 21, 7, 13, 14, 5, 1, 12, 18, 19,  0, 6, 22, 3, 24,  0, 16, 2, 23], 
+                        [9,  0, 21, 7, 13, 19,  0, 6, 22, 3, 0,  0, 11, 17, 0, 24,  0, 16, 2, 23, 14, 5, 1, 12, 18], 
+                        [24,  0, 16, 2, 23, 0,  0, 11, 17, 0, 9,  0, 21, 7, 13, 14, 5, 1, 12, 18, 19,  0, 6, 22, 3], 
+                        [14, 5, 1, 12, 18, 24,  0, 16, 2, 23, 19,  0, 6, 22, 3, 0,  0, 11, 17, 0, 9,  0, 21, 7, 13], 
+                        [19,  0, 6, 22, 3, 14, 5, 1, 12, 18, 24,  0, 16, 2, 23, 9,  0, 21, 7, 13, 0,  0, 11, 17, 8], 
+                        [3, 19,  0, 16, 7, 0, 24,  0, 6, 12, 13, 0,  0, 11, 17, 18, 14, 5, 21, 2, 23, 9,  0, 1, 22], 
+                        [8, 24,  0, 6, 12, 18, 14, 5, 21, 2, 3, 19,  0, 16, 7, 23, 9,  0, 1, 22, 13, 0,  0, 11, 17], 
+                        [23, 9,  0, 1, 22, 3, 19,  0, 16, 7, 0, 24,  0, 6, 12, 13, 0,  0, 11, 17, 18, 14, 5, 21, 2], 
+                        [13, 0,  0, 11, 17, 23, 9,  0, 1, 22, 18, 14, 5, 21, 2, 3, 19,  0, 16, 7, 0, 24,  0, 6, 12], 
+                        [18, 14, 5, 21, 2, 13, 0,  0, 11, 17, 23, 9,  0, 1, 22, 0, 24,  0, 6, 12, 3, 19,  0, 16, 7], 
+                    ];
+                    grid = board25.map(row => [...row]);
+                } else if (N == 24) {
+                    grid = [];
+                    let board24 = [
+                        [1,   5,  2,  4,  6,  7,  8,  9, 10, 12, 13, 14, 15, 16, 17, 18, 11, 19,  3, 20, 21, 22, 23, 24], 
+                        [3,  23, 20, 22, 24, 21,  5, 16, 17, 18, 11, 19,  8,  9, 10, 12, 13, 14,  2,  4,  6,  7,  1, 15], 
+                        [8,   9, 11, 10, 12, 13,  3, 15, 23, 20, 22,  1,  2,  4,  6,  7, 21, 24,  5, 14, 16, 17, 18, 19], 
+                        [14, 15, 16, 17, 18, 19,  2,  4,  6,  7, 24, 21,  1,  5,  3, 20, 23, 22,  8,  9, 10, 11, 12, 13],
+
+                        [4,   1, 19, 24, 20,  6,  7, 12,  3, 21,  2, 18, 11, 14,  9, 10,  5,  8, 13, 15, 23, 16, 17, 22], 
+                        [7,   3, 12, 13,  5, 15, 14, 20, 24, 17, 10, 22, 21, 19, 23, 16,  2,  6,  1, 11,  4,  9,  8, 18], 
+                        [11, 18,  9,  8, 23, 16,  1, 13,  4,  5,  6, 15, 17, 20, 22, 24,  3, 12,  7, 10, 14, 19,  2, 21], 
+                        [22, 10, 21, 14,  2, 17, 11,  8,  9, 23, 19, 16,  4,  1,  7, 15, 18, 13, 12, 24, 20,  3,  5,  6], 
+
+                        [6,  12,  3,  7, 17, 11, 23, 24, 18, 13, 16,  8, 10,  2, 21,  5, 14,  4, 22,  1, 19, 15, 22,  9], 
+                        [10, 16,  5, 15, 21,  4,  6, 19, 22,  9, 20, 11,  3, 17, 18,  1, 24,  7, 23,  2, 12, 13, 14,  8],
+                        [18, 24,  1,  9,  8, 23, 15,  2, 21,  5, 14,  4, 12, 22, 19, 13, 20, 11,  6,  3, 17, 10, 16,  7],
+                        [2,  20, 13, 19, 14, 22, 10,  1,  7,  3, 17, 12,  6,  8, 15, 23,  9, 16, 18,  5, 24, 21, 11,  4],
+
+                        [5,  17, 15,  1,  4,  9, 22,  7, 14, 10, 12,  6, 13, 23, 24, 21, 16,  2, 20,  8,  3, 18, 19, 11],
+                        [23,  6,  8,  3, 16,  2, 24, 11,  1, 15,  5, 13, 18, 10, 20, 19, 22, 17, 21,  7,  9, 12,  4, 14], 
+                        [19, 14, 18, 20, 22, 12, 17,  3,  4,  8, 21,  2, 5,   7,  6, 11,  1,  9, 10, 13, 15, 23, 24, 16], 
+                        [13, 11,  7, 21, 10, 24, 20, 23, 19, 16, 18,  9, 14,  3,  4,  8, 12, 15, 17, 22,  1,  5,  6,  2],
+
+                        [21,  2, 24, 11,  1,  3, 16, 18, 13, 19,  7, 10, 23,  6,   8, 17, 15,  5,  4,  12, 22, 14,  9, 20], 
+                        [15,  4, 14,  6,  7,  5, 21, 17, 20,  1,  9, 23, 24, 12, 13, 22, 19, 18, 11, 16,  2,  8, 10,  3], 
+                        [16,  8, 17, 12, 19, 10,  4, 22, 11,  2,  3,  5,  7, 21, 14,  9,  1, 20, 15,  6, 18, 24, 13, 23],
+                        [20, 13, 22, 23,  9, 18, 12,  6,  8, 14, 15, 24, 16, 11,   2,  3,  4, 10, 19, 17,  7,  1, 21,  5], 
+
+                        [12, 19,  4,  2, 11,  1, 18, 10, 15, 22,  8, 20,  9, 24,  5, 14,  7, 21, 16, 23, 13,  6,  3, 17],
+                        [17, 22,  6, 18,  3, 14, 19,  5, 16, 24,  1,  7, 20, 13, 11,  4, 10, 23,  9, 21,  8,  2, 15, 12], 
+                        [24,  7, 23, 16, 13,  8,  9, 21,  2, 11,  4,  3, 19, 15, 12,  6, 17,  1, 14, 18,  5, 20, 22, 10], 
+                        [9,  21, 10,  5, 15, 20, 13, 14, 12,  6, 23, 17, 22, 18, 16,  2,  8,  3, 24, 19, 11,  4,  7,  1], 
+                    ];
+                    grid = board24.map(row => [...row]);
+                } else if (N == 22) {
+                    grid = [];
+                    let board22 = [
+                    [2, 11, 9,17, 8, 4,10, 1,12,14,15, 3, 5,13,22,16, 6,18, 7,19,20,21], 
+                    [7,  3,13,22, 6, 5,16,18,19,20,21, 1, 8,11, 2, 4,17, 9,10,12,14,15], 
+
+                    [5,  9,20,21,14,19,11, 2,22,17,16, 8,18, 6, 1, 7,15,12,13, 4,10, 3], 
+                    [8,  1,18, 6,12, 3, 7,15, 4,10,13, 5,20,19, 9,14,21, 2,22,17,11,16],
+
+                    [9, 15,12,19, 2,14,17,22,11,13, 4,10,21, 5,18, 3, 7,16,20, 6, 8, 1], 
+                    [10, 5,21,18, 1,16, 3,20, 8, 6, 7,15, 9, 2,19,17,14,13,12,11,22, 4], 
+
+                    [1, 16,14, 4,17, 6,12,10, 5, 2,11,21, 7, 3,15,18,13,22,19, 8, 9,20], 
+                    [21,22, 7, 9,19,18,15, 3,13, 8,20,16, 1,14,17, 2, 5, 4,11,10,12, 6], 
+
+                    [11,18, 4, 8,10,13,21, 9, 2,19,22,17,12,15, 7, 1, 3,14, 6,20,16, 5], 
+                    [12,17, 3, 5,15, 7,20,16, 6, 1,14,18,11, 4, 8,13, 9,10,21,22,19, 2],
+
+                    [3,  7, 1,11,16, 9,22,21,17,15, 2,19,10, 8, 6,12,18,20, 5,14, 4,13],
+                    [6, 10,19,12,18, 8,14,13,20, 4, 5, 9, 3, 7,16,15, 2,11,17, 1,21,22],
+
+                    [14,12,11, 1, 7,20, 6,19,16, 3,18, 4,15,21, 5, 9,22,17, 8, 2,13,10],
+                    [15, 4, 5, 2, 9,21,13,17,10,22, 8, 7,14,12,20,11, 1,19,16, 3, 6,18],
+
+                    [4, 19, 8,14,20,22,18, 5,15,11, 3, 6,16,17,12,21,10, 1, 2,13, 7, 9], 
+                    [13, 6,16,10,21, 2, 9, 7, 1,12,17,11, 4,22,14,20, 8,15, 3,18, 5,19],
+
+                    [19, 2,15,16, 3, 1, 4,11,18, 5, 6,12,22,9 ,13,10,20, 7,14,21,17, 8], 
+                    [20,13,17, 7,22,12, 8,14,21, 9,10, 2,19, 1, 3, 5, 4, 6,15,16,18,11], 
+
+                    [16,14,10, 3, 5,11, 2, 6, 9,21,12,13,17,20, 4,22,19, 8,18,15, 1, 7],
+                    [17,20,22,13, 4,15, 1, 8, 7,18,19,14, 2,16,10, 6,11,21, 9, 5, 3,12], 
+
+                    [18,21, 2,10,13,17,19,12, 3, 7, 1,22, 6,10,11, 8,16, 5, 4, 9,15,14],
+                    [22, 8, 6,15,11,10, 5, 4,14,16, 9,20,13,18,21,19,12, 3, 1, 7, 2,17] 
+                    ];
+                    grid = board22.map(row => [...row]);
+                } else if (N == 21) {
+                    grid = [];
+                    let board21 = [
+                    [1,9,2,3,21,4,17,5,6,10,13,15,16,11,  11,18,14,7,8,19,20], 
+                    [16,11,18,19,8,7,20,9,14,1,2,3,4,17,5,  5,6,10,21,12,13,15], 
+                    [5,14,6,10,12,13,15,18,11,20,21,7,19,8, 9,1,2,3,4,16,17], 
+
+                    [8,13,17,20,18,1,5,4,10,14,15,2,12,7,  3,11,9,19,21,6,16],
+                    [14,2,9,4,,3,21,6,16,1,11,13,20,5,19,  15,8,12,18,17,10,7], 
+                    [10,16,11,15,19,12,7,8,9,17,3,6,18,21, 4,20,13,14,2,1,5], 
+
+                    [21,7,1,5,10,19,8,17,12,13,16,18,9,15, 14,2,11,4,20,3,6], 
+                    [2,17,20,6,15,3,18,14,7,21,4,8,11,1,   13,19,5,9,16,12,10], 
+                    [9,4,13,11,14,16,12,2,3,6,10,19,20,5,  17,21,18,1,15,7,8], 
+
+                    [4,10,12,16,6,15,13,1,2,7,14,17,21,11, 18,9,3,20,5,8,19],
+                    [7,20,5,9,17,14,21,13,18,19,8,15,3,12,  1,16,6,2,10,4,11],
+                    [18,1,19,2,11,8,3,6,4,16,5,9,10,20,  7,12,17,15,14,21,13],
+
+                    [11,18,4,7,9,17,14,10,5,12,20,16,13,3, 6,15,1,8,19,2,21],
+                    [12,15,16,21,20,6,19,11,8,9,1,14,2,4, 10,5,7,13,3,17,18],
+                    [13,3,8,1,2,5,10,15,19,18,7,21,17,6,  16,4,20,11,9,14,12], 
+
+                    [3,8,21,18,13,9,1,7,15,4,6,1016,,14,  20,17,19,12,11,5,2],
+                    [17,6,7,12,16,11,4,19,20,2,9,5,8,13,  21,3,15,10,1,18,14], 
+                    [15,19,10,14,5,20,2,21,17,3,11,12,1,18, 8,7,16,6,13,9,4], 
+
+                    [20,5,14,8,4,18,9,12,16,15,19,1,6,10, 2,13,21,17,7,11,3],
+                    [19,21,3,17,7,2,11,20,13,5,18,4,14,9, 12,10,8,16,6,15,1], 
+                    [6,12,15,13,1,10,16,3,21,8,17,11,7,2, 19,14,4,5,18,20,9],
+                    ];
+                    grid = board21.map(row => [...row]);
+                } else if (N == 20) {
+                    grid = [];
+                    let board20 = [
+                        [19, 18, 5, 2, 6, 9, 10, 17, 14, 1, 15, 13, 8, 20, 11, 7, 16, 12, 4, 3], 
+                        [12, 17, 13, 4, 16, 15, 7, 5, 2, 3, 18, 10, 9, 14, 1, 20, 6, 19, 11, 8], 
+                        [1, 14, 7, 8, 15, 11, 6, 13, 20, 4, 3, 5, 16, 19, 12, 9, 10, 17, 2, 18], 
+                        [20, 11, 10, 9, 3, 19, 18, 16, 8, 12, 6, 7, 2, 4, 17, 5, 13, 14, 1, 15],
+                        [18, 13, 2, 6, 19, 16, 17, 14, 10, 15, 7, 9, 20, 11, 3, 12, 1, 4, 8, 5], 
+                        [16, 5, 4, 17, 12, 7, 13, 11, 3, 9, 10, 8, 14, 1, 18, 6, 19, 2, 15, 20], 
+                        [14, 7, 8, 3, 1, 6, 5, 20, 4, 2, 13, 16, 19, 12, 15, 10, 17, 11, 18, 9], 
+                        [11, 10, 9, 15, 20, 18, 8, 1, 12, 19, 5, 2, 4, 17, 6, 13, 3, 16, 14, 7], 
+                        [7, 2, 6, 19, 18, 17, 16, 12, 15, 10, 9, 20, 11, 3, 13, 1, 4, 8, 5, 14], 
+                        [13, 4, 16, 12, 17, 5, 2, 3, 9, 7, 8, 14, 1, 15, 10, 19, 11, 18, 20, 6],
+                        [5, 8, 15, 1, 14, 13, 20, 4, 11, 6, 16, 19, 12, 18, 7, 17, 2, 3, 9, 10],
+                        [10, 9, 3, 20, 11, 14, 1, 8, 19, 18, 2, 4, 17, 6, 5, 16, 12, 15, 7, 13],
+                        [4, 12, 19, 18, 7, 10, 14, 15, 16, 17, 20, 11, 3, 13, 9, 2, 8, 5, 6, 1],
+                        [2, 6, 17, 16, 5, 4, 3, 9, 7, 13, 14, 1, 15, 10, 8, 11, 18, 20, 12, 19], 
+                        [8, 3, 1, 14, 13, 20, 11, 2, 6, 5, 19, 12, 18, 7, 16, 4, 15, 9, 10, 17], 
+                        [9, 15, 20, 11, 10, 1, 12, 19, 18, 8, 4, 17, 6, 5, 2, 3, 14, 7, 13, 16],
+                        [6, 16, 18, 13, 2, 12, 15, 7, 17, 20, 11, 3, 10, 9, 14, 8, 5, 1, 19, 4], 
+                        [17, 1, 14, 5, 4, 3, 9, 10, 13, 11, 12, 15, 7, 8, 19, 18, 20, 6, 16, 2], 
+                        [3, 19, 12, 7, 8, 2, 4, 6, 5, 14, 1, 18, 13, 16, 20, 15, 9, 10, 17, 11],
+                        [15, 20, 11, 10, 9, 8, 19, 18, 1, 16, 17, 6, 5, 2, 4, 14, 7, 13, 3, 12], 
+                    ];
+                    grid = board20.map(row => [...row]);
+                } else if (N == 18) {
+                    grid = [];
+                    let board18 = [
+                        [18,16,6,1,3,2,7,13,15,8,9,12,17,4,5,11,10,14],
+                        [10,11,4,14,8,9,17,18,6,5,1,2,3,13,7,15,16,12],
+                        [17,7,5,13,15,12,4,11,3,10,14,16,1,18,6,8,2,9],
+                        [7,17,10,2,1,4,15,12,13,6,18,5,11,8,16,9,14,3],
+                        [3,5,18,9,6,14,11,16,1,7,2,8,10,15,17,12,4,13],
+                        [13,12,11,15,16,8,10,17,14,9,4,3,6,5,1,18,7,2],
+                        [16,1,8,7,14,5,2,3,10,11,12,6,15,9,13,4,18,17],
+                        [12,2,3,10,11,17,9,5,18,4,13,15,8,1,14,7,6,16],
+                        [4,9,15,18,13,6,16,1,8,14,7,17,2,12,10,3,11,5],
+                        [9,6,13,11,5,18,3,15,17,1,10,4,14,2,8,16,12,7],
+                        [2,8,14,16,4,3,6,9,12,18,5,7,13,17,11,10,1,15],
+                        [15,10,1,12,17,7,8,14,2,16,11,13,5,3,18,6,9,4],
+                        [1,14,7,8,10,13,12,4,11,2,15,9,16,6,3,5,17,18],
+                        [11,3,12,5,2,15,14,6,16,13,17,18,9,7,4,1,8,10],
+                        [6,4,9,17,18,16,1,7,5,3,8,10,12,14,2,13,15,11],
+                        [14,18,2,3,7,1,13,10,9,12,6,11,4,16,15,17,5,8],
+                        [8,13,17,4,9,10,5,2,7,15,16,1,18,11,12,14,3,6],
+                        [5,15,16,6,12,11,18,8,4,17,3,14,7,10,9,2,13,1],
+                    ];
+                    grid = board18.map(row => [...row]);
+                } else if (N ==16) {
+                    grid = [];
+                    let board16 = [
+                        [11, 4,   7,  9,  8, 10, 13,  5, 14,  1,  6,  3,  2, 12, 15, 16],
+                        [16, 2,   5, 10,  4,  3, 15, 14,  8, 11,  7, 12,  9, 13,  6,  1],
+                        [6, 13,  14, 12,  1, 16, 11,  7,  2,  9, 15,  5, 10,  3,  8,  4],
+                        [1,  3,   8, 15,  9,  6, 12,  2, 10, 16,  4, 13,  5,  7, 11, 14],
+                        [13, 15, 12, 11,  6,  1,  9,  3,  4,  8, 10,  7, 16,  2, 14,  5],
+                        [14, 16,  2,  1,  7,  8, 10,  4,  3,  5, 12, 11,  6, 15, 13,  9],
+                        [10,  7,  9,  3, 14, 15,  5, 11, 16,  6, 13,  2,  8,  1,  4, 12],
+                        [4,   8,  6,  5, 13,  2, 16, 12,  1, 15,  9, 14,  7, 11,  3, 10],
+                        [8,  14,  1,  2, 10,  7,  4, 15, 11, 13,  5,  9, 12,  6, 16,  3],
+                        [12, 10, 16, 13,  5, 11,  8,  9,  6,  7,  3,  4, 15, 14,  1,  2],
+                        [5,   6,  3,  7, 16, 12,  2, 13, 15, 14,  1, 10,  4,  8,  9, 11],
+                        [15,  9, 11,  4,  3, 14,  1,  6, 12,  2, 16,  8, 13,  5, 10,  7],
+                        [9,   1, 15, 16, 12,  5,  3,  8,  7, 10, 11,  6, 14,  4,  2, 13],
+                        [2,  11, 10, 14, 15,  4,  7,  1, 13, 12,  8, 16,  3,  9,  5,  6],
+                        [7,   5,  4,  6, 11, 13, 14, 16,  9,  3,  2, 15,  1, 10, 12,  8],
+                        [3,  12, 13,  8,  2,  9,  6, 10,  5,  4, 14,  1, 11, 16,  7, 15],
+                    ];
+                    grid = board16.map(row => [...row]);
+                } else if (N ==15) {
+                    grid = [];
+                    let board15 = [
+                        [14,  6,  2, 11,  3, 12,  4, 13,  7, 10,  9, 15,  1,  8,  5],
+                        [8,  10, 15, 13, 12, 11,  2,  1,  5,  9,  4,  6,  3, 14,  7],
+                        [9,   4,  9,  1,  7,  6, 14, 15,  3,  8, 10, 11,  2, 13, 12],
+                        [4,   2, 12,  9, 14, 10, 15,  3, 13,  5,  7,  8, 11,  1,  6],
+                        [11, 13,  8, 15,  1,  4,  7, 14, 12,  6,  5, 10,  9,  2,  3],
+                        [5,   3, 10,  7,  5,  9,  1,  8, 11,  2, 14,  4, 12, 15, 13],
+                        [10, 12,  4,  5,  2,  3, 13, 11,  9, 15,  8, 14,  6,  7,  1],
+                        [7,  14, 13,  8, 11,  1,  5,  2,  6,  4,  3, 12, 10,  9, 15],
+                        [3,   9,  1,  6, 15,  8, 10,  7, 14, 12,  2, 13,  4,  5, 11],
+                        [15,  5,  7,  2,  4, 14,  8, 10,  1, 11, 12,  3, 13,  6,  9],
+                        [12,  8, 11,  3,  9, 15,  6,  5,  2, 13,  1,  7, 14,  4, 10],
+                        [13,  1,  6, 14, 10,  7,  9, 12,  4,  3, 15,  5,  8, 11,  2],
+                        [2,  11, 14,  4, 13,  5, 12,  9, 10,  7,  6,  1, 15,  3,  8],
+                        [9,  15,  5, 10,  6, 13,  3,  4,  8,  1, 11,  2,  7, 12, 14],
+                        [1,   7,  3, 12,  8,  2, 11,  6, 15, 14, 13,  9,  5, 10,  4],
+                    ];
+                    grid = board15.map(row => [...row]);
+                } else if (N ==14) {
+                    grid = [];
+                    let board14 = [
+                        [2,  14,  8,  1,  5, 12,  3,  6, 10,  7, 11,  9,  4, 13],
+                        [7,  11, 10,  6,  9,  4, 13,  8,  3,  2, 14, 12,  5,  1],
+                        [12,  1,  9,  8,  2,  5,  6, 11, 13, 14, 10,  4,  7,  3],
+                        [11, 10, 13,  3,  14, 7,  4,  5,  1, 12,  8,  2,  9,  6],
+                        [14,  4,  3, 12, 10,  2,  5,  7,  6, 13,  1, 11,  8,  9],
+                        [13,  9,  1,  7,  8,  6, 11,  2, 12,  3,  5, 10, 14,  4],
+                        [4,   2,  7,  5, 12,  3,  1, 13,  9, 10,  6, 14, 11,  8],
+                        [8,  13, 11,  9,  6, 10, 14,  4,  2,  5, 12,  1,  3,  7],
+                        [9,  12,  2, 11,  1, 14,  8,  3,  4,  6, 13,  7, 10,  5],
+                        [5,   6,  4, 10,  3, 13,  7, 14, 11,  9,  2,  8,  1, 12],
+                        [3,   8, 14,  4, 11,  9,  2, 12,  5,  1,  7, 13,  6, 10],
+                        [10,  5,  6, 13,  7,  1, 12,  9, 14,  8,  4,  3,  2, 11],
+                        [6,   3, 12, 14,  4,  8, 10,  1,  7, 11,  9,  5, 13,  2],
+                        [1,   7,  5,  2, 13, 11,  9, 10,  8,  4,  3,  6, 12, 14],
+                    ];
+                    grid = board14.map(row => [...row]);
+                } else if (N ==12) {
+                    grid = [];
+                    let board12 = [
+                        [4,   7,  2,  8,  1,  9, 11, 10,  5,  3,  6,  0],
+                        [1,   0,  9,  3,  4,  8,  5,  6,  2, 11,  7, 10],
+                        [5,   6, 10, 11,  7,  0,  3,  2,  4,  8,  1,  9],
+                        [9,   1,  5,  6,  0, 11,  2,  4,  7, 10,  8,  3],
+                        [3,   4, 11, 10,  6,  5,  7,  8,  9,  1,  0,  2],
+                        [8,   2,  0,  7,  3,  1, 10,  9, 11,  5,  4,  6],
+                        [0,   3,  8,  5, 10,  6,  9, 11,  1,  7,  2,  4],
+                        [11,  9,  7,  4,  2,  3,  8,  1,  6,  0, 10,  5],
+                        [6,  10,  1,  2,  5,  7,  4,  0,  8,  9,  3, 11],
+                        [7,   8,  6,  9, 11,  2,  0,  3, 10,  4,  5,  1],
+                        [10, 11,  3,  1,  8,  4,  6,  5,  0,  2,  9,  7],
+                        [2,   5,  4,  0,  9, 10,  1,  7,  3,  6, 11,  8],
+                    ];
+                    grid = board12.map(row => [...row]);
+                } else if (N ==10) {
+                    grid = [];
+                    let board10 = [
+                        [9,   5,  6,  7,  8,  3, 10,  1,  4,  2],
+                        [10,  4,  3,  1,  2,  9,  6,  7,  5,  8],
+                        [2,   8, 10,  6,  4,  1,  9,  5,  7,  3],
+                        [7,   1,  5,  3,  9,  6,  4,  2,  8,  0],
+                        [4,   6,  1, 10,  5,  7,  3,  8,  2,  9],
+                        [3,   2,  9,  8,  7,  5,  1,  4, 10,  6],
+                        [6,   7,  8,  9, 10,  4,  2,  3,  1,  5],
+                        [5,   3,  4,  2,  1, 10,  8,  9,  6,  7],
+                        [8,   9,  7,  4,  6,  2,  5, 10,  3,  1],
+                        [1,   0,  2,  5,  3,  8,  7,  6,  9,  4],
+                    ];
+                    grid = board10.map(row => [...row]);
+                } else if (N ==9) {
+                    grid = [];
+                    let board9= [
+                        [3, 1, 6, 5, 7, 8, 4, 9, 2],
+                        [5, 2, 9, 1, 3, 4, 7, 6, 8],
+                        [4, 8, 7, 6, 2, 9, 5, 3, 1],
+                        [2, 6, 3, 4, 1, 5, 9, 8, 7],
+                        [9, 7, 4, 8, 6, 3, 1, 2, 5],
+                        [8, 5, 1, 7, 9, 2, 6, 4, 3],
+                        [1, 3, 8, 9, 4, 7, 2, 5, 6],
+                        [6, 9, 2, 3, 5, 1, 8, 7, 4],
+                        [7, 4, 5, 2, 8, 6, 3, 1, 9]
+                    ];
+                    grid = board9.map(row => [...row]);
+                } else if (N ==8) {
+                    grid = [];
+                    let board8= [
+                        [8,  6,  1,  4,  3,  5,  7,  2],
+                        [5,  3,  2,  7,  8,  4,  1,  6],
+                        [4,  1,  5,  8,  7,  6,  2,  3],
+                        [2,  7,  3,  6,  1,  8,  5,  4],
+                        [1,  8,  4,  3,  2,  7,  6,  5],
+                        [7,  5,  6,  2,  4,  3,  8,  1],
+                        [6,  4,  7,  1,  5,  2,  3,  8],
+                        [3,  2,  8,  5,  6,  1,  4,  7],
+                    ];
+                    grid = board8.map(row => [...row]);
+                } else if (N ==6) {
+                    grid = [];
+                    let board6= [
+                        [1,6,4,5,2,3],
+                        [3,5,2,1,4,6],
+                        [2,3,1,6,5,4],
+                        [6,5,5,3,1,2],
+                        [4,1,6,2,3,5],
+                        [5,2,3,4,6,1],
+                    ];
+                    grid = board6.map(row => [...row]);
+                } else if (N ==4) {
+                    grid = [];
+                    let board6= [
+                        [2, 4, 3, 1],
+                        [1, 3, 4, 2],
+                        [4, 2, 1, 3],
+                        [3, 1, 2, 4]
+                    ];
+                    grid = board6.map(row => [...row]);
+                }
+
+
+                console.log(N);
+                console.log("N",N);
+                console.log("N+1",N+1);
+                console.log("grid",grid);
+
+                // board = boardinit.map(row => [...row]);
+                console.log(grid);
+                generateBoard(grid);
+                boardsolve = [];
+                generatePuzzle(grid);
+                boardsolve = grid.map(row => [...row]);
+                console.log(boardsolve);
+
+                text1 = print(boardsolve);
+                document.getElementById("F1").innerHTML = text1;
+                console.log("boardsolve",boardsolve);
+
+                if (solveSudoku(boardsolve, 0, 0)){
+                    text2 = print(boardsolve)
+                    document.getElementById("F2").innerHTML = text2;
+                } else{
+                    text2 = "no solution  exists ";
+                    document.getElementById("F2").innerHTML = text2;
+                }
+                // return gridSelect(value1);
+            } else {
+                // Display the value in an alert 
+                alert("Enter Value only (25,24,22,21,20,18,16,15,14,12,10,9,8,6,4): " + value1 + " value1+1 " + (value1+1)); 
+                console.log("Enter Value only (25,24,22,21,20,18,16,15,14,12,10,9,8,6,4): ", value1,(value1+1)); 
+            }
+
+        } 
+
+        // function generateBoard() {
+        //     let error = "";
+        //     let random10 = Math.floor((Math.random() * 8) + 1);
+
+        //     // loop to generate new puzzle board
+        //     // r is used to how many times each number is added 1 in it
+        //     for (let r = 0; r < random10; r++) {
+        //         // these 2 loops to select each element of array (board) and add 1 to each element
+        //         for (let i = 0; i < 9; i++) {
+        //             for (let j = 0; j < 9; j++) {
+        //                 grid[i][j] = grid[i][j] + 1;
+        //                 if (grid[i][j] == 10) {
+        //                     grid[i][j] = 1;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // Driver Code
+        // let grid = [ [ 3, 0, 6, 5, 0, 8, 4, 0, 0 ],
+        //              [ 5, 2, 0, 0, 0, 0, 0, 0, 0 ],
+        //              [ 0, 8, 7, 0, 0, 0, 0, 3, 1 ],
+        //              [ 0, 0, 3, 0, 1, 0, 0, 8, 0 ],
+        //              [ 9, 0, 0, 8, 6, 3, 0, 0, 5 ],
+        //              [ 0, 5, 0, 0, 9, 0, 6, 0, 0 ],
+        //              [ 1, 3, 0, 0, 0, 0, 2, 5, 0 ],
+        //              [ 0, 0, 0, 0, 0, 0, 0, 7, 4 ],
+        //              [ 0, 0, 5, 2, 0, 6, 3, 0, 0 ] ]
+
+        // function gridSelect(N){
+    
+            // if (N == 25) {
+            //     grid = [];
+            //     let board25 = [
+            //             [1, 17, 0, 14, 5, 6, 22, 18, 0,  0, 11, 2, 23, 9,  0, 16, 12, 3, 19,  0, 21, 7, 13, 24, 20], 
+            //             [6, 22, 18, 0,  0, 16, 12, 3, 19,  0, 1, 17, 0, 14, 5, 21, 7, 13, 24,  0, 11, 2, 23, 9, 15], 
+            //             [21, 7, 13, 24,  0, 1, 17, 0, 14, 5, 6, 22, 18, 0,  0, 11, 2, 23, 9,  0, 16, 12, 3, 19, 25], 
+            //             [11, 2, 23, 9,  0, 21, 7, 13, 24,  0, 16, 12, 3, 19,  0, 1, 17, 0, 14, 5, 6, 22, 18, 0, 10], 
+            //             [16, 12, 3, 19,  0, 11, 2, 23, 9,  0, 21, 7, 13, 24,  0, 6, 22, 18, 0,  0, 1, 17, 0, 14, 5], 
+            //             [5, 21, 12, 18, 9,  0, 1, 22, 0, 14,  0, 6, 2, 13, 19,  0, 16, 7, 23, 0,  0, 11, 17, 3, 24], 
+            //             [10, 1, 22, 0, 14,  0, 16, 7, 23, 0, 5, 21, 12, 18, 9,  0, 11, 17, 3, 24,  0, 6, 2, 13, 19], 
+            //             [25, 11, 17, 3, 24, 5, 21, 12, 18, 9,  0, 1, 22, 0, 14,  0, 6, 2, 13, 19,  0, 16, 7, 23, 4], 
+            //             [15, 6, 2, 13, 19,  0, 11, 17, 3, 24,  0, 16, 7, 23, 0, 5, 21, 12, 18, 9,  0, 1, 22, 0, 14], 
+            //             [20, 16, 7, 23, 0,  0, 6, 2, 13, 19,  0, 11, 17, 3, 24,  0, 1, 22, 0, 14, 5, 21, 12, 18, 9], 
+            //             [2, 18, 9,  0, 6, 7, 23, 19, 5, 11, 12, 3, 24,  0, 16, 17, 13, 0,  0, 1, 22, 0, 14,  0, 21], 
+            //             [7, 23, 19, 5, 11, 17, 13, 0,  0, 1, 2, 18, 9,  0, 6, 22, 0, 14,  0, 21, 12, 3, 24,  0, 16], 
+            //             [22, 0, 14,  0, 21, 2, 18, 9,  0, 6, 7, 23, 19, 5, 11, 12, 3, 24,  0, 16, 17, 13, 0,  0, 1], 
+            //             [12, 3, 24,  0, 16, 22, 0, 14,  0, 21, 17, 13, 0,  0, 1, 2, 18, 9,  0, 6, 7, 23, 19, 5, 11], 
+            //             [17, 13, 0,  0, 1, 12, 3, 24,  0, 16, 22, 0, 14,  0, 21, 7, 23, 19, 5, 11, 2, 18, 9,  0, 6], 
+            //             [4,  0, 11, 17, 0, 9,  0, 21, 7, 13, 14, 5, 1, 12, 18, 19,  0, 6, 22, 3, 24,  0, 16, 2, 23], 
+            //             [9,  0, 21, 7, 13, 19,  0, 6, 22, 3, 0,  0, 11, 17, 0, 24,  0, 16, 2, 23, 14, 5, 1, 12, 18], 
+            //             [24,  0, 16, 2, 23, 0,  0, 11, 17, 0, 9,  0, 21, 7, 13, 14, 5, 1, 12, 18, 19,  0, 6, 22, 3], 
+            //             [14, 5, 1, 12, 18, 24,  0, 16, 2, 23, 19,  0, 6, 22, 3, 0,  0, 11, 17, 0, 9,  0, 21, 7, 13], 
+            //             [19,  0, 6, 22, 3, 14, 5, 1, 12, 18, 24,  0, 16, 2, 23, 9,  0, 21, 7, 13, 0,  0, 11, 17, 8], 
+            //             [3, 19,  0, 16, 7, 0, 24,  0, 6, 12, 13, 0,  0, 11, 17, 18, 14, 5, 21, 2, 23, 9,  0, 1, 22], 
+            //             [8, 24,  0, 6, 12, 18, 14, 5, 21, 2, 3, 19,  0, 16, 7, 23, 9,  0, 1, 22, 13, 0,  0, 11, 17], 
+            //             [23, 9,  0, 1, 22, 3, 19,  0, 16, 7, 0, 24,  0, 6, 12, 13, 0,  0, 11, 17, 18, 14, 5, 21, 2], 
+            //             [13, 0,  0, 11, 17, 23, 9,  0, 1, 22, 18, 14, 5, 21, 2, 3, 19,  0, 16, 7, 0, 24,  0, 6, 12], 
+            //             [18, 14, 5, 21, 2, 13, 0,  0, 11, 17, 23, 9,  0, 1, 22, 0, 24,  0, 6, 12, 3, 19,  0, 16, 7], 
+            //         ];
+            //         grid = board25.map(row => [...row]);
+            // } else if (N == 24) {
+            //     grid = [];
+            //     let board24 = [
+            //         [1, 18, 5, 2, 6, 9,  0, 17, 14, 1,  0, 13, 0,  0, 11, 7, 16, 12, 0, 3], 
+            //         [3, 17, 13, 0, 16,  0, 7, 5, 2, 3, 18,  0, 9, 14, 1,  0, 6, 19, 11, 8], 
+            //         [8, 14, 7, 0,  0, 11, 6, 13,  0, 0, 3, 5, 16, 19, 12, 9,  0, 17, 2, 18], 
+            //         [14, 11,  0, 9, 3, 19, 18, 16, 0, 12, 6, 7, 2, 0, 17, 5, 13, 14, 1, 15],
+            //         [4, 13, 2, 6, 19, 16, 17, 14,  0,  0, 7, 9,  0, 11, 3, 12, 1, 0, 0, 5], 
+            //         [7, 5, 0, 17, 12, 7, 13, 11, 3, 9,  0, 0, 14, 1, 18, 6, 19, 2,  0, 20], 
+            //         [11, 7, 0, 3, 1, 6, 5,  0, 0, 2, 13, 16, 19, 12,  0,  0, 17, 11, 18, 9], 
+            //         [22,  0, 9,  0,  0, 18, 0, 1, 12, 19, 5, 2, 0, 17, 6, 13, 3, 16, 14, 7], 
+            //         [6, 2, 6, 19, 18, 17, 16, 12,  0,  0, 9,  0, 11, 3, 13, 1, 0, 0, 5, 14], 
+            //         [10, 0, 16, 12, 17, 5, 2, 3, 9, 7, 0, 14, 1,  0,  0, 19, 11, 18,  0, 6],
+            //         [18, 0,  0, 1, 14, 13,  0, 0, 11, 6, 16, 19, 12, 18, 7, 17, 2, 3, 9, 10],
+            //         [2, 9, 3,  0, 11, 14, 1, 0, 19, 18, 2, 0, 17, 6, 5, 16, 12,  0, 7, 13],
+            //         [5, 12, 19, 18, 7,  0, 14,  0, 16, 17,  0, 11, 3, 13, 9, 2, 0, 5, 6, 1],
+            //         [23, 6, 17, 16, 5, 0, 3, 9, 7, 13, 14, 1,  0,  0, 0, 11, 18,  0, 12, 19], 
+            //         [19, 3, 1, 14, 13,  0, 11, 2, 6, 5, 19, 12, 18, 7, 16, 0,  0, 9,  0, 17], 
+            //         [13,  0,  0, 11,  0, 1, 12, 19, 18, 0, 0, 17, 6, 5, 2, 3, 14, 7, 13, 16],
+            //         [21, 16, 18, 13, 2, 12,  0, 7, 17,  0, 11, 3,  0, 9, 14, 0, 5, 1, 19, 4], 
+            //         [15, 1, 14, 5, 0, 3, 9,  0, 13, 11, 12,  0, 7, 0, 19, 18,  0, 6, 16, 2], 
+            //         [16, 19, 12, 7, 0, 2, 0, 6, 5, 14, 1, 18, 13, 16,  0,  0, 9,  0, 17, 11],
+            //         [20,  0, 11,  0, 9, 0, 19, 18, 1, 16, 17, 6, 5, 2, 0, 14, 7, 13, 3, 12], 
+            //         [12,  0, 11,  0, 9, 0, 19, 18, 1, 16, 17, 6, 5, 2, 0, 14, 7, 13, 3, 12], 
+            //         [17,  0, 11,  0, 9, 0, 19, 18, 1, 16, 17, 6, 5, 2, 0, 14, 7, 13, 3, 12], 
+            //         [24,  0, 11,  0, 9, 0, 19, 18, 1, 16, 17, 6, 5, 2, 0, 14, 7, 13, 3, 12], 
+            //         [9,  0, 11,  0, 9, 0, 19, 18, 1, 16, 17, 6, 5, 2, 0, 14, 7, 13, 3, 12], 
+            //     ];
+            //     grid = board24.map(row => [...row]);
+            // } else if (N == 22) {
+            //     grid = [];
+            //     let board22 = [
+            //         [2, 11, 0,17, 8, 4,10, 1,12,14, 0, 3, 5,13, 0,16, 6,18, 7, 0,20,21], 
+            //         [7,  3,13, 0, 6, 5,16,18, 0,20,21, 1, 8,11, 2, 0,17, 0,10,12,14,15], 
+
+            //         [5,  0,20,21,14, 0,11, 2, 0,17,16, 8,18, 6, 1, 7, 0,12,13, 0,10, 3], 
+            //         [8,  1,18, 6,12, 3, 7, 0, 0,10,13, 5,20, 0, 0,14,21, 2, 0,17,11,16],
+
+            //         [9,  0,12, 0, 2,14,17, 0,11,13, 0,10,21, 5,18, 3, 7,16,20, 6, 8, 1], 
+            //         [10, 5,21,18, 1,16, 3,20, 8, 6, 7, 0, 0, 2, 0,17,14,13,12,11, 0, 4], 
+
+            //         [1, 16,14, 0,17, 6,12,10, 5, 2,11,21, 7, 3, 0,18,13, 0, 0, 8, 0,20], 
+            //         [21, 0, 7, 0, 0,18, 0, 3,13, 8,20,16, 1,14,17, 2, 5, 0,11,10,12, 6], 
+
+            //         [11,18, 0, 8,10,13,21, 0, 2, 0, 0,17,12, 0, 7, 1, 3,14, 6,20,16, 5], 
+            //         [12,17, 3, 5, 0, 7,20,16, 6, 1,14,18,11, 0, 8,13, 0,10,21, 0, 0, 2],
+
+            //         [3,  7, 1,11,16, 0, 0,21,17, 0, 2, 0,10, 8, 6,12,18,20, 5,14, 0,13],
+            //         [6, 10, 0,12,18, 8,14,13,20, 0, 5, 0, 3, 7,16, 0, 2,11,17, 1,21,22],
+
+            //         [14,12,11, 1, 7,20, 6, 0,16, 3,18, 0, 0,21, 5, 0, 0,17, 8, 2,13,10],
+            //         [ 0, 0, 5, 2, 0,21,13,17,10, 0, 8, 7,14,12,20,11, 1, 0,16, 3, 6,18],
+
+            //         [4,  0, 8,14,20, 0,18, 5, 0,11, 3, 6,16,17,12,21,10, 1, 2,13, 7, 9], 
+            //         [13, 6,16,10,21, 2, 0, 7, 1,12,17,11, 0, 0,14,20, 8, 0, 3,18, 5,19],
+
+            //         [ 0, 2, 0,16, 3, 1, 0,11,18, 5, 6,12, 0,9 ,13,10,20, 7,14,21,17, 8], 
+            //         [20,13,17, 7, 0,12, 8,14,21, 0,10, 2, 0, 1, 3, 5, 0, 6, 0,16,18,11], 
+
+            //         [16,14,10, 3, 5,11, 2, 6, 0,21,12,13,17,20, 0, 0, 0, 8,18, 0, 1, 7],
+            //         [17,20, 0,13, 0, 0, 1, 8, 7,18, 0,14, 2,16,10, 6,11,21, 0, 5, 3,12], 
+
+            //         [18,21, 2,10,13,17, 0,12, 3, 7, 1, 0, 6,10,11, 8,16, 5, 0, 0, 0,14],
+            //         [22, 8, 6, 0,11,10, 5, 0,14,16, 0,20,13,18,21, 0,12, 3, 1, 7, 2,17] 
+            //     ];
+            //     grid = board22.map(row => [...row]);
+            // } else if (N == 21) {
+            //     grid = [];
+            //     let board21 = [
+            //         [1, 0,2,3,21, 0,17,5,6,10,13, 0,16,11,  11,18,14,7,8, 0,20], 
+            //         [16,11,18, 0,8,7,20, 0,14,1,2,3, 0,17,5,  5,6,10,21,12,13,15], 
+            //         [5,14,6,10,12,13, 0,18,11,20,21,7, 0,8, 0,1,2,3, 0,16,17], 
+
+            //         [8,13,17,20,18,1,5, 0,10,14, 0,2,12,7,  3,11, 0, 0,21,6,16],
+            //         [14,2, 0, 0,,3,21,6,16,1,11,13,20,5, 0,   0,8,12,18,17,10,7], 
+            //         [10,16,11, 0, 0,12,7,8, 0,17,3,6,18,21,  0,20,13,14,2,1,5], 
+
+            //         [21,7,1,5,10, 0,8,17,12,13,16,18, 0, 0, 14,2,11, 0,20,3,6], 
+            //         [2,17,20,6, 0,3,18,14,7,21, 0,8,11,1,   13, 0,5, 0,16,12,10], 
+            //         [ 0, 0,13,11,14,16,12,2,3,6,10, 0,20,5,  17,21,18,1, 0,7,8], 
+
+            //         [ 0,10,12,16,6, 0,13,1,2,7,14,17,21,11, 18, 0,3,20,5,8,19],
+            //         [7,20,5, 0,17,14,21,13,18, 0,8, 0,3,12,  1,16,6,2,10, 0,11],
+            //         [18,1, 0,2,11,8,3,6, 0,16,5, 0,10,20,  7,12,17, 0,14,21,13],
+
+            //         [11,18, 0,7, 0,17,14,10,5,12,20,16,13,3, 6, 0,1,8, 0,2,21],
+            //         [12, 0,16,21,20,6, 0,11,8, 0,1,14,2, 0, 10,5,7,13,3,17,18],
+            //         [13,3,8,1,2,5,10, 0, 0,18,7,21,17,6,  16, 0,20,11, 0,14,12], 
+
+            //         [3,8,21,18,13, 0,1,7, 0, 0,6,1016,,14,  20,17, 0,12,11,5,2],
+            //         [17,6,7,12,16,11, 0, 0,20,2, 0,5,8,13,  21,3, 0,10,1,18,14], 
+            //         [ 0, 0,10,14,5,20,2,21,17,3,11,12,1,18, 8,7,16,6,13, 0,4], 
+
+            //         [20,5,14,8, 0,18, 0,12,16, 0, 0,1,6,10, 2,13,21,17,7,11,3],
+            //         [ 0,21,3,17,7,2,11,20,13,5,18, 0,14, 0, 12,10,8,16,6, 0,1], 
+            //         [6,12,15,13,1,10,16,3,21,8,17,11,7,2,  0,14, 0,5,18,20,9],
+            //     ];
+            //     grid = board21.map(row => [...row]);
+            // } else if (N == 20) {
+            //     grid = [];
+            //     let board20 = [
+            //         [19, 18, 5, 2, 6, 9,  0, 17, 14, 1,  0, 13, 0,  0, 11, 7, 16, 12, 0, 3], 
+            //         [12, 17, 13, 0, 16,  0, 7, 5, 2, 3, 18,  0, 9, 14, 1,  0, 6, 19, 11, 8], 
+            //         [1, 14, 7, 0,  0, 11, 6, 13,  0, 0, 3, 5, 16, 19, 12, 9,  0, 17, 2, 18], 
+            //         [20, 11,  0, 9, 3, 19, 18, 16, 0, 12, 6, 7, 2, 0, 17, 5, 13, 14, 1, 15],
+            //         [18, 13, 2, 6, 19, 16, 17, 14,  0,  0, 7, 9,  0, 11, 3, 12, 1, 0, 0, 5], 
+            //         [16, 5, 0, 17, 12, 7, 13, 11, 3, 9,  0, 0, 14, 1, 18, 6, 19, 2,  0, 20], 
+            //         [14, 7, 0, 3, 1, 6, 5,  0, 0, 2, 13, 16, 19, 12,  0,  0, 17, 11, 18, 9], 
+            //         [11,  0, 9,  0,  0, 18, 0, 1, 12, 19, 5, 2, 0, 17, 6, 13, 3, 16, 14, 7], 
+            //         [7, 2, 6, 19, 18, 17, 16, 12,  0,  0, 9,  0, 11, 3, 13, 1, 0, 0, 5, 14], 
+            //         [13, 0, 16, 12, 17, 5, 2, 3, 9, 7, 0, 14, 1,  0,  0, 19, 11, 18,  0, 6],
+            //         [5, 0,  0, 1, 14, 13,  0, 0, 11, 6, 16, 19, 12, 18, 7, 17, 2, 3, 9, 10],
+            //         [10, 9, 3,  0, 11, 14, 1, 0, 19, 18, 2, 0, 17, 6, 5, 16, 12,  0, 7, 13],
+            //         [4, 12, 19, 18, 7,  0, 14,  0, 16, 17,  0, 11, 3, 13, 9, 2, 0, 5, 6, 1],
+            //         [2, 6, 17, 16, 5, 0, 3, 9, 7, 13, 14, 1,  0,  0, 0, 11, 18,  0, 12, 19], 
+            //         [8, 3, 1, 14, 13,  0, 11, 2, 6, 5, 19, 12, 18, 7, 16, 0,  0, 9,  0, 17], 
+            //         [9,  0,  0, 11,  0, 1, 12, 19, 18, 0, 0, 17, 6, 5, 2, 3, 14, 7, 13, 16],
+            //         [6, 16, 18, 13, 2, 12,  0, 7, 17,  0, 11, 3,  0, 9, 14, 0, 5, 1, 19, 4], 
+            //         [17, 1, 14, 5, 0, 3, 9,  0, 13, 11, 12,  0, 7, 0, 19, 18,  0, 6, 16, 2], 
+            //         [3, 19, 12, 7, 0, 2, 0, 6, 5, 14, 1, 18, 13, 16,  0,  0, 9,  0, 17, 11],
+            //         [15,  0, 11,  0, 9, 0, 19, 18, 1, 16, 17, 6, 5, 2, 0, 14, 7, 13, 3, 12], 
+            //     ];
+            //     grid = board20.map(row => [...row]);
+            // } else if (N == 16) {
+            //     grid = [];
+            //     let board16 = [
+            //         [11, 0,   7,  9,  0,  0, 13,  5, 14,  1,  6,  3,  2, 12,  0, 16],
+            //         [16, 2,   5,  0,  0,  3,  0, 14,  0, 11,  7, 12,  9, 13,  6,  1],
+            //         [6, 13,  14, 12,  1, 16, 11,  7,  2,  9,  0,  5,  0,  3,  0,  4],
+            //         [1,  3,   0,  0,  9,  6, 12,  2,  0, 16,  0, 13,  5,  7, 11, 14],
+            //         [13,  0, 12, 11,  6,  1,  9,  3,  0,  0,  0,  7, 16,  2, 14,  5],
+            //         [14, 16,  2,  1,  7,  0,  0,  0,  3,  5, 12, 11,  6,  0, 13,  9],
+            //         [10,  7,  9,  3, 14,  0,  5, 11, 16,  6, 13,  2,  0,  1,  0, 12],
+            //         [4,   0,  6,  5, 13,  2, 16, 12,  1,  0,  9, 14,  7, 11,  3, 10],
+            //         [8,  14,  1,  2,  0,  7,  0,  0, 11, 13,  5,  9, 12,  6, 16,  3],
+            //         [12,  0, 16, 13,  5, 11,  0,  9,  6,  7,  3,  0,  0, 14,  1,  2],
+            //         [5,   6,  3,  7, 16, 12,  2, 13,  0, 14,  1,  0,  0,  0,  9, 11],
+            //         [15,  9, 11,  0,  3, 14,  1,  6, 12,  2, 16,  0, 13,  5,  0,  7],
+            //         [9,   1,  0, 16, 12,  5,  3,  0,  7,  0, 11,  6, 14,  0,  2, 13],
+            //         [2,  11,  0, 14,  0,  0,  7,  1, 13, 12,  0, 16,  3,  9,  5,  6],
+            //         [7,   5,  0,  6, 11, 13, 14, 16,  9,  3,  2,  0,  1,  0, 12,  8],
+            //         [3,  12, 13,  0,  2,  9,  6,  0,  5,  0, 14,  1, 11, 16,  7, 15],
+            //     ];
+            //     grid = board16.map(row => [...row]);
+            // } else if (N == 15) {
+            //     grid = [];
+            //     let board15 = [
+            //         [14,  6,  2, 11,  3, 12,  0, 13,  7,  0,  9,  0,  1,  0,  5],
+            //         [8,   0,  0, 13, 12, 11,  2,  1,  5,  9,  0,  6,  3, 14,  7],
+            //         [9,   0,  9,  1,  7,  6, 14,  0,  3,  0,  0, 11,  2, 13, 12],
+            //         [4,   2, 12,  9, 14,  0,  0,  3, 13,  5,  7,  0, 11,  1,  6],
+            //         [11, 13,  0,  0,  1,  0,  7, 14, 12,  6,  5,  0,  9,  2,  3],
+            //         [5,   3,  0,  7,  5,  9,  1,  0, 11,  2, 14,  0, 12,  0, 13],
+            //         [10, 12,  0,  5,  2,  3, 13, 11,  9,  0,  0, 14,  6,  7,  1],
+            //         [7,  14, 13,  0, 11,  1,  5,  2,  6,  0,  3, 12,  0,  9, 15],
+            //         [3,   9,  1,  6,  0,  0,  0,  7, 14, 12,  2, 13,  0,  5, 11],
+            //         [15,  5,  7,  2,  0, 14,  0,  0,  1, 11, 12,  3, 13,  6,  9],
+            //         [12,  0, 11,  3,  9,  0,  6,  5,  2, 13,  1,  7, 14,  0, 10],
+            //         [13,  1,  6, 14,  0,  7,  9, 12,  0,  3,  0,  5,  0, 11,  2],
+            //         [2,  11, 14,  0, 13,  5, 12,  9,  0,  7,  6,  1,  0,  3,  8],
+            //         [9,   0,  5,  0,  6, 13,  3,  0,  0,  1, 11,  2,  7, 12, 14],
+            //         [1,   7,  3, 12,  0,  2, 11,  6,  0, 14, 13,  9,  5,  0,  4],
+            //     ];
+            //     grid = board15.map(row => [...row]);
+            // } else if (N == 14) {
+            //     grid = [];
+            //     let board14 = [
+            //         [2,  14,  0,  1,  5, 12,  3,  6,  0,  7, 11,  9,  0, 13],
+            //         [7,  11,  0,  6,  9,  0, 13,  0,  3,  2, 14, 12,  5,  1],
+            //         [12,  1,  9,  0,  2,  5,  6, 11, 13, 14,  0,  0,  7,  3],
+            //         [11,  0, 13,  3,  14, 7,  0,  5,  1, 12,  0,  2,  9,  6],
+            //         [14,  0,  3, 12,  0,  2,  5,  7,  6, 13,  1, 11,  0,  9],
+            //         [13,  9,  1,  7,  0,  6, 11,  2, 12,  3,  5,  0, 14,  4],
+            //         [4,   2,  7,  5, 12,  3,  1, 13,  9,  0,  6, 14, 11,  8],
+            //         [8,  13, 11,  9,  6,  0, 14,  0,  2,  5, 12,  1,  3,  7],
+            //         [9,  12,  2, 11,  1, 14,  0,  3,  0,  6, 13,  7,  0,  5],
+            //         [5,   6,  0,  0,  3, 13,  7, 14, 11,  9,  2,  0,  1, 12],
+            //         [3,   0, 14,  0, 11,  9,  2, 12,  5,  1,  7, 13,  6, 10],
+            //         [10,  5,  6, 13,  7,  1, 12,  9, 14,  0,  0,  3,  2, 11],
+            //         [6,   3, 12, 14,  0,  0,  0,  1,  7, 11,  9,  5, 13,  2],
+            //         [1,   7,  5,  2, 13, 11,  9,  0,  0,  0,  3,  6, 12, 14],
+            //     ];
+            //     grid = board14.map(row => [...row]);
+            // } else if (N == 12) {
+            //     grid = [];
+            //     let board12 = [
+            //         [4,   7,  2,  0,  1,  9, 11,  0,  5,  3,  6,  0],
+            //         [1,   0,  9,  3,  0,  0,  5,  6,  2, 11,  7, 10],
+            //         [5,   6,  0, 11,  7,  0,  3,  2,  0,  0,  1,  9],
+            //         [9,   1,  5,  6,  0, 11,  2,  0,  7,  0,  0,  3],
+            //         [3,   0, 11,  0,  6,  5,  7,  0,  9,  1,  0,  2],
+            //         [8,   2,  0,  7,  3,  1,  0,  9, 11,  5,  0,  6],
+            //         [0,   3,  0,  5,  0,  6,  9, 11,  1,  7,  2,  4],
+            //         [11,  9,  7,  0,  2,  3,  0,  1,  6,  0,  0,  5],
+            //         [6,   0,  1,  2,  5,  7,  0,  0,  0,  9,  3, 11],
+            //         [7,   0,  6,  9, 11,  2,  0,  3,  0,  0,  5,  1],
+            //         [10, 11,  3,  1,  0,  0,  6,  5,  0,  2,  9,  7],
+            //         [2,   5,  0,  0,  9,  0,  1,  7,  3,  6, 11,  8],
+            //     ];
+            //     grid = board12.map(row => [...row]);
+            // } else if (N == 10) {
+            //     grid = [];
+            //     let board10 = [
+            //         [9,   5,  6,  7,  0,  3,  0,  1,  0,  2],
+            //         [10,  0,  3,  1,  2,  9,  6,  7,  5,  8],
+            //         [2,   0,  0,  6,  0,  1,  9,  5,  7,  3],
+            //         [7,   1,  5,  3,  9,  6,  0,  2,  0,  0],
+            //         [4,   6,  1,  0,  5,  7,  3,  0,  2,  9],
+            //         [3,   2,  9,  0,  7,  5,  1,  0,  0,  6],
+            //         [6,   7,  0,  9,  0,  0,  2,  3,  1,  5],
+            //         [5,   3,  0,  2,  1,  0,  0,  9,  6,  7],
+            //         [8,   9,  7,  0,  6,  2,  5,  0,  3,  1],
+            //         [1,   0,  2,  5,  3,  0,  7,  6,  9,  4],
+            //     ];
+            //     grid = board10.map(row => [...row]);
+            // } else if (N == 9) {
+            //     grid = [];
+            //     let board9 = [
+            //         [3, 1, 6, 5, 7, 0, 0, 9, 2],
+            //         [5, 2, 9, 1, 3, 0, 7, 6, 8],
+            //         [4, 0, 7, 6, 2, 9, 5, 3, 1],
+            //         [2, 6, 3, 0, 1, 5, 9, 0, 7],
+            //         [9, 7, 0, 0, 6, 3, 1, 2, 5],
+            //         [8, 5, 1, 7, 9, 2, 6, 0, 3],
+            //         [1, 3, 0, 9, 0, 7, 2, 5, 6],
+            //         [6, 9, 2, 3, 5, 1, 0, 7, 4],
+            //         [7, 0, 5, 2, 0, 6, 3, 1, 9]
+            //     ];
+            //     grid = board9.map(row => [...row]);
+            // } else if (N == 8) {
+            //     grid = [];
+            //     let board8 = [
+            //         [8,  6,  1,  0,  3,  5,  7,  2],
+            //         [5,  3,  2,  7,  0,  0,  1,  6],
+            //         [4,  1,  5,  0,  7,  6,  2,  3],
+            //         [2,  7,  3,  6,  1,  0,  5,  4],
+            //         [1,  0,  0,  3,  2,  7,  6,  5],
+            //         [7,  5,  6,  2,  0,  3,  0,  1],
+            //         [6,  0,  7,  1,  5,  2,  3,  8],
+            //         [3,  2,  0,  5,  6,  1,  0,  7],
+            //     ];
+            //     grid = board8.map(row => [...row]);
+            // } else if (N == 6) {
+            //     grid = [];
+            //     let board6 = [
+            //         [1,0,4,5,0,3],
+            //         [0,5,0,1,4,0],
+            //         [2,3,0,0,5,4],
+            //         [6,4,5,3,0,2],
+            //         [4,0,6,2,3,5],
+            //         [0,2,0,4,6,1],
+            //     ];
+            //     grid = board6.map(row => [...row]);
+            // } else if (N == 4) {
+            //     grid = [];
+            //     let board4 = [
+            //         [2, 0, 3, 1],
+            //         [1, 3, 0, 2],
+            //         [4, 2, 1, 0],
+            //         [0, 1, 2, 4]
+            //     ];
+            //     grid = board4.map(row => [...row]);
+            // }
+
+
+            // let board25 = [
+            //     [1, 17, 8, 14, 5, 6, 22, 18, 4, 10, 11, 2, 23, 9, 15, 16, 12, 3, 19, 25, 21, 7, 13, 24, 20], 
+            //     [6, 22, 18, 4, 10, 16, 12, 3, 19, 25, 1, 17, 8, 14, 5, 21, 7, 13, 24, 20, 11, 2, 23, 9, 15], 
+            //     [21, 7, 13, 24, 20, 1, 17, 8, 14, 5, 6, 22, 18, 4, 10, 11, 2, 23, 9, 15, 16, 12, 3, 19, 25], 
+            //     [11, 2, 23, 9, 15, 21, 7, 13, 24, 20, 16, 12, 3, 19, 25, 1, 17, 8, 14, 5, 6, 22, 18, 4, 10], 
+            //     [16, 12, 3, 19, 25, 11, 2, 23, 9, 15, 21, 7, 13, 24, 20, 6, 22, 18, 4, 10, 1, 17, 8, 14, 5], 
+            //     [5, 21, 12, 18, 9, 10, 1, 22, 8, 14, 15, 6, 2, 13, 19, 20, 16, 7, 23, 4, 25, 11, 17, 3, 24], 
+            //     [10, 1, 22, 8, 14, 20, 16, 7, 23, 4, 5, 21, 12, 18, 9, 25, 11, 17, 3, 24, 15, 6, 2, 13, 19], 
+            //     [25, 11, 17, 3, 24, 5, 21, 12, 18, 9, 10, 1, 22, 8, 14, 15, 6, 2, 13, 19, 20, 16, 7, 23, 4], 
+            //     [15, 6, 2, 13, 19, 25, 11, 17, 3, 24, 20, 16, 7, 23, 4, 5, 21, 12, 18, 9, 10, 1, 22, 8, 14], 
+            //     [20, 16, 7, 23, 4, 15, 6, 2, 13, 19, 25, 11, 17, 3, 24, 10, 1, 22, 8, 14, 5, 21, 12, 18, 9], 
+            //     [2, 18, 9, 15, 6, 7, 23, 19, 5, 11, 12, 3, 24, 10, 16, 17, 13, 4, 20, 1, 22, 8, 14, 25, 21], 
+            //     [7, 23, 19, 5, 11, 17, 13, 4, 20, 1, 2, 18, 9, 15, 6, 22, 8, 14, 25, 21, 12, 3, 24, 10, 16], 
+            //     [22, 8, 14, 25, 21, 2, 18, 9, 15, 6, 7, 23, 19, 5, 11, 12, 3, 24, 10, 16, 17, 13, 4, 20, 1], 
+            //     [12, 3, 24, 10, 16, 22, 8, 14, 25, 21, 17, 13, 4, 20, 1, 2, 18, 9, 15, 6, 7, 23, 19, 5, 11], 
+            //     [17, 13, 4, 20, 1, 12, 3, 24, 10, 16, 22, 8, 14, 25, 21, 7, 23, 19, 5, 11, 2, 18, 9, 15, 6], 
+            //     [4, 20, 11, 17, 8, 9, 25, 21, 7, 13, 14, 5, 1, 12, 18, 19, 15, 6, 22, 3, 24, 10, 16, 2, 23], 
+            //     [9, 25, 21, 7, 13, 19, 15, 6, 22, 3, 4, 20, 11, 17, 8, 24, 10, 16, 2, 23, 14, 5, 1, 12, 18], 
+            //     [24, 10, 16, 2, 23, 4, 20, 11, 17, 8, 9, 25, 21, 7, 13, 14, 5, 1, 12, 18, 19, 15, 6, 22, 3], 
+            //     [14, 5, 1, 12, 18, 24, 10, 16, 2, 23, 19, 15, 6, 22, 3, 4, 20, 11, 17, 8, 9, 25, 21, 7, 13], 
+            //     [19, 15, 6, 22, 3, 14, 5, 1, 12, 18, 24, 10, 16, 2, 23, 9, 25, 21, 7, 13, 4, 20, 11, 17, 8], 
+            //     [3, 19, 10, 16, 7, 8, 24, 20, 6, 12, 13, 4, 25, 11, 17, 18, 14, 5, 21, 2, 23, 9, 15, 1, 22], 
+            //     [8, 24, 20, 6, 12, 18, 14, 5, 21, 2, 3, 19, 10, 16, 7, 23, 9, 15, 1, 22, 13, 4, 25, 11, 17], 
+            //     [23, 9, 15, 1, 22, 3, 19, 10, 16, 7, 8, 24, 20, 6, 12, 13, 4, 25, 11, 17, 18, 14, 5, 21, 2], 
+            //     [13, 4, 25, 11, 17, 23, 9, 15, 1, 22, 18, 14, 5, 21, 2, 3, 19, 10, 16, 7, 8, 24, 20, 6, 12], 
+            //     [18, 14, 5, 21, 2, 13, 4, 25, 11, 17, 23, 9, 15, 1, 22, 8, 24, 20, 6, 12, 3, 19, 10, 16, 7], 
+            // ];
+            // } else if (N == 24) {
+            //     grid = [];
+            //     let board24 = [
+            //         [1,   5,  2,  4,  6,  7,  8,  9, 10, 12, 13, 14, 15, 16, 17, 18, 11, 19,  3, 20, 21, 22, 23, 24], 
+            //         [3,  23, 20, 22, 24, 21,  5, 16, 17, 18, 11, 19,  8,  9, 10, 12, 13, 14,  2,  4,  6,  7,  1, 15], 
+            //         [8,   9, 11, 10, 12, 13,  3, 15, 23, 20, 22,  1,  2,  4,  6,  7, 21, 24,  5, 14, 16, 17, 18, 19], 
+            //         [14, 15, 16, 17, 18, 19,  2,  4,  6,  7, 24, 21,  1,  5,  3, 20, 23, 22,  8,  9, 10, 11, 12, 13],
+
+            //         [4,   1, 19, 24, 20,  6,  7, 12,  3, 21,  2, 18, 11, 14,  9, 10,  5,  8, 13, 15, 23, 16, 17, 22], 
+            //         [7,   3, 12, 13,  5, 15, 14, 20, 24, 17, 10, 22, 21, 19, 23, 16,  2,  6,  1, 11,  4,  9,  8, 18], 
+            //         [11, 18,  9,  8, 23, 16,  1, 13,  4,  5,  6, 15, 17, 20, 22, 24,  3, 12,  7, 10, 14, 19,  2, 21], 
+            //         [22, 10, 21, 14,  2, 17, 11,  8,  9, 23, 19, 16,  4,  1,  7, 15, 18, 13, 12, 24, 20,  3,  5,  6], 
+
+            //         [6,  12,  3,  7, 17, 11, 23, 24, 18, 13, 16,  8, 10,  2, 21,  5, 14,  4, 22,  1, 19, 15, 22,  9], 
+            //         [10, 16,  5, 15, 21,  4,  6, 19, 22,  9, 20, 11,  3, 17, 18,  1, 24,  7, 23,  2, 12, 13, 14,  8],
+            //         [18, 24,  1,  9,  8, 23, 15,  2, 21,  5, 14,  4, 12, 22, 19, 13, 20, 11,  6,  3, 17, 10, 16,  7],
+            //         [2,  20, 13, 19, 14, 22, 10,  1,  7,  3, 17, 12,  6,  8, 15, 23,  9, 16, 18,  5, 24, 21, 11,  4],
+
+            //         [5,  17, 15,  1,  4,  9, 22,  7, 14, 10, 12,  6, 13, 23, 24, 21, 16,  2, 20,  8,  3, 18, 19, 11],
+            //         [23,  6,  8,  3, 16,  2, 24, 11,  1, 15,  5, 13, 18, 10, 20, 19, 22, 17, 21,  7,  9, 12,  4, 14], 
+            //         [19, 14, 18, 20, 22, 12, 17,  3,  4,  8, 21,  2, 5,   7,  6, 11,  1,  9, 10, 13, 15, 23, 24, 16], 
+            //         [13, 11,  7, 21, 10, 24, 20, 23, 19, 16, 18,  9, 14,  3,  4,  8, 12, 15, 17, 22,  1,  5,  6,  2],
+
+            //         [21,  2, 24, 11,  1,  3, 16, 18, 13, 19,  7, 10, 23,  6   8, 17, 15  5,  4,  12, 22, 14,  9, 20], 
+            //         [15,  4, 14,  6,  7,  5, 21, 17, 20,  1,  9, 23, 24, 12, 13, 22, 19, 18, 11, 16,  2,  8, 10,  3], 
+            //         [16,  8, 17, 12, 19, 10,  4, 22, 11,  2,  3,  5,  7, 21, 14,  9,  1, 20, 15,  6, 18, 24, 13, 23],
+            //         [20, 13, 22, 23,  9, 18, 12,  6,  8, 14, 15, 24, 16, 11   2,  3,  4, 10, 19, 17,  7,  1, 21,  5], 
+
+            //         [12, 19,  4,  2, 11,  1, 18, 10, 15, 22,  8, 20,  9, 24,  5, 14,  7, 21, 16, 23, 13,  6,  3, 17],
+            //         [17, 22,  6, 18,  3, 14, 19,  5, 16, 24,  1,  7, 20, 13, 11,  4, 10, 23,  9, 21,  8,  2, 15, 12], 
+            //         [24,  7, 23, 16, 13,  8,  9, 21,  2, 11,  4,  3, 19, 15, 12,  6, 17,  1, 14, 18,  5, 20, 22, 10], 
+            //         [9,  21, 10,  5, 15, 20, 13, 14, 12,  6, 23, 17, 22, 18, 16,  2,  8,  3, 24, 19, 11,  4,  7,  1], 
+            //     ];
+            //     grid = board24.map(row => [...row]);
+            // } else if (N == 22) {
+            //     grid = [];
+            //     let board22 = [
+                    // [2, 11, 9,17, 8, 4,10, 1,12,14,15, 3, 5,13,22,16, 6,18, 7,19,20,21], 
+                    // [7,  3,13,22, 6, 5,16,18,19,20,21, 1, 8,11, 2, 4,17, 9,10,12,14,15], 
+
+                    // [5,  9,20,21,14,19,11, 2,22,17,16, 8,18, 6, 1, 7,15,12,13, 4,10, 3], 
+                    // [8,  1,18, 6,12, 3, 7,15, 4,10,13, 5,20,19, 9,14,21, 2,22,17,11,16],
+
+                    // [9, 15,12,19, 2,14,17,22,11,13, 4,10,21, 5,18, 3, 7,16,20, 6, 8, 1], 
+                    // [10, 5,21,18, 1,16, 3,20, 8, 6, 7,15, 9, 2,19,17,14,13,12,11,22, 4], 
+
+                    // [1, 16,14, 4,17, 6,12,10, 5, 2,11,21, 7, 3,15,18,13,22,19, 8, 9,20], 
+                    // [21,22, 7, 9,19,18,15, 3,13, 8,20,16, 1,14,17, 2, 5, 4,11,10,12, 6], 
+
+                    // [11,18, 4, 8,10,13,21, 9, 2,19,22,17,12,15, 7, 1, 3,14, 6,20,16, 5], 
+                    // [12,17, 3, 5,15, 7,20,16, 6, 1,14,18,11, 4, 8,13, 9,10,21,22,19, 2],
+
+                    // [3,  7, 1,11,16, 9,22,21,17,15, 2,19,10, 8, 6,12,18,20, 5,14, 4,13],
+                    // [6, 10,19,12,18, 8,14,13,20, 4, 5, 9, 3, 7,16,15, 2,11,17, 1,21,22],
+
+                    // [14,12,11, 1, 7,20, 6,19,16, 3,18, 4,15,21, 5, 9,22,17, 8, 2,13,10],
+                    // [15, 4, 5, 2, 9,21,13,17,10,22, 8, 7,14,12,20,11, 1,19,16, 3, 6,18],
+
+                    // [4, 19, 8,14,20,22,18, 5,15,11, 3, 6,16,17,12,21,10, 1, 2,13, 7, 9], 
+                    // [13, 6,16,10,21, 2, 9, 7, 1,12,17,11, 4,22,14,20, 8,15, 3,18, 5,19],
+
+                    // [19, 2,15,16, 3, 1, 4,11,18, 5, 6,12,22,9 ,13,10,20, 7,14,21,17, 8], 
+                    // [20,13,17, 7,22,12, 8,14,21, 9,10, 2,19, 1, 3, 5, 4, 6,15,16,18,11], 
+
+                    // [16,14,10, 3, 5,11, 2, 6, 9,21,12,13,17,20, 4,22,19, 8,18,15, 1, 7],
+                    // [17,20,22,13, 4,15, 1, 8, 7,18,19,14, 2,16,10, 6,11,21, 9, 5, 3,12], 
+
+                    // [18,21, 2,10,13,17,19,12, 3, 7, 1,22, 6,10,11, 8,16, 5, 4, 9,15,14],
+                    // [22, 8, 6,15,11,10, 5, 4,14,16, 9,20,13,18,21,19,12, 3, 1, 7, 2,17] 
+                // ];
+                // grid = board22.map(row => [...row]);
+            // } else if (N == 21) {
+                // grid = [];
+                // let board21 = [
+                //     [1,9,2,3,21,4,17,5,6,10,13,15,16,11,  11,18,14,7,8,19,20], 
+                //     [16,11,18,19,8,7,20,9,14,1,2,3,4,17,5,  5,6,10,21,12,13,15], 
+                //     [5,14,6,10,12,13,15,18,11,20,21,7,19,8, 9,1,2,3,4,16,17], 
+
+                //     [8,13,17,20,18,1,5,4,10,14,15,2,12,7,  3,11,9,19,21,6,16],
+                //     [14,2,9,4,,3,21,6,16,1,11,13,20,5,19,  15,8,12,18,17,10,7], 
+                //     [10,16,11,15,19,12,7,8,9,17,3,6,18,21, 4,20,13,14,2,1,5], 
+
+                //     [21,7,1,5,10,19,8,17,12,13,16,18,9,15, 14,2,11,4,20,3,6], 
+                //     [2,17,20,6,15,3,18,14,7,21,4,8,11,1,   13,19,5,9,16,12,10], 
+                //     [9,4,13,11,14,16,12,2,3,6,10,19,20,5,  17,21,18,1,15,7,8], 
+
+                //     [4,10,12,16,6,15,13,1,2,7,14,17,21,11, 18,9,3,20,5,8,19],
+                //     [7,20,5,9,17,14,21,13,18,19,8,15,3,12,  1,16,6,2,10,4,11],
+                //     [18,1,19,2,11,8,3,6,4,16,5,9,10,20,  7,12,17,15,14,21,13],
+
+                //     [11,18,4,7,9,17,14,10,5,12,20,16,13,3, 6,15,1,8,19,2,21],
+                //     [12,15,16,21,20,6,19,11,8,9,1,14,2,4, 10,5,7,13,3,17,18],
+                //     [13,3,8,1,2,5,10,15,19,18,7,21,17,6,  16,4,20,11,9,14,12], 
+
+                //     [3,8,21,18,13,9,1,7,15,4,6,1016,,14,  20,17,19,12,11,5,2],
+                //     [17,6,7,12,16,11,4,19,20,2,9,5,8,13,  21,3,15,10,1,18,14], 
+                //     [15,19,10,14,5,20,2,21,17,3,11,12,1,18, 8,7,16,6,13,9,4], 
+
+                //     [20,5,14,8,4,18,9,12,16,15,19,1,6,10, 2,13,21,17,7,11,3],
+                //     [19,21,3,17,7,2,11,20,13,5,18,4,14,9, 12,10,8,16,6,15,1], 
+                //     [6,12,15,13,1,10,16,3,21,8,17,11,7,2, 19,14,4,5,18,20,9],
+            //     ];
+            //     grid = board21.map(row => [...row]);
+            // let board20 = [
+            //     [19, 18, 5, 2, 6, 9, 10, 17, 14, 1, 15, 13, 8, 20, 11, 7, 16, 12, 4, 3], 
+            //     [12, 17, 13, 4, 16, 15, 7, 5, 2, 3, 18, 10, 9, 14, 1, 20, 6, 19, 11, 8], 
+            //     [1, 14, 7, 8, 15, 11, 6, 13, 20, 4, 3, 5, 16, 19, 12, 9, 10, 17, 2, 18], 
+            //     [20, 11, 10, 9, 3, 19, 18, 16, 8, 12, 6, 7, 2, 4, 17, 5, 13, 14, 1, 15],
+            //     [18, 13, 2, 6, 19, 16, 17, 14, 10, 15, 7, 9, 20, 11, 3, 12, 1, 4, 8, 5], 
+            //     [16, 5, 4, 17, 12, 7, 13, 11, 3, 9, 10, 8, 14, 1, 18, 6, 19, 2, 15, 20], 
+            //     [14, 7, 8, 3, 1, 6, 5, 20, 4, 2, 13, 16, 19, 12, 15, 10, 17, 11, 18, 9], 
+            //     [11, 10, 9, 15, 20, 18, 8, 1, 12, 19, 5, 2, 4, 17, 6, 13, 3, 16, 14, 7], 
+            //     [7, 2, 6, 19, 18, 17, 16, 12, 15, 10, 9, 20, 11, 3, 13, 1, 4, 8, 5, 14], 
+            //     [13, 4, 16, 12, 17, 5, 2, 3, 9, 7, 8, 14, 1, 15, 10, 19, 11, 18, 20, 6],
+            //     [5, 8, 15, 1, 14, 13, 20, 4, 11, 6, 16, 19, 12, 18, 7, 17, 2, 3, 9, 10],
+            //     [10, 9, 3, 20, 11, 14, 1, 8, 19, 18, 2, 4, 17, 6, 5, 16, 12, 15, 7, 13],
+            //     [4, 12, 19, 18, 7, 10, 14, 15, 16, 17, 20, 11, 3, 13, 9, 2, 8, 5, 6, 1],
+            //     [2, 6, 17, 16, 5, 4, 3, 9, 7, 13, 14, 1, 15, 10, 8, 11, 18, 20, 12, 19], 
+            //     [8, 3, 1, 14, 13, 20, 11, 2, 6, 5, 19, 12, 18, 7, 16, 4, 15, 9, 10, 17], 
+            //     [9, 15, 20, 11, 10, 1, 12, 19, 18, 8, 4, 17, 6, 5, 2, 3, 14, 7, 13, 16],
+            //     [6, 16, 18, 13, 2, 12, 15, 7, 17, 20, 11, 3, 10, 9, 14, 8, 5, 1, 19, 4], 
+            //     [17, 1, 14, 5, 4, 3, 9, 10, 13, 11, 12, 15, 7, 8, 19, 18, 20, 6, 16, 2], 
+            //     [3, 19, 12, 7, 8, 2, 4, 6, 5, 14, 1, 18, 13, 16, 20, 15, 9, 10, 17, 11],
+            //     [15, 20, 11, 10, 9, 8, 19, 18, 1, 16, 17, 6, 5, 2, 4, 14, 7, 13, 3, 12], 
+            // ];
+        // let board18 = [
+                // [18,16,6,1,3,2,7,13,15,8,9,12,17,4,5,11,10,14],
+                // [10,11,4,14,8,9,17,18,6,5,1,2,3,13,7,15,16,12],
+                // [17,7,5,13,15,12,4,11,3,10,14,16,1,18,6,8,2,9],
+                // [7,17,10,2,1,4,15,12,13,6,18,5,11,8,16,9,14,3],
+                // [3,5,18,9,6,14,11,16,1,7,2,8,10,15,17,12,4,13],
+                // [13,12,11,15,16,8,10,17,14,9,4,3,6,5,1,18,7,2],
+                // [16,1,8,7,14,5,2,3,10,11,12,6,15,9,13,4,18,17],
+                // [12,2,3,10,11,17,9,5,18,4,13,15,8,1,14,7,6,16],
+                // [4,9,15,18,13,6,16,1,8,14,7,17,2,12,10,3,11,5],
+                // [9,6,13,11,5,18,3,15,17,1,10,4,14,2,8,16,12,7],
+                // [2,8,14,16,4,3,6,9,12,18,5,7,13,17,11,10,1,15],
+                // [15,10,1,12,17,7,8,14,2,16,11,13,5,3,18,6,9,4],
+                // [1,14,7,8,10,13,12,4,11,2,15,9,16,6,3,5,17,18],
+                // [11,3,12,5,2,15,14,6,16,13,17,18,9,7,4,1,8,10],
+                // [6,4,9,17,18,16,1,7,5,3,8,10,12,14,2,13,15,11],
+                // [14,18,2,3,7,1,13,10,9,12,6,11,4,16,15,17,5,8],
+                // [8,13,17,4,9,10,5,2,7,15,16,1,18,11,12,14,3,6],
+                // [5,15,16,6,12,11,18,8,4,17,3,14,7,10,9,2,13,1],
+            // ];
+            // let board16 = [
+            //     [11, 4,   7,  9,  8, 10, 13,  5, 14,  1,  6,  3,  2, 12, 15, 16],
+            //     [16, 2,   5, 10,  4,  3, 15, 14,  8, 11,  7, 12,  9, 13,  6,  1],
+            //     [6, 13,  14, 12,  1, 16, 11,  7,  2,  9, 15,  5, 10,  3,  8,  4],
+            //     [1,  3,   8, 15,  9,  6, 12,  2, 10, 16,  4, 13,  5,  7, 11, 14],
+            //     [13, 15, 12, 11,  6,  1,  9,  3,  4,  8, 10,  7, 16,  2, 14,  5],
+            //     [14, 16,  2,  1,  7,  8, 10,  4,  3,  5, 12, 11,  6, 15, 13,  9],
+            //     [10,  7,  9,  3, 14, 15,  5, 11, 16,  6, 13,  2,  8,  1,  4, 12],
+            //     [4,   8,  6,  5, 13,  2, 16, 12,  1, 15,  9, 14,  7, 11,  3, 10],
+            //     [8,  14,  1,  2, 10,  7,  4, 15, 11, 13,  5,  9, 12,  6, 16,  3],
+            //     [12, 10, 16, 13,  5, 11,  8,  9,  6,  7,  3,  4, 15, 14,  1,  2],
+            //     [5,   6,  3,  7, 16, 12,  2, 13, 15, 14,  1, 10,  4,  8,  9, 11],
+            //     [15,  9, 11,  4,  3, 14,  1,  6, 12,  2, 16,  8, 13,  5, 10,  7],
+            //     [9,   1, 15, 16, 12,  5,  3,  8,  7, 10, 11,  6, 14,  4,  2, 13],
+            //     [2,  11, 10, 14, 15,  4,  7,  1, 13, 12,  8, 16,  3,  9,  5,  6],
+            //     [7,   5,  4,  6, 11, 13, 14, 16,  9,  3,  2, 15,  1, 10, 12,  8],
+            //     [3,  12, 13,  8,  2,  9,  6, 10,  5,  4, 14,  1, 11, 16,  7, 15],
+            // ];
+            // let board15 = [
+            //     [14,  6,  2, 11,  3, 12,  4, 13,  7, 10,  9, 15,  1,  8,  5],
+            //     [8,  10, 15, 13, 12, 11,  2,  1,  5,  9,  4,  6,  3, 14,  7],
+            //     [9,   4,  9,  1,  7,  6, 14, 15,  3,  8, 10, 11,  2, 13, 12],
+            //     [4,   2, 12,  9, 14, 10, 15,  3, 13,  5,  7,  8, 11,  1,  6],
+            //     [11, 13,  8, 15,  1,  4,  7, 14, 12,  6,  5, 10,  9,  2,  3],
+            //     [5,   3, 10,  7,  5,  9,  1,  8, 11,  2, 14,  4, 12, 15, 13],
+            //     [10, 12,  4,  5,  2,  3, 13, 11,  9, 15,  8, 14,  6,  7,  1],
+            //     [7,  14, 13,  8, 11,  1,  5,  2,  6,  4,  3, 12, 10,  9, 15],
+            //     [3,   9,  1,  6, 15,  8, 10,  7, 14, 12,  2, 13,  4,  5, 11],
+            //     [15,  5,  7,  2,  4, 14,  8, 10,  1, 11, 12,  3, 13,  6,  9],
+            //     [12,  8, 11,  3,  9, 15,  6,  5,  2, 13,  1,  7, 14,  4, 10],
+            //     [13,  1,  6, 14, 10,  7,  9, 12,  4,  3, 15,  5,  8, 11,  2],
+            //     [2,  11, 14,  4, 13,  5, 12,  9, 10,  7,  6,  1, 15,  3,  8],
+            //     [9,  15,  5, 10,  6, 13,  3,  4,  8,  1, 11,  2,  7, 12, 14],
+            //     [1,   7,  3, 12,  8,  2, 11,  6, 15, 14, 13,  9,  5, 10,  4],
+            // ];
+            // let board14 = [
+            //     [2,  14,  8,  1,  5, 12,  3,  6, 10,  7, 11,  9,  4, 13],
+            //     [7,  11, 10,  6,  9,  4, 13,  8,  3,  2, 14, 12,  5,  1],
+            //     [12,  1,  9,  8,  2,  5,  6, 11, 13, 14, 10,  4,  7,  3],
+            //     [11, 10, 13,  3,  14, 7,  4,  5,  1, 12,  8,  2,  9,  6],
+            //     [14,  4,  3, 12, 10,  2,  5,  7,  6, 13,  1, 11,  8,  9],
+            //     [13,  9,  1,  7,  8,  6, 11,  2, 12,  3,  5, 10, 14,  4],
+            //     [4,   2,  7,  5, 12,  3,  1, 13,  9, 10,  6, 14, 11,  8],
+            //     [8,  13, 11,  9,  6, 10, 14,  4,  2,  5, 12,  1,  3,  7],
+            //     [9,  12,  2, 11,  1, 14,  8,  3,  4,  6, 13,  7, 10,  5],
+            //     [5,   6,  4, 10,  3, 13,  7, 14, 11,  9,  2,  8,  1, 12],
+            //     [3,   8, 14,  4, 11,  9,  2, 12,  5,  1,  7, 13,  6, 10],
+            //     [10,  5,  6, 13,  7,  1, 12,  9, 14,  8,  4,  3,  2, 11],
+            //     [6,   3, 12, 14,  4,  8, 10,  1,  7, 11,  9,  5, 13,  2],
+            //     [1,   7,  5,  2, 13, 11,  9, 10,  8,  4,  3,  6, 12, 14],
+            // ];
+            // let board12 = [
+            //     [4,   7,  2,  8,  1,  9, 11, 10,  5,  3,  6,  0],
+            //     [1,   0,  9,  3,  4,  8,  5,  6,  2, 11,  7, 10],
+            //     [5,   6, 10, 11,  7,  0,  3,  2,  4,  8,  1,  9],
+            //     [9,   1,  5,  6,  0, 11,  2,  4,  7, 10,  8,  3],
+            //     [3,   4, 11, 10,  6,  5,  7,  8,  9,  1,  0,  2],
+            //     [8,   2,  0,  7,  3,  1, 10,  9, 11,  5,  4,  6],
+            //     [0,   3,  8,  5, 10,  6,  9, 11,  1,  7,  2,  4],
+            //     [11,  9,  7,  4,  2,  3,  8,  1,  6,  0, 10,  5],
+            //     [6,  10,  1,  2,  5,  7,  4,  0,  8,  9,  3, 11],
+            //     [7,   8,  6,  9, 11,  2,  0,  3, 10,  4,  5,  1],
+            //     [10, 11,  3,  1,  8,  4,  6,  5,  0,  2,  9,  7],
+            //     [2,   5,  4,  0,  9, 10,  1,  7,  3,  6, 11,  8],
+            // ];
+            // let board10 = [
+            //     [9,   5,  6,  7,  8,  3, 10,  1,  4,  2],
+            //     [10,  4,  3,  1,  2,  9,  6,  7,  5,  8],
+            //     [2,   8, 10,  6,  4,  1,  9,  5,  7,  3],
+            //     [7,   1,  5,  3,  9,  6,  4,  2,  8,  0],
+            //     [4,   6,  1, 10,  5,  7,  3,  8,  2,  9],
+            //     [3,   2,  9,  8,  7,  5,  1,  4, 10,  6],
+            //     [6,   7,  8,  9, 10,  4,  2,  3,  1,  5],
+            //     [5,   3,  4,  2,  1, 10,  8,  9,  6,  7],
+            //     [8,   9,  7,  4,  6,  2,  5, 10,  3,  1],
+            //     [1,   0,  2,  5,  3,  8,  7,  6,  9,  4],
+            // ];
+            // let board9 = [
+            //         [3, 1, 6, 5, 7, 8, 4, 9, 2],
+            //         [5, 2, 9, 1, 3, 4, 7, 6, 8],
+            //         [4, 8, 7, 6, 2, 9, 5, 3, 1],
+            //         [2, 6, 3, 4, 1, 5, 9, 8, 7],
+            //         [9, 7, 4, 8, 6, 3, 1, 2, 5],
+            //         [8, 5, 1, 7, 9, 2, 6, 4, 3],
+            //         [1, 3, 8, 9, 4, 7, 2, 5, 6],
+            //         [6, 9, 2, 3, 5, 1, 8, 7, 4],
+            //         [7, 4, 5, 2, 8, 6, 3, 1, 9]
+            // ];
+            // let board8 = [
+            //     [8,  6,  1,  4,  3,  5,  7,  2],
+            //     [5,  3,  2,  7,  8,  4,  1,  6],
+            //     [4,  1,  5,  8,  7,  6,  2,  3],
+            //     [2,  7,  3,  6,  1,  8,  5,  4],
+            //     [1,  8,  4,  3,  2,  7,  6,  5],
+            //     [7,  5,  6,  2,  4,  3,  8,  1],
+            //     [6,  4,  7,  1,  5,  2,  3,  8],
+            //     [3,  2,  8,  5,  6,  1,  4,  7],
+            // ];
+        // let board6 = [
+            //     [1,6,4,5,2,3],
+            //     [3,5,2,1,4,6],
+            //     [2,3,1,6,5,4],
+            //     [6,5,5,3,1,2],
+            //     [4,1,6,2,3,5],
+            //     [5,2,3,4,6,1],
+            // ];
+            // let board4 = [
+            //     [2, 4, 3, 1],
+            //     [1, 3, 4, 2],
+            //     [4, 2, 1, 3],
+            //     [3, 1, 2, 4]
+            // ];
+
+
+        //     console.log(N);
+        //     console.log("N",N);
+        //     console.log("grid",grid);
+
+        // text1 = print(grid);
+        // document.getElementById("F1").innerHTML = text1;
+        // console.log("grid",grid);
+
+        // if (solveSudoku(grid, 0, 0)){
+        //     text2 = print(grid)
+        //     document.getElementById("F2").innerHTML = text2;
+        // } else{
+        //     text2 = "no solution  exists ";
+        //     document.getElementById("F2").innerHTML = text2;
+        // }
+    
+    </script>
+</body>
+  </html>
+    
