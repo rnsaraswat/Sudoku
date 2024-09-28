@@ -16,8 +16,6 @@
         :root {
             --bg-light: #464646;
             --cl-light: #d1d1d1;
-            /* --bg-light: rgba(255, 255, 255, 0.7); */
-            /* --cl-light: rgba(255, 255, 255, 0.3); */
             --btn-btnDivWidth: 25rem;
             --box-height: 4rem;
             --box-width: 4rem;
@@ -79,27 +77,18 @@
             flex-direction: row;
             height: 36rem;
             width: 36rem;
-            /* background-color: var(--bg-light); */
         }
 
         .btn-num {
             width: 3rem;
             height: 2rem;
             font-size: 2rem;
-            /* width: var(--btn-box-width);
-            height: var(--btn-box-height);
-            font-size: var(--font-size); */
             font-weight: bold;
             cursor: pointer;
-            /* background-color: var(--bg-light); */
-            /* color: var(--cl-light); */
             border: none;
         }
 
         .btn-box {
-            /* width: 1.39rem;
-            height: 1.39rem;
-            font-size: 0.8rem; */
             width: var(--btn-box-width);
             height: var(--btn-box-height);
             font-size: var(--font-size);
@@ -117,8 +106,6 @@
 
         .box {
             display: flex;
-            /* height: 1.39rem;
-            width: 1.39rem; */
             width: var(--btn-box-width);
             height: var(--btn-box-height);
             justify-content: center;
@@ -162,7 +149,6 @@
             align-items: center;
             padding: 0rem 1rem 0rem 1rem;
             margin: 0rem 1rem 0rem 1rem;
-            /* width: 23rem; */
             width: var(--btn-btnDivWidth);
             border: none;
         }
@@ -650,7 +636,7 @@
             [3, 1, 2, 4]
         ];
 
-        // sudoku size square defination array
+        // sudoku size square BOX defination array
         let seqIndexArray25 = [
             [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4]],
             [[0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [1, 5], [1, 6], [1, 7], [1, 8], [1, 9], [2, 5], [2, 6], [2, 7], [2, 8], [2, 9], [3, 5], [3, 6], [3, 7], [3, 8], [3, 9], [4, 5], [4, 6], [4, 7], [4, 8], [4, 9]],
@@ -914,7 +900,7 @@
             [[2,2], [2,3], [3,2], [3,3]]
         ];
 
-        // size buttons
+        // games size buttons
         let size4 = document.getElementById("size-4");
         let size6 = document.getElementById("size-6");
         let size8 = document.getElementById("size-8");
@@ -939,13 +925,12 @@
         document.querySelector(':root').style.setProperty('--btn-box-width', '1.44rem');
         document.querySelector(':root').style.setProperty('--font-size', '1rem');
         board = board25.map(row => [...row]);
-        // boardinit = board.map(row => [...row]);
         
+        // disable all number button bin
         gameBoardSetup();
         gameNumberSetup();
         funcTheme();
 
-        // disable all number button bin
         size4.disabled = false;
         size6.disabled = false;
         size8.disabled = false;
@@ -1012,14 +997,11 @@
             for (j = 1; j < (N+1); j++) {
                 btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                 document.getElementById(btnid).disabled = true;
-                // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
             }
         }
 
-
         //set size of sudoku puzzle as per button click
         function setSize(s){
-            console.log(board);
             size4.disabled = true;
             size6.disabled = true;
             size8.disabled = true;
@@ -1254,8 +1236,6 @@
             gameBoardSetup(N);
             gameNumberSetup(N);
 
-            console.log(board);
-
             size4.disabled = true;
             size6.disabled = true;
             size8.disabled = true;
@@ -1306,7 +1286,6 @@
             btn5.classList.remove('hover-btn-control');
             btn6.classList.add('hover-btn-control');
             btn7.classList.add('hover-btn-control');
-            // btn1.style.color = "black";
 
             // disable all number button bin
             marknumdesabled(true);
@@ -1317,7 +1296,6 @@
                 btn.addEventListener("click", () => {
                     if (erase) {
                         let eraseNumber = 0;
-                        console.log(btn.innerText);
                         if(NumberAlpha){
                             for (k=0;k<N;k++){
                                 if(btn.innerText == NumAlphArr[1][k]){
@@ -1328,7 +1306,6 @@
                         } else {
                             eraseNumber = Number(btn.innerText);
                         }
-                        console.log(eraseNumber);
                         if(eraseNumber>0 && eraseNumber<N){
                             countNum[eraseNumber]--;
                         }
@@ -1338,7 +1315,6 @@
                     } else {
                         if (markNumber > 0 && markNumber < (N+1)) {
                             countNum[markNumber]++;
-                            // countNum[Number(btn.innerText)]++;
                             let spid = "sp" + markNumber;
                             document.getElementById(spid).innerText = N - countNum[markNumber];
                             btn.innerText = NumberAlpha ? NumAlphArr[1][markNumber-1] : NumAlphArr[0][markNumber-1];
@@ -1359,7 +1335,7 @@
             backgroundColorSetPara(N);
         }
         
-        // Puzzle board setup para
+        // Puzzle board setup function
         function gameBoardSetup(){
             const gameContainer = document.getElementById("gameContainer");
             for (i = 1; i < (N+1); i++) {
@@ -1376,7 +1352,7 @@
             }
         }
 
-        // Mark Number board setup para
+        // Game Mark Number board setup function
         function gameNumberSetup(){
             const btnContainer = document.getElementById("btnContainer");
             const btnParentDiv = document.createElement("div");
@@ -1403,7 +1379,7 @@
             }
         }
 
-        // Numbers/Alphabet Change para
+        // Numbers/Alphabet Change function
         function funcNumbers(){
             let str = document.getElementById("msg").innerText;
             if (difficulty == 0){
@@ -1442,21 +1418,18 @@
                             }
                             NumberAlpha = true;
                         } else {
-                            console.log("difficulty > 0 ", difficulty, "markNumber == 0 ", markNumber, "NumberAlpha", NumberAlpha, "Timer", timer);
                             document.getElementById("btn6").innerText = "Alphabets";
                             document.getElementById("msg").innerText = "Please click (A-" + NumAlphArr[1][N-1] + ") to Start Mark";
                             for (i = 1; i < (N+1); i++) {
                                 for (j = 1; j < (N+1); j++) {
                                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                                     if (document.getElementById(btnid).innerText != "") {
-                                        // document.getElementById(btnid).innerText = NumAlphArr[0][document.getElementById(btnid).innerText-1];
                                         for (k=0;k<(N+1);k++){
                                             if(document.getElementById(btnid).innerText == NumAlphArr[1][k]){
                                                 document.getElementById(btnid).innerText = k+1;
                                                 break;
                                             }
                                         }
-                                        // document.getElementById(btnid).innerText = NumAlphArr[1][document.getElementById(btnid).innerText-1];
                                     }
                                 }
                                 numid = "num" + i;
@@ -1559,20 +1532,15 @@
             }
         }   
 
-        // theme (dark/light) change para
+        // theme (dark/light) change function
         function funcTheme(){
             let h1 = document.getElementsByTagName("h1");
-            // backgroundColorSetPara(N);
-            console.log("Theme LightD", LightD);
             if(LightD) {
                 LightD = false;
                 bkGroundColorChange = "rgba(255, 255, 255, 0.3)";
-                console.log(bkGroundColorChange);
                 document.getElementById("btn7").innerText = "Theme Dark";
                 h1[0].classList.remove('shadowDark');
                 h1[0].classList.add('shadowLight');
-                // document.querySelector(':root').style.setProperty('--bg-light', 'rgba(255, 255, 255, 0.7)');
-                // document.querySelector(':root').style.setProperty('--cl-light', 'rgba(255, 255, 255, 0.3)');
                 document.querySelector(':root').style.setProperty('--cl-light', '#464646');
                 document.querySelector(':root').style.setProperty('--bg-light', '#d1d1d1');
                 document.getElementById("dif1").classList.add("shadow-btn-light");
@@ -1602,12 +1570,9 @@
             } else {
                 LightD = true;
                 bkGroundColorChange = "rgba(255, 255, 255, 0.7)";
-                console.log(bkGroundColorChange);
                 document.getElementById("btn7").innerText = "Theme Light";
                 h1[0].classList.remove('shadowLight');
                 h1[0].classList.add('shadowDark');
-                // document.querySelector(':root').style.setProperty('--bg-light', 'rgba(255, 255, 255, 0.3)');
-                // document.querySelector(':root').style.setProperty('--cl-light', 'rgba(255, 255, 255, 0.7)');
                 document.querySelector(':root').style.setProperty('--bg-light', '#464646');
                 document.querySelector(':root').style.setProperty('--cl-light', '#d1d1d1');
                 document.getElementById("dif1").classList.add("shadow-btn-dark");
@@ -1638,18 +1603,8 @@
             backgroundColorSetPara(N);
         }
 
-        // set alternate seuare background dark color para
+        // set alternate seuare background dark color function
         function backgroundColorSetPara(s){
-            console.log(document.getElementById("btn7").innerText);
-                console.log(bkGroundColorChange);
-            // if(LightD){
-            //     bkGroundColorChange = "rgba(255, 255, 255, 0.3)";
-            //     console.log("Light", bkGroundColorChange);
-            // } else {
-            //     bkGroundColorChange = "rgba(255, 255, 255, 0.7)";
-            //     console.log("else", bkGroundColorChange);
-            // }
-            console.log(bkGroundColorChange);
             if (s==25){
                 for (i = 1; i < (N+1); i++) {
                     for (j = 1; j < (N+1); j++) {
@@ -2084,7 +2039,7 @@
             })
         });
 
-        // function for press start button
+        // function for start Game
         function funcstart() {
             timer = true;
             hours = 0;
@@ -2093,19 +2048,12 @@
             hrdsec = 0;
             updateTimer();
 
-            console.log(board);
             boardinit = board.map(row => [...row]);
-            console.log(boardinit);
             generateBoard();
             boardsolve = [];            
-            console.log(board);
-            console.log(boardinit);
             boardsolve = board.map(row => [...row]);
-            console.log(boardinit);
             generatePuzzle(board, difficulty);
-            console.log(board);
             displayGeneratedPuzzle(board);
-            console.log(board);
             marknumdesabled(false);
             marknumbkcolor("rgb(255, 255, 255)");
             marknumcolor("rgb(0, 0, 0)");
@@ -2138,15 +2086,8 @@
             backgroundColorSetPara(N);
             for (i = 1; i < (N+1); i++) {
                 for (j = 1; j < (N+1); j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
-                    // if (backgroundColorArray[i-1][j-1] == "L") {
-                    //     document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
-                    // } else {
-                    //     document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
-                    // }
-                    // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     if (board[i-1][j-1] != "") {
                         countNum[board[i-1][j-1]]++;
                     } else {
@@ -2191,7 +2132,7 @@
             }
         }
 
-        // function for press pause button
+        // pause button function
         function funcpause() {
             if (timer) {
                 timer = false;
@@ -2208,7 +2149,6 @@
                 document.getElementById("msg").innerText = "Please click pause";
                 for (i = 1; i < (N+1); i++) {
                     for (j = 1; j < (N+1); j++) {
-                        // btnid = "btn" + (i + 1) + (j + 1);
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                         document.getElementById(btnid).style.color = "rgba(0, 0, 0, 0.3)";
                     }
@@ -2231,7 +2171,6 @@
 
                 for (i = 1; i < (N+1); i++) {
                     for (j = 1; j < (N+1); j++) {
-                        // btnid = "btn" + (i + 1) + (j + 1);
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                         if (board[i-1][j-1] == "") {
                             if (document.getElementById(btnid).innerText == "") {
@@ -2251,7 +2190,7 @@
             }
         }
 
-        // function to press reset button
+        // reset button function
         function funcreset() {
             timer = false;
             hours = 0;
@@ -2274,29 +2213,20 @@
             backgroundColorSetPara(N);
             for (i = 1; i < (N+1); i++) {
                 for (j = 1; j < (N+1); j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
-                    // if (backgroundColorArray[i-1][j-1] == "L") {
-                    //     document.getElementById(btnid).style.backgroundColor = "rgb(255, 255, 255)";
-                    // } else {
-                    //     document.getElementById(btnid).style.backgroundColor = "rgba(255, 255, 255, 0.77)";
-                    // }
-                    // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i][j] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                     if (board[i-1][j-1] != "") {
                         countNum[board[i-1][j-1]]++;
                     } else {
                         countNum[0]++;
                     }
                 }
-            }
-            for (i=1; i < (N+1); i++){
                 let spid = "sp" + i;
                 document.getElementById(spid).innerText = N - countNum[i];
             }
         }
 
-        // function to press solve button
+        // solve button function
         function funcsolve() {
             timer = false;
             document.getElementById("msg").innerText = "Please click Start to play game";
@@ -2349,12 +2279,9 @@
             backgroundColorSetPara(N);
             for (i = 1; i < (N+1); i++) {
                 for (j = 1; j < (N+1); j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     document.getElementById(btnid).disabled = true;
                     document.getElementById(btnid).style.color = "black";
-                    // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
-                    // document.getElementById(btnid).style.fontSize = "0.8rem";
                     if (board[i-1][j-1] == "") {
                         if (duplicatecheck) {
                             document.getElementById(btnid).style.color = "magenta";
@@ -2366,7 +2293,6 @@
                                 document.getElementById(btnid).style.color = "red";
                                 count++
                             } else if (document.getElementById(btnid).innerText != (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1])) {
-                                // document.getElementById(btnid).style.fontSize = "0.5rem";
                                 document.getElementById(btnid).classList.add("btn-box-mistake");
                                 document.getElementById(btnid).innerHTML = "<span style=\"color:red;\">" + document.getElementById(btnid).innerText + "<span><span style=\"color:magenta;\">(" + (NumberAlpha ? NumAlphArr[1][boardsolve[i-1][j-1]-1] : NumAlphArr[0][boardsolve[i-1][j-1]-1]) + ")<span>";
                                 count++;
@@ -2380,22 +2306,138 @@
                 if (count > 0) {
                     document.getElementById("msg").innerHTML = "<span class=\"msgloser\">Loser</span>(" + count + " Mistake) Cilck Start to play";
                     textToSpeechEng("Loser" + count + " Mistake");
+                    btn1.innerText = "New Game";
+                    btn1.setAttribute("onclick","newGame()");
                 } else {
                     document.getElementById("msg").innerHTML = "<span class=\"msgwinner\">Winner</span> click Start to play";
                     textToSpeechEng("Winner");
+                    btn1.innerText = "New Game";
+                    btn1.setAttribute("onclick","newGame()");
                 }
             } else if (duplicatecheck) {
                 document.getElementById("msg").innerHTML = "<span class=\"msgwinner\">Winner</span> click Start to play";
                 textToSpeechEng("Winner");
+                btn1.innerText = "New Game";
+                btn1.setAttribute("onclick","newGame()");
             }
         }
 
-        // function for press erase button
+        // new game button function afte competing one
+        function newGame(){
+            // disable all number button bin
+            size4.disabled = false;
+            size6.disabled = false;
+            size8.disabled = false;
+            size9.disabled = false;
+            size10.disabled = false;
+            size12.disabled = false;
+            size14.disabled = false;
+            size15.disabled = false;
+            size16.disabled = false;
+            size18.disabled = false;
+            size20.disabled = false;
+            size21.disabled = false;
+            size22.disabled = false;
+            size24.disabled = false;
+            size25.disabled = false;
+
+            btn1.disabled = true;
+            btn2.disabled = true;
+            btn3.disabled = true;
+            btn4.disabled = true;
+            btn5.disabled = true;
+            btn6.disabled = true;
+            btn7.disabled = true;
+
+            btn1.style.border = "none";
+            btn2.style.border = "none";
+            btn3.style.border = "none";
+            btn4.style.border = "none";
+            btn5.style.border = "none";
+            btn6.style.border = "none";
+            btn7.style.border = "none";
+
+            // disable all number button bin
+            marknumdesabled(true);
+            marknumcolor("rgba(0, 0, 0, 0.3)");
+            marknumbkcolor("rgb(255, 255, 255)");
+            backgroundColorSetPara(N);
+            let btnBox = document.querySelectorAll(".btn-box");
+            for (i = 1; i < (N+1); i++) {
+                for (j = 1; j < (N+1); j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                }
+            }
+
+            setSize(N);
+            setDifficulty(difficulty);
+            timer = true;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            hrdsec = 0;
+            updateTimer();
+
+            boardinit = [];            
+            boardinit = board.map(row => [...row]);
+            generateBoard();
+            boardsolve = [];            
+            boardsolve = board.map(row => [...row]);
+            generatePuzzle(board, difficulty);
+            displayGeneratedPuzzle(board);
+            marknumdesabled(false);
+            marknumbkcolor("rgb(255, 255, 255)");
+            marknumcolor("rgb(0, 0, 0)");
+            btn1.disabled = true;
+            btn2.disabled = false;
+            btn3.disabled = false;
+            btn4.disabled = false;
+            btn5.disabled = false;
+            btn1.style.border = "none";
+            btn2.style.border = "none";
+            btn3.style.border = "none";
+            btn4.style.border = "none";
+            btn5.style.border = "none";
+            btn1.classList.remove('hover-btn-control');
+            btn2.classList.add('hover-btn-control');
+            btn3.classList.add('hover-btn-control');
+            btn4.classList.add('hover-btn-control');
+            btn5.classList.add('hover-btn-control');
+            btn2.style.color = "black";
+            btn3.style.color = "black";
+            btn4.style.color = "black";
+            btn4.style.color = "black";
+            btn5.style.color = "black";
+            if (NumberAlpha) {
+                document.getElementById("msg").innerText = "Please click (A-" + NumAlphArr[1][N-1] + ") to Start Mark";
+            } else {
+                document.getElementById("msg").innerText = "Please click (1-" + N + ") to Start Mark";
+            }
+            countNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            backgroundColorSetPara(N);
+            for (i = 1; i < (N+1); i++) {
+                for (j = 1; j < (N+1); j++) {
+                    btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
+                    document.getElementById(btnid).disabled = true;
+                    if (board[i-1][j-1] != "") {
+                        countNum[board[i-1][j-1]]++;
+                    } else {
+                        countNum[0]++;
+                    }
+                }
+            }
+
+            for (i=1; i < (N+1); i++){
+                let spid = "sp" + i;
+                document.getElementById(spid).innerText = N - countNum[i];
+            }
+        }
+
+        // erase button function
         function funcerase() {
             if (!erase) {
                 erase = true;
-                // btn5.style.backgroundColor = "blue";
-                // btn5.style.color = "yellow";
                 btn5.disabled = true;
                 btn5.style.border = ".2rem solid blue";
 
@@ -2405,9 +2447,7 @@
                 backgroundColorSetPara(N);
                 for (i = 1; i < (N+1); i++) {
                     for (j = 1; j < (N+1); j++) {
-                        // btnid = "btn" + (i + 1) + (j + 1);
                         btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                        // document.getElementById(btnid).style.backgroundColor = backgroundColorArray[i-1][j-1] == "L" ? "rgb(255, 255, 255)" : "rgba(255, 255, 255, 0.77)";
                         if (board[i-1][j-1] == "") {
                             document.getElementById(btnid).disabled = false;
                             document.getElementById(btnid).style.color = "blue";
@@ -2420,16 +2460,14 @@
             }
         }
 
-        // function to display Sudoku puzzle
+        // Sudoku puzzle display function
         function displayGeneratedPuzzle(board) {
             const gameConrainer = document.getElementById("gameConrainer");
             let btnid = "";
 
             for (i = 1; i < (N+1); i++) {
                 for (j = 1; j < (N+1); j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
-                    // document.getElementById(btnid).style.fontSize = "0.8rem";
                     if (board[i-1][j-1] == "") {
                         document.getElementById(btnid).innerText = ""; 
                         document.getElementById(btnid).disabled = false;
@@ -2437,7 +2475,6 @@
                     } else {
                         document.getElementById(btnid).innerText = NumberAlpha ? NumAlphArr[1][board[i-1][j-1]-1] : NumAlphArr[0][board[i-1][j-1]-1]; 
                         document.getElementById(btnid).style.color = "black";
-                        // document.getElementById(btnid).style.fontSize = "0.8rem";
                         document.getElementById(btnid).style.fontWeight = "bold";
                         document.getElementById(btnid).disabled = true;
                     }
@@ -2445,7 +2482,7 @@
             }
         }
 
-        // function to press mark number/alphabet button
+        // mark number/alphabet button function
         function setNumber(num) {
             markNumber = num;
             btn5.style.border = "none";
@@ -2705,12 +2742,9 @@
                     document.getElementById("msg").innerText = "Please click empty bin to mark " + markNumber;
                 }
             }
-
             backgroundColorSetPara(N);
-
             for (i = 1; i < (N+1); i++) {
                 for (j = 1; j < (N+1); j++) {
-                    // btnid = "btn" + (i + 1) + (j + 1);
                     btnid = "btn" + ((i < 10) ? '0' + i : i) + ((j < 10) ? '0' + j : j);
                     if (board[i-1][j-1] == "") {
                         if (document.getElementById(btnid).innerText == "") {
@@ -2748,9 +2782,8 @@
             }
         }
 
-        // function to set difficulty level 
+        // set difficulty level function
         function setDifficulty(diff) {
-            console.log(board);
             difficulty = diff;
             document.getElementById("msg").innerText = "Please click Start to play game";
             btn1.disabled = false;
@@ -2826,14 +2859,12 @@
                 leveldif3.classList.remove('hover-btn-level');
                 leveldif4.classList.remove('hover-btn-level');
             }
-            console.log(board);
         }
 
-        // function to to generate new puzzle array as per difficulty level
+        // generate new puzzle array as per difficulty level function
         function generatePuzzle(board, difficulty) {
             let min = difficulty;
             let max = min + 2;
-            console.log(board);
             let toReplace = [];
             board.forEach((row) => {
                 if (N == 25){
@@ -2871,18 +2902,17 @@
                     row[toReplace[i]] = '';
                 }
             });
-            console.log(board);
 
             // let text = "";
             // text = printArray(board);
             // document.getElementById("Arr1").innerHTML = text;
         }
 
-        // function to shuffle array to make game puzzle
+        // function to shuffle array row to make new game puzzle
         function shuffleArray(array) {
             let currentIndex = array.length,
                 temporaryValue, randomIndex;
-            // While there remain elements to shuffle inside the array
+            // Loop to shuffle inside the array row element
             while (0 !== currentIndex) {
 
                 // Pick a remaining element from the array
@@ -2891,13 +2921,13 @@
                 // randomIndex is a random number between 0 and the array position
                 currentIndex -= 1;
 
-                // We get a new currentIndex and swap it with the current element.
+                // Get new currentIndex and swap it with the current element.
                 temporaryValue = array[currentIndex];
-                // We save the currentIndex value in temporaryValue
+                // Save currentIndex value in variable temporaryValue
                 array[currentIndex] = array[randomIndex];
-                // Now we fill the new currentIndex position with the value from the randomIndex
+                // Now fill new currentIndex position with the value from the randomIndex position
                 array[randomIndex] = temporaryValue;
-                // Lastly in the randomIndex position we put the temporaryValue we saved before
+                // In the randomIndex position put that temporaryValue saved previously
             }
             return array;
         }
@@ -2905,12 +2935,6 @@
         // function to check generated puzzle is ok or not
         function generateBoard() {
             let error = "";
-
-            // let text = "";
-            // text = printArray(board);
-            // document.getElementById("Arr1").innerHTML = text;
-
-            console.log(board);
             let random10 = Math.floor((Math.random() * (N-1)) + 1);
 
             // loop to generate new puzzle board
@@ -2924,22 +2948,19 @@
                             board[i][j] = 1;
                         }
                     }
-                    console.log(r,i,j,N,random10);
                 }
-                console.log(r,i,j,N,random10);
             }
 
             // let text = "";
             // text = printArray(board);
             // document.getElementById("Arr2").innerHTML = text + "<br>";
-            console.log(board);
 
             checkDuplicatesRow(board);
             checkDuplicatesCol(board);
             checkDuplicatesSeq(board, seqIndexArray);
         }
 
-        // para to print array on browser
+        // function to print array on browser
         function printArray(Array) {
             text = "";
             for (i = 0; i < N; i++) {
@@ -2951,7 +2972,7 @@
             return text;
         }
 
-        // para to check Array duplicates elements in row
+        // function to check Array duplicates elements in row
         function checkDuplicatesRow(Array) {
             duplicatecheck = true;
             error = "";
@@ -2971,12 +2992,11 @@
                     // error += "<br>";
                 }
             }
-            console.log("error Row", error);
             // document.getElementById("Err").innerHTML = error;
             return duplicatecheck;
         }
 
-        // para to check Array duplicates elements in Col
+        // function to check Array duplicates elements in Column
         function checkDuplicatesCol(Array) {
             duplicatecheck = true;
             error = "";
@@ -2995,14 +3015,11 @@
                     // error += "<br>";
                 }
             }
-            console.log("error Col", error);
             // document.getElementById("Err1").innerHTML = error;
-            // return duplicatecheck;
         }
 
-        // para to check Array duplicates elements in Squre
+        // function to check Array duplicates elements in Squre BOX
         function checkDuplicatesSeq(Array, seqIndexArray) {
-            let s1, s2;
             duplicatecheck = true;
             error = "";
 
@@ -3022,17 +3039,15 @@
                 }
             }
             // document.getElementById("Err2").innerHTML = error;
-            console.log("error Seq", error);
-            // return duplicatecheck;
         }
 
-        // display upadted time of game play
+        // function to display upadted time of game play
         function displayTime() {
             var displayTime = document.getElementById('displayTime');
             displayTime.innerHTML = ((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
         }
 
-        // update of time para
+        // function to update of time
         function updateTimer() {
             if (timer) {
 
@@ -3056,7 +3071,7 @@
             }
         }
 
-        // para to speeach in english
+        // Function to speeach in english
         function textToSpeechEng(text) {
             let speechSynthesis = window.speechSynthesis;
             let utterance = new SpeechSynthesisUtterance();
@@ -3066,7 +3081,7 @@
             speechSynthesis.speak(utterance);
         }
 
-        // para to play beep sound when player mark 
+        // Function to play beep sound when player mark a number/Aplhabets
         function playBeep() {
             var beep = new Audio('Clock-Ticking-one.mp3');
             beep.play();
